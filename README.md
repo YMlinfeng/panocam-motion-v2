@@ -11,6 +11,13 @@ Panocam Motion V2 是一个从零重写的全景视频虚拟运镜项目。它�
 
 旧版仍符合新约束的两个纯 A 组合被保留为 `recipe_41`（Vertigo Roll）和 `recipe_42`（Pan → Zoom → Tilt）；其余 recipe 用固定随机种子扩充。
 
+## 在线访问
+
+- 公开 GitHub 仓库：<https://github.com/YMlinfeng/panocam-motion-v2>
+- 100-case 高清网页：<https://ymlinfeng.github.io/panocam-motion-v2/>
+
+网页发布分支为 `gh-pages`，主分支 `main` 保存完整代码、两份文档、生产清单、验证台账和同一份网页资源。
+
 ## 一键开始
 
 ```bash
