@@ -1,0 +1,164 @@
+{
+  "case": {
+    "id": "recipe_33_sim",
+    "kind": "combo",
+    "mode": "simultaneous",
+    "recipe_id": "recipe_33",
+    "display_name": null,
+    "origin": "deterministic_random_expansion",
+    "action_count": 4,
+    "actions": [
+      {
+        "type": "zoom_in",
+        "amplitude_deg": 10.475,
+        "speed_multiplier": 1.294,
+        "phase": 0.8714,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      },
+      {
+        "type": "roll_ccw",
+        "amplitude_deg": 20.368,
+        "speed_multiplier": 1.352,
+        "phase": 0.9579,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      },
+      {
+        "type": "pan_left",
+        "amplitude_deg": 44.939,
+        "speed_multiplier": 1.251,
+        "phase": 0.7987,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      },
+      {
+        "type": "tilt_down",
+        "amplitude_deg": 25.365,
+        "speed_multiplier": 1.254,
+        "phase": 0.8447,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      }
+    ],
+    "resolution": [
+      960,
+      960
+    ],
+    "duration_seconds": 15.0,
+    "fps": 20,
+    "ref": {
+      "dataset": "360x",
+      "file": "019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4",
+      "start_seconds": 309.16,
+      "dynamic_score": 0.023609,
+      "global_flow_px": 0.06652,
+      "coherent_shift_px": 0.027205,
+      "license": "CC BY-NC-SA 4.0",
+      "source_url": "https://x360dataset.github.io/"
+    },
+    "target": {
+      "dataset": "360x",
+      "file": "03498a23-90d7-4428-bd12-45f88a323419.mp4",
+      "start_seconds": 159.334,
+      "dynamic_score": 0.10508,
+      "global_flow_px": 0.078636,
+      "coherent_shift_px": 0.083078,
+      "license": "CC BY-NC-SA 4.0",
+      "source_url": "https://x360dataset.github.io/"
+    },
+    "trajectory_report": {
+      "frame_count": 300,
+      "base_hfov_deg": 86.0,
+      "yaw_range_deg": [
+        -44.937939,
+        0.0
+      ],
+      "pitch_range_deg": [
+        0.0,
+        25.364647
+      ],
+      "roll_range_deg": [
+        -20.367682,
+        0.0
+      ],
+      "hfov_range_deg": [
+        75.525383,
+        86.0
+      ],
+      "axis_scales": {
+        "yaw": 1.0,
+        "pitch": 1.0,
+        "roll": 1.0,
+        "zoom": 1.0,
+        "seam": 1.0
+      },
+      "max_abs_sampled_longitude_deg": 99.540787,
+      "seam_longitude_limit_deg": 155.0,
+      "seam_safe": true
+    }
+  },
+  "rendered": {
+    "ref": {
+      "case_id": "recipe_33_sim",
+      "side": "ref",
+      "path": "site/media/cases/recipe_33_sim/ref.mp4",
+      "width": 960,
+      "height": 960,
+      "pixels": 921600,
+      "fps": 20.0,
+      "duration_seconds": 15.0,
+      "bytes": 4738950,
+      "sha256": "f34b0949e703582adebd4191eea299ee85f9734881e835f7146fd46f080c6297",
+      "poster": "site/media/cases/recipe_33_sim/ref.jpg"
+    },
+    "target": {
+      "case_id": "recipe_33_sim",
+      "side": "target",
+      "path": "site/media/cases/recipe_33_sim/target.mp4",
+      "width": 960,
+      "height": 960,
+      "pixels": 921600,
+      "fps": 20.0,
+      "duration_seconds": 15.0,
+      "bytes": 4494707,
+      "sha256": "498f03b01324b0311c248d4dfa88835213bdeb1385fd382639d46387c709e700",
+      "poster": "site/media/cases/recipe_33_sim/target.jpg"
+    },
+    "codec": {
+      "codec": "libx264",
+      "crf": 22,
+      "preset": "medium",
+      "maxrate": "2400k",
+      "bufsize": "4800k",
+      "pixel_format": "yuv420p",
+      "ffmpeg_threads": 2
+    }
+  },
+  "trajectory_report": {
+    "frame_count": 300,
+    "base_hfov_deg": 86.0,
+    "yaw_range_deg": [
+      -44.937939,
+      0.0
+    ],
+    "pitch_range_deg": [
+      0.0,
+      25.364647
+    ],
+    "roll_range_deg": [
+      -20.367682,
+      0.0
+    ],
+    "hfov_range_deg": [
+      75.525383,
+      86.0
+    ],
+    "axis_scales": {
+      "yaw": 1.0,
+      "pitch": 1.0,
+      "roll": 1.0,
+      "zoom": 1.0,
+      "seam": 1.0
+    },
+    "max_abs_sampled_longitude_deg": 99.540787,
+    "seam_longitude_limit_deg": 155.0,
+    "seam_safe": true
+  }
+}

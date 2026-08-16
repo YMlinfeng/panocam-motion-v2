@@ -1,0 +1,157 @@
+{
+  "case": {
+    "id": "recipe_02_sim",
+    "kind": "combo",
+    "mode": "simultaneous",
+    "recipe_id": "recipe_02",
+    "display_name": null,
+    "origin": "deterministic_random_expansion",
+    "action_count": 3,
+    "actions": [
+      {
+        "type": "zoom_out",
+        "amplitude_deg": 12.584,
+        "speed_multiplier": 1.15,
+        "phase": 0.928,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      },
+      {
+        "type": "tilt_down",
+        "amplitude_deg": 32.586,
+        "speed_multiplier": 1.085,
+        "phase": 0.595,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      },
+      {
+        "type": "pan_left",
+        "amplitude_deg": 40.303,
+        "speed_multiplier": 1.129,
+        "phase": 0.8872,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      }
+    ],
+    "resolution": [
+      720,
+      1280
+    ],
+    "duration_seconds": 15.0,
+    "fps": 20,
+    "ref": {
+      "dataset": "360x",
+      "file": "02692940-fd94-4af1-8ebc-577acacc617a.mp4",
+      "start_seconds": 15.06,
+      "dynamic_score": 0.414433,
+      "global_flow_px": 1.502244,
+      "coherent_shift_px": 0.582584,
+      "license": "CC BY-NC-SA 4.0",
+      "source_url": "https://x360dataset.github.io/"
+    },
+    "target": {
+      "dataset": "commons",
+      "file": "360_Video_of_LCS-15_Christening_and_Launch.webm",
+      "start_seconds": 27.973,
+      "dynamic_score": 0.048042,
+      "global_flow_px": 0.059503,
+      "coherent_shift_px": 0.048999,
+      "license": "CC BY 3.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:360_Video_of_LCS-15_Christening_and_Launch.webm"
+    },
+    "trajectory_report": {
+      "frame_count": 300,
+      "base_hfov_deg": 63.088285,
+      "yaw_range_deg": [
+        -40.30204,
+        0.0
+      ],
+      "pitch_range_deg": [
+        0.0,
+        32.585957
+      ],
+      "roll_range_deg": [
+        0.0,
+        0.0
+      ],
+      "hfov_range_deg": [
+        63.088284,
+        75.67215
+      ],
+      "axis_scales": {
+        "yaw": 1.0,
+        "pitch": 1.0,
+        "roll": 1.0,
+        "zoom": 1.0,
+        "seam": 1.0
+      },
+      "max_abs_sampled_longitude_deg": 121.572578,
+      "seam_longitude_limit_deg": 155.0,
+      "seam_safe": true
+    }
+  },
+  "rendered": {
+    "ref": {
+      "case_id": "recipe_02_sim",
+      "side": "ref",
+      "path": "site/media/cases/recipe_02_sim/ref.mp4",
+      "width": 720,
+      "height": 1280,
+      "pixels": 921600,
+      "fps": 20.0,
+      "duration_seconds": 15.0,
+      "bytes": 4742832,
+      "sha256": "5f8ca9d0911c9e47745db618b0ab4f29150d68ac8e830798d1fd82dfd29c3784",
+      "poster": "site/media/cases/recipe_02_sim/ref.jpg"
+    },
+    "target": {
+      "case_id": "recipe_02_sim",
+      "side": "target",
+      "path": "site/media/cases/recipe_02_sim/target.mp4",
+      "width": 720,
+      "height": 1280,
+      "pixels": 921600,
+      "fps": 20.0,
+      "duration_seconds": 15.0,
+      "bytes": 2333554,
+      "sha256": "cb1cc6a1222dca7a8911045b51c5bbf44f48982f5f183acdbd7a6a828527c21f",
+      "poster": "site/media/cases/recipe_02_sim/target.jpg"
+    },
+    "codec": {
+      "codec": "libx264",
+      "crf": 22,
+      "preset": "medium",
+      "maxrate": "2400k",
+      "bufsize": "4800k",
+      "pixel_format": "yuv420p",
+      "ffmpeg_threads": 2
+    }
+  },
+  "trajectory_report": {
+    "frame_count": 300,
+    "base_hfov_deg": 63.088285,
+    "yaw_range_deg": [
+      -40.30204,
+      0.0
+    ],
+    "pitch_range_deg": [
+      0.0,
+      32.585957
+    ],
+    "roll_range_deg": [
+      0.0,
+      0.0
+    ],
+    "hfov_range_deg": [
+      63.088284,
+      75.67215
+    ],
+    "axis_scales": {
+      "yaw": 1.0,
+      "pitch": 1.0,
+      "roll": 1.0,
+      "zoom": 1.0,
+      "seam": 1.0
+    },
+    "max_abs_sampled_longitude_deg": 121.572578,
+    "seam_longitude_limit_deg": 155.0,
+    "seam_safe": true
+  }
+}

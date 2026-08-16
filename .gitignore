@@ -1,0 +1,13 @@
+# 本地 Python 环境与缓存
+local/
+__pycache__/
+*.py[cod]
+.DS_Store
+
+# 原始数据集不进入公开 GitHub；公开仓库保留来源台账、筛选结果和派生 demo。
+sources/raw/
+
+# 渲染过程中的临时文件
+output/tmp/
+*.part.mp4
+

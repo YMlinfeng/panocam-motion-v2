@@ -1,0 +1,171 @@
+{
+  "case": {
+    "id": "recipe_39_seq",
+    "kind": "combo",
+    "mode": "sequential",
+    "recipe_id": "recipe_39",
+    "display_name": null,
+    "origin": "deterministic_random_expansion",
+    "action_count": 5,
+    "actions": [
+      {
+        "type": "tilt_up",
+        "amplitude_deg": 38.414,
+        "speed_multiplier": 1.137,
+        "phase": 0.117,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      },
+      {
+        "type": "zoom_out",
+        "amplitude_deg": 10.518,
+        "speed_multiplier": 1.37,
+        "phase": 0.5857,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      },
+      {
+        "type": "roll_cw",
+        "amplitude_deg": 27.171,
+        "speed_multiplier": 1.207,
+        "phase": 0.3468,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      },
+      {
+        "type": "zoom_in",
+        "amplitude_deg": 11.902,
+        "speed_multiplier": 1.071,
+        "phase": 0.4116,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      },
+      {
+        "type": "pan_left",
+        "amplitude_deg": 54.061,
+        "speed_multiplier": 1.113,
+        "phase": 0.9288,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      }
+    ],
+    "resolution": [
+      1072,
+      856
+    ],
+    "duration_seconds": 15.0,
+    "fps": 20,
+    "ref": {
+      "dataset": "360x",
+      "file": "019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4",
+      "start_seconds": 232.12,
+      "dynamic_score": 0.021667,
+      "global_flow_px": 0.067862,
+      "coherent_shift_px": 0.021576,
+      "license": "CC BY-NC-SA 4.0",
+      "source_url": "https://x360dataset.github.io/"
+    },
+    "target": {
+      "dataset": "360x",
+      "file": "03498a23-90d7-4428-bd12-45f88a323419.mp4",
+      "start_seconds": 317.667,
+      "dynamic_score": 0.073635,
+      "global_flow_px": 0.048663,
+      "coherent_shift_px": 0.068389,
+      "license": "CC BY-NC-SA 4.0",
+      "source_url": "https://x360dataset.github.io/"
+    },
+    "trajectory_report": {
+      "frame_count": 300,
+      "base_hfov_deg": 86.0,
+      "yaw_range_deg": [
+        -54.061001,
+        0.0
+      ],
+      "pitch_range_deg": [
+        -38.414001,
+        0.0
+      ],
+      "roll_range_deg": [
+        0.0,
+        27.171
+      ],
+      "hfov_range_deg": [
+        84.615997,
+        96.517998
+      ],
+      "axis_scales": {
+        "yaw": 1.0,
+        "pitch": 1.0,
+        "roll": 1.0,
+        "zoom": 1.0,
+        "seam": 1.0
+      },
+      "max_abs_sampled_longitude_deg": 114.784355,
+      "seam_longitude_limit_deg": 155.0,
+      "seam_safe": true
+    }
+  },
+  "rendered": {
+    "ref": {
+      "case_id": "recipe_39_seq",
+      "side": "ref",
+      "path": "site/media/cases/recipe_39_seq/ref.mp4",
+      "width": 1072,
+      "height": 856,
+      "pixels": 917632,
+      "fps": 20.0,
+      "duration_seconds": 15.0,
+      "bytes": 4730621,
+      "sha256": "22a252d7b080bccc0a678f7c4a7eb7cc5a8c8296e1dda68f993501e2d2336be6",
+      "poster": "site/media/cases/recipe_39_seq/ref.jpg"
+    },
+    "target": {
+      "case_id": "recipe_39_seq",
+      "side": "target",
+      "path": "site/media/cases/recipe_39_seq/target.mp4",
+      "width": 1072,
+      "height": 856,
+      "pixels": 917632,
+      "fps": 20.0,
+      "duration_seconds": 15.0,
+      "bytes": 4715941,
+      "sha256": "79de6fd43cf78a0aa705cc8501eaf42e324e477425d97a1845278462d88e706d",
+      "poster": "site/media/cases/recipe_39_seq/target.jpg"
+    },
+    "codec": {
+      "codec": "libx264",
+      "crf": 22,
+      "preset": "medium",
+      "maxrate": "2400k",
+      "bufsize": "4800k",
+      "pixel_format": "yuv420p",
+      "ffmpeg_threads": 2
+    }
+  },
+  "trajectory_report": {
+    "frame_count": 300,
+    "base_hfov_deg": 86.0,
+    "yaw_range_deg": [
+      -54.061001,
+      0.0
+    ],
+    "pitch_range_deg": [
+      -38.414001,
+      0.0
+    ],
+    "roll_range_deg": [
+      0.0,
+      27.171
+    ],
+    "hfov_range_deg": [
+      84.615997,
+      96.517998
+    ],
+    "axis_scales": {
+      "yaw": 1.0,
+      "pitch": 1.0,
+      "roll": 1.0,
+      "zoom": 1.0,
+      "seam": 1.0
+    },
+    "max_abs_sampled_longitude_deg": 114.784355,
+    "seam_longitude_limit_deg": 155.0,
+    "seam_safe": true
+  }
+}

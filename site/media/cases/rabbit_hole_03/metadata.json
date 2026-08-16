@@ -1,0 +1,88 @@
+{
+  "case": {
+    "id": "rabbit_hole_03",
+    "kind": "rabbit_hole",
+    "mode": "standalone",
+    "recipe_id": null,
+    "action_count": 0,
+    "actions": [],
+    "resolution": [
+      1344,
+      672
+    ],
+    "duration_seconds": 15.0,
+    "fps": 20,
+    "ref": {
+      "dataset": "360x",
+      "file": "06eeb914-a805-479e-be3f-8157c95190b5.mp4",
+      "start_seconds": 64.15,
+      "dynamic_score": 0.008266,
+      "global_flow_px": 0.016978,
+      "coherent_shift_px": 0.038097,
+      "license": "CC BY-NC-SA 4.0",
+      "source_url": "https://x360dataset.github.io/"
+    },
+    "target": {
+      "dataset": "360x",
+      "file": "047054e3-0024-407d-be1b-ee1236f8a0fe.mp4",
+      "start_seconds": 97.49,
+      "dynamic_score": 0.034954,
+      "global_flow_px": 0.027298,
+      "coherent_shift_px": 0.016249,
+      "license": "CC BY-NC-SA 4.0",
+      "source_url": "https://x360dataset.github.io/"
+    },
+    "projection_parameters": {
+      "stereographic_scale": 1.0,
+      "seam_orientation_deg": 0.0,
+      "note": "特殊投影需要使用完整 360°；接缝方向旋转到画面中相对不显眼的方位"
+    },
+    "trajectory_report": {
+      "frame_count": 300,
+      "seam_safe": null,
+      "note": "全 360° 特殊投影无法像普通透视视角一样完全排除 ERP 接缝"
+    }
+  },
+  "rendered": {
+    "ref": {
+      "case_id": "rabbit_hole_03",
+      "side": "ref",
+      "path": "site/media/cases/rabbit_hole_03/ref.mp4",
+      "width": 1344,
+      "height": 672,
+      "pixels": 903168,
+      "fps": 20.0,
+      "duration_seconds": 15.0,
+      "bytes": 4640811,
+      "sha256": "dd4666867290a96579128033c499cf9e7ca2b105050fc78873b18b79d7240640",
+      "poster": "site/media/cases/rabbit_hole_03/ref.jpg"
+    },
+    "target": {
+      "case_id": "rabbit_hole_03",
+      "side": "target",
+      "path": "site/media/cases/rabbit_hole_03/target.mp4",
+      "width": 1344,
+      "height": 672,
+      "pixels": 903168,
+      "fps": 20.0,
+      "duration_seconds": 15.0,
+      "bytes": 4646554,
+      "sha256": "0d5136a7beeacb8b62043bac85870942c9d162b6bfbf2e8d2ee7bcd60e64db35",
+      "poster": "site/media/cases/rabbit_hole_03/target.jpg"
+    },
+    "codec": {
+      "codec": "libx264",
+      "crf": 22,
+      "preset": "medium",
+      "maxrate": "2400k",
+      "bufsize": "4800k",
+      "pixel_format": "yuv420p",
+      "ffmpeg_threads": 2
+    }
+  },
+  "trajectory_report": {
+    "frame_count": 300,
+    "seam_safe": null,
+    "note": "全 360° 特殊投影无法像普通透视视角一样完全排除 ERP 接缝"
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "case": {
+    "id": "recipe_11_sim",
+    "kind": "combo",
+    "mode": "simultaneous",
+    "recipe_id": "recipe_11",
+    "display_name": null,
+    "origin": "deterministic_random_expansion",
+    "action_count": 2,
+    "actions": [
+      {
+        "type": "roll_ccw",
+        "amplitude_deg": 17.068,
+        "speed_multiplier": 1.226,
+        "phase": 0.3547,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      },
+      {
+        "type": "roll_cw",
+        "amplitude_deg": 14.806,
+        "speed_multiplier": 1.179,
+        "phase": 0.4175,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      }
+    ],
+    "resolution": [
+      1280,
+      720
+    ],
+    "duration_seconds": 15.0,
+    "fps": 20,
+    "ref": {
+      "dataset": "commons",
+      "file": "360_Video_of_LCS-15_Christening_and_Launch.webm",
+      "start_seconds": 27.973,
+      "dynamic_score": 0.048042,
+      "global_flow_px": 0.059503,
+      "coherent_shift_px": 0.048999,
+      "license": "CC BY 3.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:360_Video_of_LCS-15_Christening_and_Launch.webm"
+    },
+    "target": {
+      "dataset": "360x",
+      "file": "06eeb914-a805-479e-be3f-8157c95190b5.mp4",
+      "start_seconds": 1.0,
+      "dynamic_score": 0.028049,
+      "global_flow_px": 0.018597,
+      "coherent_shift_px": 0.306503,
+      "license": "CC BY-NC-SA 4.0",
+      "source_url": "https://x360dataset.github.io/"
+    },
+    "trajectory_report": {
+      "frame_count": 300,
+      "base_hfov_deg": 86.0,
+      "yaw_range_deg": [
+        0.0,
+        0.0
+      ],
+      "pitch_range_deg": [
+        0.0,
+        0.0
+      ],
+      "roll_range_deg": [
+        -2.429144,
+        1.875069
+      ],
+      "hfov_range_deg": [
+        86.0,
+        86.0
+      ],
+      "axis_scales": {
+        "yaw": 1.0,
+        "pitch": 1.0,
+        "roll": 1.0,
+        "zoom": 1.0,
+        "seam": 1.0
+      },
+      "max_abs_sampled_longitude_deg": 43.648594,
+      "seam_longitude_limit_deg": 155.0,
+      "seam_safe": true
+    }
+  },
+  "rendered": {
+    "ref": {
+      "case_id": "recipe_11_sim",
+      "side": "ref",
+      "path": "site/media/cases/recipe_11_sim/ref.mp4",
+      "width": 1280,
+      "height": 720,
+      "pixels": 921600,
+      "fps": 20.0,
+      "duration_seconds": 15.0,
+      "bytes": 2122942,
+      "sha256": "98aae141d5a6083471849ea08fdac87f04cdd4f3d9376efacf2ec8afbb098727",
+      "poster": "site/media/cases/recipe_11_sim/ref.jpg"
+    },
+    "target": {
+      "case_id": "recipe_11_sim",
+      "side": "target",
+      "path": "site/media/cases/recipe_11_sim/target.mp4",
+      "width": 1280,
+      "height": 720,
+      "pixels": 921600,
+      "fps": 20.0,
+      "duration_seconds": 15.0,
+      "bytes": 4727597,
+      "sha256": "bba3780aa6d1b13975b84f7fe3bdcd85123593224042b19a42f5ff971ac395fa",
+      "poster": "site/media/cases/recipe_11_sim/target.jpg"
+    },
+    "codec": {
+      "codec": "libx264",
+      "crf": 22,
+      "preset": "medium",
+      "maxrate": "2400k",
+      "bufsize": "4800k",
+      "pixel_format": "yuv420p",
+      "ffmpeg_threads": 2
+    }
+  },
+  "trajectory_report": {
+    "frame_count": 300,
+    "base_hfov_deg": 86.0,
+    "yaw_range_deg": [
+      0.0,
+      0.0
+    ],
+    "pitch_range_deg": [
+      0.0,
+      0.0
+    ],
+    "roll_range_deg": [
+      -2.429144,
+      1.875069
+    ],
+    "hfov_range_deg": [
+      86.0,
+      86.0
+    ],
+    "axis_scales": {
+      "yaw": 1.0,
+      "pitch": 1.0,
+      "roll": 1.0,
+      "zoom": 1.0,
+      "seam": 1.0
+    },
+    "max_abs_sampled_longitude_deg": 43.648594,
+    "seam_longitude_limit_deg": 155.0,
+    "seam_safe": true
+  }
+}

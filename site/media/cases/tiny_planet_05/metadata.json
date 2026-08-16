@@ -1,0 +1,88 @@
+{
+  "case": {
+    "id": "tiny_planet_05",
+    "kind": "tiny_planet",
+    "mode": "standalone",
+    "recipe_id": null,
+    "action_count": 0,
+    "actions": [],
+    "resolution": [
+      832,
+      1104
+    ],
+    "duration_seconds": 15.0,
+    "fps": 20,
+    "ref": {
+      "dataset": "360x",
+      "file": "047054e3-0024-407d-be1b-ee1236f8a0fe.mp4",
+      "start_seconds": 1.0,
+      "dynamic_score": 0.055092,
+      "global_flow_px": 0.035522,
+      "coherent_shift_px": 0.021607,
+      "license": "CC BY-NC-SA 4.0",
+      "source_url": "https://x360dataset.github.io/"
+    },
+    "target": {
+      "dataset": "360x",
+      "file": "019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4",
+      "start_seconds": 309.16,
+      "dynamic_score": 0.023609,
+      "global_flow_px": 0.06652,
+      "coherent_shift_px": 0.027205,
+      "license": "CC BY-NC-SA 4.0",
+      "source_url": "https://x360dataset.github.io/"
+    },
+    "projection_parameters": {
+      "stereographic_scale": 1.08,
+      "seam_orientation_deg": 144.0,
+      "note": "特殊投影需要使用完整 360°；接缝方向旋转到画面中相对不显眼的方位"
+    },
+    "trajectory_report": {
+      "frame_count": 300,
+      "seam_safe": null,
+      "note": "全 360° 特殊投影无法像普通透视视角一样完全排除 ERP 接缝"
+    }
+  },
+  "rendered": {
+    "ref": {
+      "case_id": "tiny_planet_05",
+      "side": "ref",
+      "path": "site/media/cases/tiny_planet_05/ref.mp4",
+      "width": 832,
+      "height": 1104,
+      "pixels": 918528,
+      "fps": 20.0,
+      "duration_seconds": 15.0,
+      "bytes": 4707584,
+      "sha256": "4ee3d3893fe0281fd3837a105bb960cdc6723e8a559c4c91e59c3504d836a925",
+      "poster": "site/media/cases/tiny_planet_05/ref.jpg"
+    },
+    "target": {
+      "case_id": "tiny_planet_05",
+      "side": "target",
+      "path": "site/media/cases/tiny_planet_05/target.mp4",
+      "width": 832,
+      "height": 1104,
+      "pixels": 918528,
+      "fps": 20.0,
+      "duration_seconds": 15.0,
+      "bytes": 4721060,
+      "sha256": "f7982f00aab94925eb74338e26b4b0620570b46262b50e6a952f08a9a38334bf",
+      "poster": "site/media/cases/tiny_planet_05/target.jpg"
+    },
+    "codec": {
+      "codec": "libx264",
+      "crf": 22,
+      "preset": "medium",
+      "maxrate": "2400k",
+      "bufsize": "4800k",
+      "pixel_format": "yuv420p",
+      "ffmpeg_threads": 2
+    }
+  },
+  "trajectory_report": {
+    "frame_count": 300,
+    "seam_safe": null,
+    "note": "全 360° 特殊投影无法像普通透视视角一样完全排除 ERP 接缝"
+  }
+}

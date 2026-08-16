@@ -1,0 +1,157 @@
+{
+  "case": {
+    "id": "recipe_17_sim",
+    "kind": "combo",
+    "mode": "simultaneous",
+    "recipe_id": "recipe_17",
+    "display_name": null,
+    "origin": "deterministic_random_expansion",
+    "action_count": 3,
+    "actions": [
+      {
+        "type": "zoom_out",
+        "amplitude_deg": 8.543,
+        "speed_multiplier": 1.075,
+        "phase": 0.6901,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      },
+      {
+        "type": "zoom_in",
+        "amplitude_deg": 6.878,
+        "speed_multiplier": 1.34,
+        "phase": 0.31,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      },
+      {
+        "type": "tilt_up",
+        "amplitude_deg": 41.458,
+        "speed_multiplier": 1.138,
+        "phase": 0.0245,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      }
+    ],
+    "resolution": [
+      640,
+      1440
+    ],
+    "duration_seconds": 15.0,
+    "fps": 20,
+    "ref": {
+      "dataset": "360x",
+      "file": "03498a23-90d7-4428-bd12-45f88a323419.mp4",
+      "start_seconds": 238.5,
+      "dynamic_score": 0.06221,
+      "global_flow_px": 0.035653,
+      "coherent_shift_px": 0.073029,
+      "license": "CC BY-NC-SA 4.0",
+      "source_url": "https://x360dataset.github.io/"
+    },
+    "target": {
+      "dataset": "360x",
+      "file": "05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4",
+      "start_seconds": 210.38,
+      "dynamic_score": 0.015141,
+      "global_flow_px": 0.012082,
+      "coherent_shift_px": 0.057322,
+      "license": "CC BY-NC-SA 4.0",
+      "source_url": "https://x360dataset.github.io/"
+    },
+    "trajectory_report": {
+      "frame_count": 300,
+      "base_hfov_deg": 51.749182,
+      "yaw_range_deg": [
+        0.0,
+        0.0
+      ],
+      "pitch_range_deg": [
+        -41.456818,
+        0.0
+      ],
+      "roll_range_deg": [
+        0.0,
+        0.0
+      ],
+      "hfov_range_deg": [
+        51.217815,
+        57.137814
+      ],
+      "axis_scales": {
+        "yaw": 1.0,
+        "pitch": 1.0,
+        "roll": 1.0,
+        "zoom": 1.0,
+        "seam": 1.0
+      },
+      "max_abs_sampled_longitude_deg": 87.525642,
+      "seam_longitude_limit_deg": 155.0,
+      "seam_safe": true
+    }
+  },
+  "rendered": {
+    "ref": {
+      "case_id": "recipe_17_sim",
+      "side": "ref",
+      "path": "site/media/cases/recipe_17_sim/ref.mp4",
+      "width": 640,
+      "height": 1440,
+      "pixels": 921600,
+      "fps": 20.0,
+      "duration_seconds": 15.0,
+      "bytes": 4669987,
+      "sha256": "cccbf6cfe07d4898e8da3daccebff8fb8edeca6d7fb3d98f3c6dfb407d461893",
+      "poster": "site/media/cases/recipe_17_sim/ref.jpg"
+    },
+    "target": {
+      "case_id": "recipe_17_sim",
+      "side": "target",
+      "path": "site/media/cases/recipe_17_sim/target.mp4",
+      "width": 640,
+      "height": 1440,
+      "pixels": 921600,
+      "fps": 20.0,
+      "duration_seconds": 15.0,
+      "bytes": 4433876,
+      "sha256": "2f715f0c2f5faec337d3f1911f670b82817fef0306ad1cc6737cee9b589f8849",
+      "poster": "site/media/cases/recipe_17_sim/target.jpg"
+    },
+    "codec": {
+      "codec": "libx264",
+      "crf": 22,
+      "preset": "medium",
+      "maxrate": "2400k",
+      "bufsize": "4800k",
+      "pixel_format": "yuv420p",
+      "ffmpeg_threads": 2
+    }
+  },
+  "trajectory_report": {
+    "frame_count": 300,
+    "base_hfov_deg": 51.749182,
+    "yaw_range_deg": [
+      0.0,
+      0.0
+    ],
+    "pitch_range_deg": [
+      -41.456818,
+      0.0
+    ],
+    "roll_range_deg": [
+      0.0,
+      0.0
+    ],
+    "hfov_range_deg": [
+      51.217815,
+      57.137814
+    ],
+    "axis_scales": {
+      "yaw": 1.0,
+      "pitch": 1.0,
+      "roll": 1.0,
+      "zoom": 1.0,
+      "seam": 1.0
+    },
+    "max_abs_sampled_longitude_deg": 87.525642,
+    "seam_longitude_limit_deg": 155.0,
+    "seam_safe": true
+  }
+}
