@@ -1,0 +1,178 @@
+{
+  "case": {
+    "id": "recipe_05_sim",
+    "kind": "combo",
+    "mode": "simultaneous",
+    "recipe_id": "recipe_05",
+    "display_name": null,
+    "origin": "deterministic_random_expansion",
+    "action_count": 6,
+    "actions": [
+      {
+        "type": "zoom_in",
+        "amplitude_deg": 7.878,
+        "speed_multiplier": 1.326,
+        "phase": 0.1555,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      },
+      {
+        "type": "pan_left",
+        "amplitude_deg": 69.689,
+        "speed_multiplier": 1.101,
+        "phase": 0.7528,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      },
+      {
+        "type": "pan_right",
+        "amplitude_deg": 54.745,
+        "speed_multiplier": 1.192,
+        "phase": 0.4226,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      },
+      {
+        "type": "roll_cw",
+        "amplitude_deg": 27.069,
+        "speed_multiplier": 1.157,
+        "phase": 0.1322,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      },
+      {
+        "type": "tilt_up",
+        "amplitude_deg": 35.956,
+        "speed_multiplier": 1.173,
+        "phase": 0.4663,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      },
+      {
+        "type": "tilt_down",
+        "amplitude_deg": 34.951,
+        "speed_multiplier": 1.248,
+        "phase": 0.6214,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      }
+    ],
+    "resolution": [
+      832,
+      1104
+    ],
+    "duration_seconds": 15.0,
+    "fps": 20,
+    "ref": {
+      "dataset": "360x",
+      "file": "05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4",
+      "start_seconds": 419.76,
+      "dynamic_score": 0.036015,
+      "global_flow_px": 0.019392,
+      "coherent_shift_px": 0.064346,
+      "license": "CC BY-NC-SA 4.0",
+      "source_url": "https://x360dataset.github.io/"
+    },
+    "target": {
+      "dataset": "360x",
+      "file": "047054e3-0024-407d-be1b-ee1236f8a0fe.mp4",
+      "start_seconds": 290.47,
+      "dynamic_score": 0.037113,
+      "global_flow_px": 0.032497,
+      "coherent_shift_px": 0.016879,
+      "license": "CC BY-NC-SA 4.0",
+      "source_url": "https://x360dataset.github.io/"
+    },
+    "trajectory_report": {
+      "frame_count": 300,
+      "base_hfov_deg": 78.870177,
+      "yaw_range_deg": [
+        -30.602493,
+        12.305237
+      ],
+      "pitch_range_deg": [
+        -9.248538,
+        2.83316
+      ],
+      "roll_range_deg": [
+        0.0,
+        27.068802
+      ],
+      "hfov_range_deg": [
+        70.99231,
+        78.870178
+      ],
+      "axis_scales": {
+        "yaw": 1.0,
+        "pitch": 1.0,
+        "roll": 1.0,
+        "zoom": 1.0,
+        "seam": 1.0
+      },
+      "max_abs_sampled_longitude_deg": 71.623413,
+      "seam_longitude_limit_deg": 155.0,
+      "seam_safe": true
+    }
+  },
+  "rendered": {
+    "ref": {
+      "case_id": "recipe_05_sim",
+      "side": "ref",
+      "path": "site/media/cases/recipe_05_sim/ref.mp4",
+      "width": 832,
+      "height": 1104,
+      "pixels": 918528,
+      "fps": 20.0,
+      "duration_seconds": 15.0,
+      "bytes": 4527545,
+      "sha256": "f007453d6498b0a29b4c49a221107327cccebf6190a72c60e5e3349891621b65",
+      "poster": "site/media/cases/recipe_05_sim/ref.jpg"
+    },
+    "target": {
+      "case_id": "recipe_05_sim",
+      "side": "target",
+      "path": "site/media/cases/recipe_05_sim/target.mp4",
+      "width": 832,
+      "height": 1104,
+      "pixels": 918528,
+      "fps": 20.0,
+      "duration_seconds": 15.0,
+      "bytes": 4678936,
+      "sha256": "1a941463159c5708ebad5e56c301925da68396d9eb65223d3edb27d7831328c9",
+      "poster": "site/media/cases/recipe_05_sim/target.jpg"
+    },
+    "codec": {
+      "codec": "libx264",
+      "crf": 22,
+      "preset": "medium",
+      "maxrate": "2400k",
+      "bufsize": "4800k",
+      "pixel_format": "yuv420p",
+      "ffmpeg_threads": 2
+    }
+  },
+  "trajectory_report": {
+    "frame_count": 300,
+    "base_hfov_deg": 78.870177,
+    "yaw_range_deg": [
+      -30.602493,
+      12.305237
+    ],
+    "pitch_range_deg": [
+      -9.248538,
+      2.83316
+    ],
+    "roll_range_deg": [
+      0.0,
+      27.068802
+    ],
+    "hfov_range_deg": [
+      70.99231,
+      78.870178
+    ],
+    "axis_scales": {
+      "yaw": 1.0,
+      "pitch": 1.0,
+      "roll": 1.0,
+      "zoom": 1.0,
+      "seam": 1.0
+    },
+    "max_abs_sampled_longitude_deg": 71.623413,
+    "seam_longitude_limit_deg": 155.0,
+    "seam_safe": true
+  }
+}

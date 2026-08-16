@@ -1,0 +1,3080 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Panocam Motion V2 · 100 Cross-Pair Cases</title>
+  <style>
+    :root{--ink:#17211f;--muted:#62706b;--paper:#f4f1e9;--card:#fffefb;--line:#d8d5ca;--green:#1d684f;--blue:#2b5f8d;--orange:#a44e2e}
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    nav{position:sticky;top:0;z-index:10;display:flex;gap:14px;align-items:center;padding:12px max(24px,calc((100vw - 1320px)/2));background:rgba(23,33,31,.96);color:white;overflow-x:auto;white-space:nowrap}
+    nav b{margin-right:auto} nav a{color:white;text-decoration:none;opacity:.85} nav a:hover{opacity:1}
+    main{max-width:1320px;margin:auto;padding:28px 24px 80px} .hero{padding:36px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(135deg,#fffefb,#e6eee7)}
+    .eyebrow,.section-title>span,.recipe-head span{font-size:12px;letter-spacing:.14em;font-weight:800;color:var(--green)} h1{font-size:clamp(36px,6vw,72px);line-height:1;margin:10px 0 18px} h2,h3,p{margin-top:0}
+    .hero p{max-width:950px;font-size:18px} .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:24px} .stat{padding:16px;border-radius:14px;background:white;border:1px solid var(--line)} .stat b{display:block;font-size:25px}
+    .rules{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0 0;padding:0;list-style:none} .rules li{background:#17211f;color:white;border-radius:14px;padding:16px}
+    .filters{position:sticky;top:48px;z-index:8;display:flex;flex-wrap:wrap;gap:8px;margin:28px 0;padding:14px;border:1px solid var(--line);border-radius:16px;background:rgba(244,241,233,.95);backdrop-filter:blur(8px)}
+    button{border:1px solid #b9c1bd;border-radius:999px;background:white;padding:8px 13px;cursor:pointer} button.active{background:var(--ink);color:white;border-color:var(--ink)}
+    .recipe,.special-section,.dataset{margin:28px 0;padding:22px;border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.55)} .recipe[hidden]{display:none}
+    .recipe-head{display:flex;justify-content:space-between;gap:20px;align-items:end;border-bottom:1px solid var(--line);margin-bottom:16px} .recipe-head h2{font-size:25px;margin:4px 0 12px} .recipe-head p{max-width:65%;font-weight:650;text-align:right}
+    .case-card{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--blue);border-radius:18px;padding:18px;margin:16px 0;box-shadow:0 8px 22px rgba(33,42,38,.05)} .case-card.simultaneous{border-left-color:var(--orange)} .case-card.special{border-left-color:var(--green)}
+    .case-card>header{display:flex;justify-content:space-between;gap:18px;align-items:start} .case-card h3{margin:2px 0 4px;font-size:21px} .case-id{font:700 12px ui-monospace,monospace;color:var(--muted)} .badges{display:flex;gap:7px;flex-wrap:wrap;justify-content:end} .badges b{font-size:12px;background:#e8ede9;border-radius:999px;padding:5px 9px} .actions{font-weight:650;color:#34453f}
+    .video-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;min-width:0} .video-panel{margin:0;min-width:0;background:#101312;border-radius:13px;overflow:hidden} .video-panel figcaption{display:flex;justify-content:space-between;padding:9px 11px;color:white} .video-panel video{display:block;width:100%;aspect-ratio:16/9;background:#000;object-fit:contain} .source-line{color:#d2d9d5;padding:8px 11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px}
+    .sync-note{margin:10px 0 0;color:var(--muted);font-size:12px} .section-title{margin-bottom:20px} .section-title h2{font-size:32px;margin:5px 0}
+    .dataset{overflow:auto} table{width:100%;border-collapse:collapse;min-width:1050px;background:white} th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left} th{background:#17211f;color:white} td:nth-child(2){max-width:330px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} td small{display:block;color:var(--muted)} tr.reject{opacity:.55} tr.pass td:last-child b{color:var(--green)}
+    footer{max-width:1320px;margin:auto;padding:0 24px 50px;color:var(--muted)}
+    @media(max-width:800px){main{padding:16px 10px 60px}.hero{padding:22px}.stats{grid-template-columns:repeat(2,1fr)}.rules{grid-template-columns:1fr}.recipe,.special-section,.dataset{padding:10px}.case-card{padding:10px}.video-pair{min-width:720px}.case-card{overflow-x:auto}.recipe-head{display:block}.recipe-head p{max-width:none;text-align:left}}
+  </style>
+</head>
+<body>
+<nav><b>Panocam Motion V2</b><a href="#overview">总览</a><a href="#combinations">90 个组合</a><a href="#specials">10 个特殊投影</a><a href="#sources">素材筛选</a></nav>
+<main>
+  <section class="hero" id="overview">
+    <span class="eyebrow">PANORAMIC VIRTUAL CAMERA · VERSION 2</span>
+    <h1>100 个 15 秒<br>Cross-Pair 高清示例</h1>
+    <p>只保留旋转/小幅变焦的组合运镜，并使用动态画面、静止全景机位素材。普通组合在渲染前做 ERP 接缝安全检查；ref 与 target 的轨迹、时长、分辨率逐帧一致。</p>
+    <div class="stats"><div class="stat"><b>100</b>cases</div><div class="stat"><b>200</b>左右 MP4</div><div class="stat"><b>15.00s</b>每条</div><div class="stat"><b>≤ 960²</b>max pixels</div><div class="stat"><b>全量验证通过</b>846.2 MiB</div></div>
+    <ul class="rules"><li><b>已删除</b><br>B_transl、C_optics、全部代理及含代理组合</li><li><b>组合结构</b><br>45 个动作配方 × 顺序/叠加 = 90 case</li><li><b>特殊投影</b><br>小行星 5 + 兔子洞 5；均不参与组合</li></ul>
+  </section>
+  <div class="filters" id="combinations"><b>显示动作数：</b><button class="active" data-filter="all">全部 45 个配方</button><button data-filter="2">2 动作</button><button data-filter="3">3 动作</button><button data-filter="4">4 动作</button><button data-filter="5">5 动作</button><button data-filter="6">6 动作</button></div>
+  
+        <section class="recipe" data-recipe data-action-count="2">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_01</h2></div>
+            <p>左摇 + 上摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="2">
+      <header>
+        <div><span class="case-id">recipe_01_seq</span><h3>顺序组合 · 2 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1280×720</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">左摇 + 上摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_01_seq/ref.mp4" poster="media/cases/recipe_01_seq/ref.jpg" style="aspect-ratio:1280/720"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=80.17s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>commons</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_01_seq/target.mp4" poster="media/cases/recipe_01_seq/target.jpg" style="aspect-ratio:1280/720"></video>
+        <div class="source-line" title="360_Video_of_LCS-15_Christening_and_Launch.webm">
+          360_Video_of_LCS-15_Christening_and_Launch.webm · t=54.95s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="2">
+      <header>
+        <div><span class="case-id">recipe_01_sim</span><h3>叠加组合 · 2 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1280×720</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">左摇 + 上摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_01_sim/ref.mp4" poster="media/cases/recipe_01_sim/ref.jpg" style="aspect-ratio:1280/720"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=80.17s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>commons</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_01_sim/target.mp4" poster="media/cases/recipe_01_sim/target.jpg" style="aspect-ratio:1280/720"></video>
+        <div class="source-line" title="360_Video_of_LCS-15_Christening_and_Launch.webm">
+          360_Video_of_LCS-15_Christening_and_Launch.webm · t=54.95s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="3">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_02</h2></div>
+            <p>小幅 Zoom Out + 下摇 + 左摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="3">
+      <header>
+        <div><span class="case-id">recipe_02_seq</span><h3>顺序组合 · 3 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>720×1280</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">小幅 Zoom Out + 下摇 + 左摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_02_seq/ref.mp4" poster="media/cases/recipe_02_seq/ref.jpg" style="aspect-ratio:720/1280"></video>
+        <div class="source-line" title="02692940-fd94-4af1-8ebc-577acacc617a.mp4">
+          02692940-fd94-4af1-8ebc-577acacc617a.mp4 · t=15.06s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>commons</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_02_seq/target.mp4" poster="media/cases/recipe_02_seq/target.jpg" style="aspect-ratio:720/1280"></video>
+        <div class="source-line" title="360_Video_of_LCS-15_Christening_and_Launch.webm">
+          360_Video_of_LCS-15_Christening_and_Launch.webm · t=27.97s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="3">
+      <header>
+        <div><span class="case-id">recipe_02_sim</span><h3>叠加组合 · 3 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>720×1280</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">小幅 Zoom Out + 下摇 + 左摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_02_sim/ref.mp4" poster="media/cases/recipe_02_sim/ref.jpg" style="aspect-ratio:720/1280"></video>
+        <div class="source-line" title="02692940-fd94-4af1-8ebc-577acacc617a.mp4">
+          02692940-fd94-4af1-8ebc-577acacc617a.mp4 · t=15.06s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>commons</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_02_sim/target.mp4" poster="media/cases/recipe_02_sim/target.jpg" style="aspect-ratio:720/1280"></video>
+        <div class="source-line" title="360_Video_of_LCS-15_Christening_and_Launch.webm">
+          360_Video_of_LCS-15_Christening_and_Launch.webm · t=27.97s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="4">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_03</h2></div>
+            <p>上摇 + 左摇 + 小幅 Zoom In + 顺时针滚转</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="4">
+      <header>
+        <div><span class="case-id">recipe_03_seq</span><h3>顺序组合 · 4 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>960×960</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">上摇 + 左摇 + 小幅 Zoom In + 顺时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_03_seq/ref.mp4" poster="media/cases/recipe_03_seq/ref.jpg" style="aspect-ratio:960/960"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=127.30s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_03_seq/target.mp4" poster="media/cases/recipe_03_seq/target.jpg" style="aspect-ratio:960/960"></video>
+        <div class="source-line" title="05a3f507-7d57-4797-9345-cc2b10894d76.mp4">
+          05a3f507-7d57-4797-9345-cc2b10894d76.mp4 · t=222.99s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="4">
+      <header>
+        <div><span class="case-id">recipe_03_sim</span><h3>叠加组合 · 4 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>960×960</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">上摇 + 左摇 + 小幅 Zoom In + 顺时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_03_sim/ref.mp4" poster="media/cases/recipe_03_sim/ref.jpg" style="aspect-ratio:960/960"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=127.30s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_03_sim/target.mp4" poster="media/cases/recipe_03_sim/target.jpg" style="aspect-ratio:960/960"></video>
+        <div class="source-line" title="05a3f507-7d57-4797-9345-cc2b10894d76.mp4">
+          05a3f507-7d57-4797-9345-cc2b10894d76.mp4 · t=222.99s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="5">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_04</h2></div>
+            <p>上摇 + 右摇 + 逆时针滚转 + 顺时针滚转 + 小幅 Zoom Out</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="5">
+      <header>
+        <div><span class="case-id">recipe_04_seq</span><h3>顺序组合 · 5 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1104×832</b><b>918,528 px</b></div>
+      </header>
+      <p class="actions">上摇 + 右摇 + 逆时针滚转 + 顺时针滚转 + 小幅 Zoom Out</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>commons</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_04_seq/ref.mp4" poster="media/cases/recipe_04_seq/ref.jpg" style="aspect-ratio:1104/832"></video>
+        <div class="source-line" title="360_Video_of_LCS-15_Christening_and_Launch.webm">
+          360_Video_of_LCS-15_Christening_and_Launch.webm · t=54.95s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_04_seq/target.mp4" poster="media/cases/recipe_04_seq/target.jpg" style="aspect-ratio:1104/832"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=419.76s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="5">
+      <header>
+        <div><span class="case-id">recipe_04_sim</span><h3>叠加组合 · 5 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1104×832</b><b>918,528 px</b></div>
+      </header>
+      <p class="actions">上摇 + 右摇 + 逆时针滚转 + 顺时针滚转 + 小幅 Zoom Out</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>commons</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_04_sim/ref.mp4" poster="media/cases/recipe_04_sim/ref.jpg" style="aspect-ratio:1104/832"></video>
+        <div class="source-line" title="360_Video_of_LCS-15_Christening_and_Launch.webm">
+          360_Video_of_LCS-15_Christening_and_Launch.webm · t=54.95s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_04_sim/target.mp4" poster="media/cases/recipe_04_sim/target.jpg" style="aspect-ratio:1104/832"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=419.76s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="6">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_05</h2></div>
+            <p>小幅 Zoom In + 左摇 + 右摇 + 顺时针滚转 + 上摇 + 下摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="6">
+      <header>
+        <div><span class="case-id">recipe_05_seq</span><h3>顺序组合 · 6 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>832×1104</b><b>918,528 px</b></div>
+      </header>
+      <p class="actions">小幅 Zoom In + 左摇 + 右摇 + 顺时针滚转 + 上摇 + 下摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_05_seq/ref.mp4" poster="media/cases/recipe_05_seq/ref.jpg" style="aspect-ratio:832/1104"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=419.76s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_05_seq/target.mp4" poster="media/cases/recipe_05_seq/target.jpg" style="aspect-ratio:832/1104"></video>
+        <div class="source-line" title="047054e3-0024-407d-be1b-ee1236f8a0fe.mp4">
+          047054e3-0024-407d-be1b-ee1236f8a0fe.mp4 · t=290.47s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="6">
+      <header>
+        <div><span class="case-id">recipe_05_sim</span><h3>叠加组合 · 6 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>832×1104</b><b>918,528 px</b></div>
+      </header>
+      <p class="actions">小幅 Zoom In + 左摇 + 右摇 + 顺时针滚转 + 上摇 + 下摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_05_sim/ref.mp4" poster="media/cases/recipe_05_sim/ref.jpg" style="aspect-ratio:832/1104"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=419.76s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_05_sim/target.mp4" poster="media/cases/recipe_05_sim/target.jpg" style="aspect-ratio:832/1104"></video>
+        <div class="source-line" title="047054e3-0024-407d-be1b-ee1236f8a0fe.mp4">
+          047054e3-0024-407d-be1b-ee1236f8a0fe.mp4 · t=290.47s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="2">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_06</h2></div>
+            <p>上摇 + 下摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="2">
+      <header>
+        <div><span class="case-id">recipe_06_seq</span><h3>顺序组合 · 2 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1440×640</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">上摇 + 下摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_06_seq/ref.mp4" poster="media/cases/recipe_06_seq/ref.jpg" style="aspect-ratio:1440/640"></video>
+        <div class="source-line" title="05a3f507-7d57-4797-9345-cc2b10894d76.mp4">
+          05a3f507-7d57-4797-9345-cc2b10894d76.mp4 · t=1.00s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_06_seq/target.mp4" poster="media/cases/recipe_06_seq/target.jpg" style="aspect-ratio:1440/640"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=210.38s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="2">
+      <header>
+        <div><span class="case-id">recipe_06_sim</span><h3>叠加组合 · 2 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1440×640</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">上摇 + 下摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_06_sim/ref.mp4" poster="media/cases/recipe_06_sim/ref.jpg" style="aspect-ratio:1440/640"></video>
+        <div class="source-line" title="05a3f507-7d57-4797-9345-cc2b10894d76.mp4">
+          05a3f507-7d57-4797-9345-cc2b10894d76.mp4 · t=1.00s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_06_sim/target.mp4" poster="media/cases/recipe_06_sim/target.jpg" style="aspect-ratio:1440/640"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=210.38s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="3">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_07</h2></div>
+            <p>右摇 + 顺时针滚转 + 小幅 Zoom In</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="3">
+      <header>
+        <div><span class="case-id">recipe_07_seq</span><h3>顺序组合 · 3 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>640×1440</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">右摇 + 顺时针滚转 + 小幅 Zoom In</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_07_seq/ref.mp4" poster="media/cases/recipe_07_seq/ref.jpg" style="aspect-ratio:640/1440"></video>
+        <div class="source-line" title="02692940-fd94-4af1-8ebc-577acacc617a.mp4">
+          02692940-fd94-4af1-8ebc-577acacc617a.mp4 · t=29.12s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_07_seq/target.mp4" poster="media/cases/recipe_07_seq/target.jpg" style="aspect-ratio:640/1440"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=232.12s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="3">
+      <header>
+        <div><span class="case-id">recipe_07_sim</span><h3>叠加组合 · 3 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>640×1440</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">右摇 + 顺时针滚转 + 小幅 Zoom In</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_07_sim/ref.mp4" poster="media/cases/recipe_07_sim/ref.jpg" style="aspect-ratio:640/1440"></video>
+        <div class="source-line" title="02692940-fd94-4af1-8ebc-577acacc617a.mp4">
+          02692940-fd94-4af1-8ebc-577acacc617a.mp4 · t=29.12s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_07_sim/target.mp4" poster="media/cases/recipe_07_sim/target.jpg" style="aspect-ratio:640/1440"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=232.12s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="4">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_08</h2></div>
+            <p>上摇 + 顺时针滚转 + 左摇 + 逆时针滚转</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="4">
+      <header>
+        <div><span class="case-id">recipe_08_seq</span><h3>顺序组合 · 4 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1344×672</b><b>903,168 px</b></div>
+      </header>
+      <p class="actions">上摇 + 顺时针滚转 + 左摇 + 逆时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_08_seq/ref.mp4" poster="media/cases/recipe_08_seq/ref.jpg" style="aspect-ratio:1344/672"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=80.17s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_08_seq/target.mp4" poster="media/cases/recipe_08_seq/target.jpg" style="aspect-ratio:1344/672"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=105.69s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="4">
+      <header>
+        <div><span class="case-id">recipe_08_sim</span><h3>叠加组合 · 4 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1344×672</b><b>903,168 px</b></div>
+      </header>
+      <p class="actions">上摇 + 顺时针滚转 + 左摇 + 逆时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_08_sim/ref.mp4" poster="media/cases/recipe_08_sim/ref.jpg" style="aspect-ratio:1344/672"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=80.17s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_08_sim/target.mp4" poster="media/cases/recipe_08_sim/target.jpg" style="aspect-ratio:1344/672"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=105.69s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="5">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_09</h2></div>
+            <p>小幅 Zoom Out + 上摇 + 小幅 Zoom In + 右摇 + 顺时针滚转</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="5">
+      <header>
+        <div><span class="case-id">recipe_09_seq</span><h3>顺序组合 · 5 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1072×856</b><b>917,632 px</b></div>
+      </header>
+      <p class="actions">小幅 Zoom Out + 上摇 + 小幅 Zoom In + 右摇 + 顺时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_09_seq/ref.mp4" poster="media/cases/recipe_09_seq/ref.jpg" style="aspect-ratio:1072/856"></video>
+        <div class="source-line" title="0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4">
+          0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4 · t=1.00s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_09_seq/target.mp4" poster="media/cases/recipe_09_seq/target.jpg" style="aspect-ratio:1072/856"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=315.07s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="5">
+      <header>
+        <div><span class="case-id">recipe_09_sim</span><h3>叠加组合 · 5 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1072×856</b><b>917,632 px</b></div>
+      </header>
+      <p class="actions">小幅 Zoom Out + 上摇 + 小幅 Zoom In + 右摇 + 顺时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_09_sim/ref.mp4" poster="media/cases/recipe_09_sim/ref.jpg" style="aspect-ratio:1072/856"></video>
+        <div class="source-line" title="0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4">
+          0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4 · t=1.00s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_09_sim/target.mp4" poster="media/cases/recipe_09_sim/target.jpg" style="aspect-ratio:1072/856"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=315.07s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="6">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_10</h2></div>
+            <p>逆时针滚转 + 上摇 + 小幅 Zoom In + 小幅 Zoom Out + 下摇 + 左摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="6">
+      <header>
+        <div><span class="case-id">recipe_10_seq</span><h3>顺序组合 · 6 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>856×1072</b><b>917,632 px</b></div>
+      </header>
+      <p class="actions">逆时针滚转 + 上摇 + 小幅 Zoom In + 小幅 Zoom Out + 下摇 + 左摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_10_seq/ref.mp4" poster="media/cases/recipe_10_seq/ref.jpg" style="aspect-ratio:856/1072"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=155.08s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_10_seq/target.mp4" poster="media/cases/recipe_10_seq/target.jpg" style="aspect-ratio:856/1072"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=105.69s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="6">
+      <header>
+        <div><span class="case-id">recipe_10_sim</span><h3>叠加组合 · 6 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>856×1072</b><b>917,632 px</b></div>
+      </header>
+      <p class="actions">逆时针滚转 + 上摇 + 小幅 Zoom In + 小幅 Zoom Out + 下摇 + 左摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_10_sim/ref.mp4" poster="media/cases/recipe_10_sim/ref.jpg" style="aspect-ratio:856/1072"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=155.08s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_10_sim/target.mp4" poster="media/cases/recipe_10_sim/target.jpg" style="aspect-ratio:856/1072"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=105.69s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="2">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_11</h2></div>
+            <p>逆时针滚转 + 顺时针滚转</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="2">
+      <header>
+        <div><span class="case-id">recipe_11_seq</span><h3>顺序组合 · 2 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1280×720</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">逆时针滚转 + 顺时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>commons</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_11_seq/ref.mp4" poster="media/cases/recipe_11_seq/ref.jpg" style="aspect-ratio:1280/720"></video>
+        <div class="source-line" title="360_Video_of_LCS-15_Christening_and_Launch.webm">
+          360_Video_of_LCS-15_Christening_and_Launch.webm · t=27.97s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_11_seq/target.mp4" poster="media/cases/recipe_11_seq/target.jpg" style="aspect-ratio:1280/720"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=1.00s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="2">
+      <header>
+        <div><span class="case-id">recipe_11_sim</span><h3>叠加组合 · 2 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1280×720</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">逆时针滚转 + 顺时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>commons</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_11_sim/ref.mp4" poster="media/cases/recipe_11_sim/ref.jpg" style="aspect-ratio:1280/720"></video>
+        <div class="source-line" title="360_Video_of_LCS-15_Christening_and_Launch.webm">
+          360_Video_of_LCS-15_Christening_and_Launch.webm · t=27.97s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_11_sim/target.mp4" poster="media/cases/recipe_11_sim/target.jpg" style="aspect-ratio:1280/720"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=1.00s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="3">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_12</h2></div>
+            <p>小幅 Zoom Out + 小幅 Zoom In + 左摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="3">
+      <header>
+        <div><span class="case-id">recipe_12_seq</span><h3>顺序组合 · 3 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>720×1280</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">小幅 Zoom Out + 小幅 Zoom In + 左摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_12_seq/ref.mp4" poster="media/cases/recipe_12_seq/ref.jpg" style="aspect-ratio:720/1280"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=315.07s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_12_seq/target.mp4" poster="media/cases/recipe_12_seq/target.jpg" style="aspect-ratio:720/1280"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=78.04s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="3">
+      <header>
+        <div><span class="case-id">recipe_12_sim</span><h3>叠加组合 · 3 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>720×1280</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">小幅 Zoom Out + 小幅 Zoom In + 左摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_12_sim/ref.mp4" poster="media/cases/recipe_12_sim/ref.jpg" style="aspect-ratio:720/1280"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=315.07s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_12_sim/target.mp4" poster="media/cases/recipe_12_sim/target.jpg" style="aspect-ratio:720/1280"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=78.04s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="4">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_13</h2></div>
+            <p>左摇 + 上摇 + 顺时针滚转 + 右摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="4">
+      <header>
+        <div><span class="case-id">recipe_13_seq</span><h3>顺序组合 · 4 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>960×960</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">左摇 + 上摇 + 顺时针滚转 + 右摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_13_seq/ref.mp4" poster="media/cases/recipe_13_seq/ref.jpg" style="aspect-ratio:960/960"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=159.33s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_13_seq/target.mp4" poster="media/cases/recipe_13_seq/target.jpg" style="aspect-ratio:960/960"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=1.00s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="4">
+      <header>
+        <div><span class="case-id">recipe_13_sim</span><h3>叠加组合 · 4 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>960×960</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">左摇 + 上摇 + 顺时针滚转 + 右摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_13_sim/ref.mp4" poster="media/cases/recipe_13_sim/ref.jpg" style="aspect-ratio:960/960"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=159.33s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_13_sim/target.mp4" poster="media/cases/recipe_13_sim/target.jpg" style="aspect-ratio:960/960"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=1.00s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="5">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_14</h2></div>
+            <p>顺时针滚转 + 小幅 Zoom In + 左摇 + 上摇 + 逆时针滚转</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="5">
+      <header>
+        <div><span class="case-id">recipe_14_seq</span><h3>顺序组合 · 5 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1104×832</b><b>918,528 px</b></div>
+      </header>
+      <p class="actions">顺时针滚转 + 小幅 Zoom In + 左摇 + 上摇 + 逆时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_14_seq/ref.mp4" poster="media/cases/recipe_14_seq/ref.jpg" style="aspect-ratio:1104/832"></video>
+        <div class="source-line" title="0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4">
+          0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4 · t=237.64s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_14_seq/target.mp4" poster="media/cases/recipe_14_seq/target.jpg" style="aspect-ratio:1104/832"></video>
+        <div class="source-line" title="02692940-fd94-4af1-8ebc-577acacc617a.mp4">
+          02692940-fd94-4af1-8ebc-577acacc617a.mp4 · t=15.06s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="5">
+      <header>
+        <div><span class="case-id">recipe_14_sim</span><h3>叠加组合 · 5 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1104×832</b><b>918,528 px</b></div>
+      </header>
+      <p class="actions">顺时针滚转 + 小幅 Zoom In + 左摇 + 上摇 + 逆时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_14_sim/ref.mp4" poster="media/cases/recipe_14_sim/ref.jpg" style="aspect-ratio:1104/832"></video>
+        <div class="source-line" title="0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4">
+          0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4 · t=237.64s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_14_sim/target.mp4" poster="media/cases/recipe_14_sim/target.jpg" style="aspect-ratio:1104/832"></video>
+        <div class="source-line" title="02692940-fd94-4af1-8ebc-577acacc617a.mp4">
+          02692940-fd94-4af1-8ebc-577acacc617a.mp4 · t=15.06s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="6">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_15</h2></div>
+            <p>逆时针滚转 + 上摇 + 下摇 + 顺时针滚转 + 小幅 Zoom In + 小幅 Zoom Out</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="6">
+      <header>
+        <div><span class="case-id">recipe_15_seq</span><h3>顺序组合 · 6 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>832×1104</b><b>918,528 px</b></div>
+      </header>
+      <p class="actions">逆时针滚转 + 上摇 + 下摇 + 顺时针滚转 + 小幅 Zoom In + 小幅 Zoom Out</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_15_seq/ref.mp4" poster="media/cases/recipe_15_seq/ref.jpg" style="aspect-ratio:832/1104"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=317.67s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_15_seq/target.mp4" poster="media/cases/recipe_15_seq/target.jpg" style="aspect-ratio:832/1104"></video>
+        <div class="source-line" title="05a3f507-7d57-4797-9345-cc2b10894d76.mp4">
+          05a3f507-7d57-4797-9345-cc2b10894d76.mp4 · t=1.00s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="6">
+      <header>
+        <div><span class="case-id">recipe_15_sim</span><h3>叠加组合 · 6 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>832×1104</b><b>918,528 px</b></div>
+      </header>
+      <p class="actions">逆时针滚转 + 上摇 + 下摇 + 顺时针滚转 + 小幅 Zoom In + 小幅 Zoom Out</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_15_sim/ref.mp4" poster="media/cases/recipe_15_sim/ref.jpg" style="aspect-ratio:832/1104"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=317.67s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_15_sim/target.mp4" poster="media/cases/recipe_15_sim/target.jpg" style="aspect-ratio:832/1104"></video>
+        <div class="source-line" title="05a3f507-7d57-4797-9345-cc2b10894d76.mp4">
+          05a3f507-7d57-4797-9345-cc2b10894d76.mp4 · t=1.00s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="2">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_16</h2></div>
+            <p>右摇 + 小幅 Zoom Out</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="2">
+      <header>
+        <div><span class="case-id">recipe_16_seq</span><h3>顺序组合 · 2 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1440×640</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">右摇 + 小幅 Zoom Out</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_16_seq/ref.mp4" poster="media/cases/recipe_16_seq/ref.jpg" style="aspect-ratio:1440/640"></video>
+        <div class="source-line" title="047054e3-0024-407d-be1b-ee1236f8a0fe.mp4">
+          047054e3-0024-407d-be1b-ee1236f8a0fe.mp4 · t=1.00s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_16_seq/target.mp4" poster="media/cases/recipe_16_seq/target.jpg" style="aspect-ratio:1440/640"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=253.60s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="2">
+      <header>
+        <div><span class="case-id">recipe_16_sim</span><h3>叠加组合 · 2 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1440×640</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">右摇 + 小幅 Zoom Out</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_16_sim/ref.mp4" poster="media/cases/recipe_16_sim/ref.jpg" style="aspect-ratio:1440/640"></video>
+        <div class="source-line" title="047054e3-0024-407d-be1b-ee1236f8a0fe.mp4">
+          047054e3-0024-407d-be1b-ee1236f8a0fe.mp4 · t=1.00s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_16_sim/target.mp4" poster="media/cases/recipe_16_sim/target.jpg" style="aspect-ratio:1440/640"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=253.60s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="3">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_17</h2></div>
+            <p>小幅 Zoom Out + 小幅 Zoom In + 上摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="3">
+      <header>
+        <div><span class="case-id">recipe_17_seq</span><h3>顺序组合 · 3 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>640×1440</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">小幅 Zoom Out + 小幅 Zoom In + 上摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_17_seq/ref.mp4" poster="media/cases/recipe_17_seq/ref.jpg" style="aspect-ratio:640/1440"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=238.50s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_17_seq/target.mp4" poster="media/cases/recipe_17_seq/target.jpg" style="aspect-ratio:640/1440"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=210.38s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="3">
+      <header>
+        <div><span class="case-id">recipe_17_sim</span><h3>叠加组合 · 3 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>640×1440</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">小幅 Zoom Out + 小幅 Zoom In + 上摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_17_sim/ref.mp4" poster="media/cases/recipe_17_sim/ref.jpg" style="aspect-ratio:640/1440"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=238.50s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_17_sim/target.mp4" poster="media/cases/recipe_17_sim/target.jpg" style="aspect-ratio:640/1440"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=210.38s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="4">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_18</h2></div>
+            <p>上摇 + 左摇 + 小幅 Zoom In + 下摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="4">
+      <header>
+        <div><span class="case-id">recipe_18_seq</span><h3>顺序组合 · 4 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1344×672</b><b>903,168 px</b></div>
+      </header>
+      <p class="actions">上摇 + 左摇 + 小幅 Zoom In + 下摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_18_seq/ref.mp4" poster="media/cases/recipe_18_seq/ref.jpg" style="aspect-ratio:1344/672"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=210.38s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_18_seq/target.mp4" poster="media/cases/recipe_18_seq/target.jpg" style="aspect-ratio:1344/672"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=309.16s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="4">
+      <header>
+        <div><span class="case-id">recipe_18_sim</span><h3>叠加组合 · 4 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1344×672</b><b>903,168 px</b></div>
+      </header>
+      <p class="actions">上摇 + 左摇 + 小幅 Zoom In + 下摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_18_sim/ref.mp4" poster="media/cases/recipe_18_sim/ref.jpg" style="aspect-ratio:1344/672"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=210.38s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_18_sim/target.mp4" poster="media/cases/recipe_18_sim/target.jpg" style="aspect-ratio:1344/672"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=309.16s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="5">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_19</h2></div>
+            <p>逆时针滚转 + 小幅 Zoom In + 左摇 + 顺时针滚转 + 小幅 Zoom Out</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="5">
+      <header>
+        <div><span class="case-id">recipe_19_seq</span><h3>顺序组合 · 5 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1072×856</b><b>917,632 px</b></div>
+      </header>
+      <p class="actions">逆时针滚转 + 小幅 Zoom In + 左摇 + 顺时针滚转 + 小幅 Zoom Out</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_19_seq/ref.mp4" poster="media/cases/recipe_19_seq/ref.jpg" style="aspect-ratio:1072/856"></video>
+        <div class="source-line" title="0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4">
+          0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4 · t=237.64s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_19_seq/target.mp4" poster="media/cases/recipe_19_seq/target.jpg" style="aspect-ratio:1072/856"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=1.00s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="5">
+      <header>
+        <div><span class="case-id">recipe_19_sim</span><h3>叠加组合 · 5 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1072×856</b><b>917,632 px</b></div>
+      </header>
+      <p class="actions">逆时针滚转 + 小幅 Zoom In + 左摇 + 顺时针滚转 + 小幅 Zoom Out</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_19_sim/ref.mp4" poster="media/cases/recipe_19_sim/ref.jpg" style="aspect-ratio:1072/856"></video>
+        <div class="source-line" title="0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4">
+          0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4 · t=237.64s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_19_sim/target.mp4" poster="media/cases/recipe_19_sim/target.jpg" style="aspect-ratio:1072/856"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=1.00s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="6">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_20</h2></div>
+            <p>顺时针滚转 + 逆时针滚转 + 上摇 + 下摇 + 小幅 Zoom Out + 左摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="6">
+      <header>
+        <div><span class="case-id">recipe_20_seq</span><h3>顺序组合 · 6 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>856×1072</b><b>917,632 px</b></div>
+      </header>
+      <p class="actions">顺时针滚转 + 逆时针滚转 + 上摇 + 下摇 + 小幅 Zoom Out + 左摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_20_seq/ref.mp4" poster="media/cases/recipe_20_seq/ref.jpg" style="aspect-ratio:856/1072"></video>
+        <div class="source-line" title="05a3f507-7d57-4797-9345-cc2b10894d76.mp4">
+          05a3f507-7d57-4797-9345-cc2b10894d76.mp4 · t=296.98s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_20_seq/target.mp4" poster="media/cases/recipe_20_seq/target.jpg" style="aspect-ratio:856/1072"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=64.15s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="6">
+      <header>
+        <div><span class="case-id">recipe_20_sim</span><h3>叠加组合 · 6 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>856×1072</b><b>917,632 px</b></div>
+      </header>
+      <p class="actions">顺时针滚转 + 逆时针滚转 + 上摇 + 下摇 + 小幅 Zoom Out + 左摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_20_sim/ref.mp4" poster="media/cases/recipe_20_sim/ref.jpg" style="aspect-ratio:856/1072"></video>
+        <div class="source-line" title="05a3f507-7d57-4797-9345-cc2b10894d76.mp4">
+          05a3f507-7d57-4797-9345-cc2b10894d76.mp4 · t=296.98s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_20_sim/target.mp4" poster="media/cases/recipe_20_sim/target.jpg" style="aspect-ratio:856/1072"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=64.15s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="2">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_21</h2></div>
+            <p>顺时针滚转 + 小幅 Zoom Out</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="2">
+      <header>
+        <div><span class="case-id">recipe_21_seq</span><h3>顺序组合 · 2 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1280×720</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">顺时针滚转 + 小幅 Zoom Out</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_21_seq/ref.mp4" poster="media/cases/recipe_21_seq/ref.jpg" style="aspect-ratio:1280/720"></video>
+        <div class="source-line" title="05a3f507-7d57-4797-9345-cc2b10894d76.mp4">
+          05a3f507-7d57-4797-9345-cc2b10894d76.mp4 · t=222.99s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_21_seq/target.mp4" poster="media/cases/recipe_21_seq/target.jpg" style="aspect-ratio:1280/720"></video>
+        <div class="source-line" title="02692940-fd94-4af1-8ebc-577acacc617a.mp4">
+          02692940-fd94-4af1-8ebc-577acacc617a.mp4 · t=15.06s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="2">
+      <header>
+        <div><span class="case-id">recipe_21_sim</span><h3>叠加组合 · 2 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1280×720</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">顺时针滚转 + 小幅 Zoom Out</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_21_sim/ref.mp4" poster="media/cases/recipe_21_sim/ref.jpg" style="aspect-ratio:1280/720"></video>
+        <div class="source-line" title="05a3f507-7d57-4797-9345-cc2b10894d76.mp4">
+          05a3f507-7d57-4797-9345-cc2b10894d76.mp4 · t=222.99s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_21_sim/target.mp4" poster="media/cases/recipe_21_sim/target.jpg" style="aspect-ratio:1280/720"></video>
+        <div class="source-line" title="02692940-fd94-4af1-8ebc-577acacc617a.mp4">
+          02692940-fd94-4af1-8ebc-577acacc617a.mp4 · t=15.06s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="3">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_22</h2></div>
+            <p>小幅 Zoom Out + 上摇 + 左摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="3">
+      <header>
+        <div><span class="case-id">recipe_22_seq</span><h3>顺序组合 · 3 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>720×1280</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">小幅 Zoom Out + 上摇 + 左摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_22_seq/ref.mp4" poster="media/cases/recipe_22_seq/ref.jpg" style="aspect-ratio:720/1280"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=159.33s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_22_seq/target.mp4" poster="media/cases/recipe_22_seq/target.jpg" style="aspect-ratio:720/1280"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=309.16s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="3">
+      <header>
+        <div><span class="case-id">recipe_22_sim</span><h3>叠加组合 · 3 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>720×1280</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">小幅 Zoom Out + 上摇 + 左摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_22_sim/ref.mp4" poster="media/cases/recipe_22_sim/ref.jpg" style="aspect-ratio:720/1280"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=159.33s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_22_sim/target.mp4" poster="media/cases/recipe_22_sim/target.jpg" style="aspect-ratio:720/1280"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=309.16s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="4">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_23</h2></div>
+            <p>上摇 + 顺时针滚转 + 小幅 Zoom In + 下摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="4">
+      <header>
+        <div><span class="case-id">recipe_23_seq</span><h3>顺序组合 · 4 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>960×960</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">上摇 + 顺时针滚转 + 小幅 Zoom In + 下摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_23_seq/ref.mp4" poster="media/cases/recipe_23_seq/ref.jpg" style="aspect-ratio:960/960"></video>
+        <div class="source-line" title="02692940-fd94-4af1-8ebc-577acacc617a.mp4">
+          02692940-fd94-4af1-8ebc-577acacc617a.mp4 · t=29.12s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_23_seq/target.mp4" poster="media/cases/recipe_23_seq/target.jpg" style="aspect-ratio:960/960"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=315.07s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="4">
+      <header>
+        <div><span class="case-id">recipe_23_sim</span><h3>叠加组合 · 4 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>960×960</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">上摇 + 顺时针滚转 + 小幅 Zoom In + 下摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_23_sim/ref.mp4" poster="media/cases/recipe_23_sim/ref.jpg" style="aspect-ratio:960/960"></video>
+        <div class="source-line" title="02692940-fd94-4af1-8ebc-577acacc617a.mp4">
+          02692940-fd94-4af1-8ebc-577acacc617a.mp4 · t=29.12s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_23_sim/target.mp4" poster="media/cases/recipe_23_sim/target.jpg" style="aspect-ratio:960/960"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=315.07s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="5">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_24</h2></div>
+            <p>下摇 + 右摇 + 小幅 Zoom Out + 小幅 Zoom In + 顺时针滚转</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="5">
+      <header>
+        <div><span class="case-id">recipe_24_seq</span><h3>顺序组合 · 5 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1104×832</b><b>918,528 px</b></div>
+      </header>
+      <p class="actions">下摇 + 右摇 + 小幅 Zoom Out + 小幅 Zoom In + 顺时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_24_seq/ref.mp4" poster="media/cases/recipe_24_seq/ref.jpg" style="aspect-ratio:1104/832"></video>
+        <div class="source-line" title="05a3f507-7d57-4797-9345-cc2b10894d76.mp4">
+          05a3f507-7d57-4797-9345-cc2b10894d76.mp4 · t=296.98s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_24_seq/target.mp4" poster="media/cases/recipe_24_seq/target.jpg" style="aspect-ratio:1104/832"></video>
+        <div class="source-line" title="02692940-fd94-4af1-8ebc-577acacc617a.mp4">
+          02692940-fd94-4af1-8ebc-577acacc617a.mp4 · t=29.12s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="5">
+      <header>
+        <div><span class="case-id">recipe_24_sim</span><h3>叠加组合 · 5 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1104×832</b><b>918,528 px</b></div>
+      </header>
+      <p class="actions">下摇 + 右摇 + 小幅 Zoom Out + 小幅 Zoom In + 顺时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_24_sim/ref.mp4" poster="media/cases/recipe_24_sim/ref.jpg" style="aspect-ratio:1104/832"></video>
+        <div class="source-line" title="05a3f507-7d57-4797-9345-cc2b10894d76.mp4">
+          05a3f507-7d57-4797-9345-cc2b10894d76.mp4 · t=296.98s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_24_sim/target.mp4" poster="media/cases/recipe_24_sim/target.jpg" style="aspect-ratio:1104/832"></video>
+        <div class="source-line" title="02692940-fd94-4af1-8ebc-577acacc617a.mp4">
+          02692940-fd94-4af1-8ebc-577acacc617a.mp4 · t=29.12s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="6">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_25</h2></div>
+            <p>小幅 Zoom Out + 逆时针滚转 + 左摇 + 顺时针滚转 + 右摇 + 上摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="6">
+      <header>
+        <div><span class="case-id">recipe_25_seq</span><h3>顺序组合 · 6 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>832×1104</b><b>918,528 px</b></div>
+      </header>
+      <p class="actions">小幅 Zoom Out + 逆时针滚转 + 左摇 + 顺时针滚转 + 右摇 + 上摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_25_seq/ref.mp4" poster="media/cases/recipe_25_seq/ref.jpg" style="aspect-ratio:832/1104"></video>
+        <div class="source-line" title="047054e3-0024-407d-be1b-ee1236f8a0fe.mp4">
+          047054e3-0024-407d-be1b-ee1236f8a0fe.mp4 · t=193.98s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_25_seq/target.mp4" poster="media/cases/recipe_25_seq/target.jpg" style="aspect-ratio:832/1104"></video>
+        <div class="source-line" title="0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4">
+          0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4 · t=158.76s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="6">
+      <header>
+        <div><span class="case-id">recipe_25_sim</span><h3>叠加组合 · 6 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>832×1104</b><b>918,528 px</b></div>
+      </header>
+      <p class="actions">小幅 Zoom Out + 逆时针滚转 + 左摇 + 顺时针滚转 + 右摇 + 上摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_25_sim/ref.mp4" poster="media/cases/recipe_25_sim/ref.jpg" style="aspect-ratio:832/1104"></video>
+        <div class="source-line" title="047054e3-0024-407d-be1b-ee1236f8a0fe.mp4">
+          047054e3-0024-407d-be1b-ee1236f8a0fe.mp4 · t=193.98s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_25_sim/target.mp4" poster="media/cases/recipe_25_sim/target.jpg" style="aspect-ratio:832/1104"></video>
+        <div class="source-line" title="0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4">
+          0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4 · t=158.76s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="2">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_26</h2></div>
+            <p>左摇 + 逆时针滚转</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="2">
+      <header>
+        <div><span class="case-id">recipe_26_seq</span><h3>顺序组合 · 2 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1440×640</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">左摇 + 逆时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_26_seq/ref.mp4" poster="media/cases/recipe_26_seq/ref.jpg" style="aspect-ratio:1440/640"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=190.45s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_26_seq/target.mp4" poster="media/cases/recipe_26_seq/target.jpg" style="aspect-ratio:1440/640"></video>
+        <div class="source-line" title="0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4">
+          0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4 · t=158.76s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="2">
+      <header>
+        <div><span class="case-id">recipe_26_sim</span><h3>叠加组合 · 2 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1440×640</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">左摇 + 逆时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_26_sim/ref.mp4" poster="media/cases/recipe_26_sim/ref.jpg" style="aspect-ratio:1440/640"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=190.45s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_26_sim/target.mp4" poster="media/cases/recipe_26_sim/target.jpg" style="aspect-ratio:1440/640"></video>
+        <div class="source-line" title="0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4">
+          0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4 · t=158.76s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="3">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_27</h2></div>
+            <p>上摇 + 逆时针滚转 + 左摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="3">
+      <header>
+        <div><span class="case-id">recipe_27_seq</span><h3>顺序组合 · 3 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>640×1440</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">上摇 + 逆时针滚转 + 左摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_27_seq/ref.mp4" poster="media/cases/recipe_27_seq/ref.jpg" style="aspect-ratio:640/1440"></video>
+        <div class="source-line" title="047054e3-0024-407d-be1b-ee1236f8a0fe.mp4">
+          047054e3-0024-407d-be1b-ee1236f8a0fe.mp4 · t=193.98s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_27_seq/target.mp4" poster="media/cases/recipe_27_seq/target.jpg" style="aspect-ratio:640/1440"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=127.30s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="3">
+      <header>
+        <div><span class="case-id">recipe_27_sim</span><h3>叠加组合 · 3 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>640×1440</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">上摇 + 逆时针滚转 + 左摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_27_sim/ref.mp4" poster="media/cases/recipe_27_sim/ref.jpg" style="aspect-ratio:640/1440"></video>
+        <div class="source-line" title="047054e3-0024-407d-be1b-ee1236f8a0fe.mp4">
+          047054e3-0024-407d-be1b-ee1236f8a0fe.mp4 · t=193.98s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_27_sim/target.mp4" poster="media/cases/recipe_27_sim/target.jpg" style="aspect-ratio:640/1440"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=127.30s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="4">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_28</h2></div>
+            <p>逆时针滚转 + 上摇 + 小幅 Zoom In + 右摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="4">
+      <header>
+        <div><span class="case-id">recipe_28_seq</span><h3>顺序组合 · 4 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1344×672</b><b>903,168 px</b></div>
+      </header>
+      <p class="actions">逆时针滚转 + 上摇 + 小幅 Zoom In + 右摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_28_seq/ref.mp4" poster="media/cases/recipe_28_seq/ref.jpg" style="aspect-ratio:1344/672"></video>
+        <div class="source-line" title="02692940-fd94-4af1-8ebc-577acacc617a.mp4">
+          02692940-fd94-4af1-8ebc-577acacc617a.mp4 · t=29.12s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_28_seq/target.mp4" poster="media/cases/recipe_28_seq/target.jpg" style="aspect-ratio:1344/672"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=1.00s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="4">
+      <header>
+        <div><span class="case-id">recipe_28_sim</span><h3>叠加组合 · 4 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1344×672</b><b>903,168 px</b></div>
+      </header>
+      <p class="actions">逆时针滚转 + 上摇 + 小幅 Zoom In + 右摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_28_sim/ref.mp4" poster="media/cases/recipe_28_sim/ref.jpg" style="aspect-ratio:1344/672"></video>
+        <div class="source-line" title="02692940-fd94-4af1-8ebc-577acacc617a.mp4">
+          02692940-fd94-4af1-8ebc-577acacc617a.mp4 · t=29.12s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_28_sim/target.mp4" poster="media/cases/recipe_28_sim/target.jpg" style="aspect-ratio:1344/672"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=1.00s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="5">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_29</h2></div>
+            <p>下摇 + 左摇 + 上摇 + 小幅 Zoom Out + 右摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="5">
+      <header>
+        <div><span class="case-id">recipe_29_seq</span><h3>顺序组合 · 5 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1072×856</b><b>917,632 px</b></div>
+      </header>
+      <p class="actions">下摇 + 左摇 + 上摇 + 小幅 Zoom Out + 右摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_29_seq/ref.mp4" poster="media/cases/recipe_29_seq/ref.jpg" style="aspect-ratio:1072/856"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=127.30s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_29_seq/target.mp4" poster="media/cases/recipe_29_seq/target.jpg" style="aspect-ratio:1072/856"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=315.07s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="5">
+      <header>
+        <div><span class="case-id">recipe_29_sim</span><h3>叠加组合 · 5 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1072×856</b><b>917,632 px</b></div>
+      </header>
+      <p class="actions">下摇 + 左摇 + 上摇 + 小幅 Zoom Out + 右摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_29_sim/ref.mp4" poster="media/cases/recipe_29_sim/ref.jpg" style="aspect-ratio:1072/856"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=127.30s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_29_sim/target.mp4" poster="media/cases/recipe_29_sim/target.jpg" style="aspect-ratio:1072/856"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=315.07s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="6">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_30</h2></div>
+            <p>小幅 Zoom In + 左摇 + 逆时针滚转 + 上摇 + 右摇 + 顺时针滚转</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="6">
+      <header>
+        <div><span class="case-id">recipe_30_seq</span><h3>顺序组合 · 6 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>856×1072</b><b>917,632 px</b></div>
+      </header>
+      <p class="actions">小幅 Zoom In + 左摇 + 逆时针滚转 + 上摇 + 右摇 + 顺时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_30_seq/ref.mp4" poster="media/cases/recipe_30_seq/ref.jpg" style="aspect-ratio:856/1072"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=155.08s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_30_seq/target.mp4" poster="media/cases/recipe_30_seq/target.jpg" style="aspect-ratio:856/1072"></video>
+        <div class="source-line" title="05a3f507-7d57-4797-9345-cc2b10894d76.mp4">
+          05a3f507-7d57-4797-9345-cc2b10894d76.mp4 · t=148.99s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="6">
+      <header>
+        <div><span class="case-id">recipe_30_sim</span><h3>叠加组合 · 6 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>856×1072</b><b>917,632 px</b></div>
+      </header>
+      <p class="actions">小幅 Zoom In + 左摇 + 逆时针滚转 + 上摇 + 右摇 + 顺时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_30_sim/ref.mp4" poster="media/cases/recipe_30_sim/ref.jpg" style="aspect-ratio:856/1072"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=155.08s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_30_sim/target.mp4" poster="media/cases/recipe_30_sim/target.jpg" style="aspect-ratio:856/1072"></video>
+        <div class="source-line" title="05a3f507-7d57-4797-9345-cc2b10894d76.mp4">
+          05a3f507-7d57-4797-9345-cc2b10894d76.mp4 · t=148.99s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="2">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_31</h2></div>
+            <p>左摇 + 顺时针滚转</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="2">
+      <header>
+        <div><span class="case-id">recipe_31_seq</span><h3>顺序组合 · 2 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1280×720</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">左摇 + 顺时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_31_seq/ref.mp4" poster="media/cases/recipe_31_seq/ref.jpg" style="aspect-ratio:1280/720"></video>
+        <div class="source-line" title="047054e3-0024-407d-be1b-ee1236f8a0fe.mp4">
+          047054e3-0024-407d-be1b-ee1236f8a0fe.mp4 · t=193.98s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_31_seq/target.mp4" poster="media/cases/recipe_31_seq/target.jpg" style="aspect-ratio:1280/720"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=64.15s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="2">
+      <header>
+        <div><span class="case-id">recipe_31_sim</span><h3>叠加组合 · 2 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1280×720</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">左摇 + 顺时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_31_sim/ref.mp4" poster="media/cases/recipe_31_sim/ref.jpg" style="aspect-ratio:1280/720"></video>
+        <div class="source-line" title="047054e3-0024-407d-be1b-ee1236f8a0fe.mp4">
+          047054e3-0024-407d-be1b-ee1236f8a0fe.mp4 · t=193.98s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_31_sim/target.mp4" poster="media/cases/recipe_31_sim/target.jpg" style="aspect-ratio:1280/720"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=64.15s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="3">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_32</h2></div>
+            <p>小幅 Zoom In + 右摇 + 顺时针滚转</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="3">
+      <header>
+        <div><span class="case-id">recipe_32_seq</span><h3>顺序组合 · 3 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>720×1280</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">小幅 Zoom In + 右摇 + 顺时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_32_seq/ref.mp4" poster="media/cases/recipe_32_seq/ref.jpg" style="aspect-ratio:720/1280"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=1.00s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>commons</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_32_seq/target.mp4" poster="media/cases/recipe_32_seq/target.jpg" style="aspect-ratio:720/1280"></video>
+        <div class="source-line" title="360_Video_of_LCS-15_Christening_and_Launch.webm">
+          360_Video_of_LCS-15_Christening_and_Launch.webm · t=14.49s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="3">
+      <header>
+        <div><span class="case-id">recipe_32_sim</span><h3>叠加组合 · 3 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>720×1280</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">小幅 Zoom In + 右摇 + 顺时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_32_sim/ref.mp4" poster="media/cases/recipe_32_sim/ref.jpg" style="aspect-ratio:720/1280"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=1.00s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>commons</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_32_sim/target.mp4" poster="media/cases/recipe_32_sim/target.jpg" style="aspect-ratio:720/1280"></video>
+        <div class="source-line" title="360_Video_of_LCS-15_Christening_and_Launch.webm">
+          360_Video_of_LCS-15_Christening_and_Launch.webm · t=14.49s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="4">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_33</h2></div>
+            <p>小幅 Zoom In + 逆时针滚转 + 左摇 + 下摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="4">
+      <header>
+        <div><span class="case-id">recipe_33_seq</span><h3>顺序组合 · 4 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>960×960</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">小幅 Zoom In + 逆时针滚转 + 左摇 + 下摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_33_seq/ref.mp4" poster="media/cases/recipe_33_seq/ref.jpg" style="aspect-ratio:960/960"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=309.16s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_33_seq/target.mp4" poster="media/cases/recipe_33_seq/target.jpg" style="aspect-ratio:960/960"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=159.33s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="4">
+      <header>
+        <div><span class="case-id">recipe_33_sim</span><h3>叠加组合 · 4 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>960×960</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">小幅 Zoom In + 逆时针滚转 + 左摇 + 下摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_33_sim/ref.mp4" poster="media/cases/recipe_33_sim/ref.jpg" style="aspect-ratio:960/960"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=309.16s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_33_sim/target.mp4" poster="media/cases/recipe_33_sim/target.jpg" style="aspect-ratio:960/960"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=159.33s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="5">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_34</h2></div>
+            <p>左摇 + 顺时针滚转 + 下摇 + 逆时针滚转 + 上摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="5">
+      <header>
+        <div><span class="case-id">recipe_34_seq</span><h3>顺序组合 · 5 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1104×832</b><b>918,528 px</b></div>
+      </header>
+      <p class="actions">左摇 + 顺时针滚转 + 下摇 + 逆时针滚转 + 上摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_34_seq/ref.mp4" poster="media/cases/recipe_34_seq/ref.jpg" style="aspect-ratio:1104/832"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=64.15s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_34_seq/target.mp4" poster="media/cases/recipe_34_seq/target.jpg" style="aspect-ratio:1104/832"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=238.50s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="5">
+      <header>
+        <div><span class="case-id">recipe_34_sim</span><h3>叠加组合 · 5 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1104×832</b><b>918,528 px</b></div>
+      </header>
+      <p class="actions">左摇 + 顺时针滚转 + 下摇 + 逆时针滚转 + 上摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_34_sim/ref.mp4" poster="media/cases/recipe_34_sim/ref.jpg" style="aspect-ratio:1104/832"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=64.15s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_34_sim/target.mp4" poster="media/cases/recipe_34_sim/target.jpg" style="aspect-ratio:1104/832"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=238.50s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="6">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_35</h2></div>
+            <p>左摇 + 下摇 + 上摇 + 右摇 + 小幅 Zoom In + 顺时针滚转</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="6">
+      <header>
+        <div><span class="case-id">recipe_35_seq</span><h3>顺序组合 · 6 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>832×1104</b><b>918,528 px</b></div>
+      </header>
+      <p class="actions">左摇 + 下摇 + 上摇 + 右摇 + 小幅 Zoom In + 顺时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_35_seq/ref.mp4" poster="media/cases/recipe_35_seq/ref.jpg" style="aspect-ratio:832/1104"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=127.30s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_35_seq/target.mp4" poster="media/cases/recipe_35_seq/target.jpg" style="aspect-ratio:832/1104"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=80.17s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="6">
+      <header>
+        <div><span class="case-id">recipe_35_sim</span><h3>叠加组合 · 6 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>832×1104</b><b>918,528 px</b></div>
+      </header>
+      <p class="actions">左摇 + 下摇 + 上摇 + 右摇 + 小幅 Zoom In + 顺时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_35_sim/ref.mp4" poster="media/cases/recipe_35_sim/ref.jpg" style="aspect-ratio:832/1104"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=127.30s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_35_sim/target.mp4" poster="media/cases/recipe_35_sim/target.jpg" style="aspect-ratio:832/1104"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=80.17s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="2">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_36</h2></div>
+            <p>逆时针滚转 + 右摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="2">
+      <header>
+        <div><span class="case-id">recipe_36_seq</span><h3>顺序组合 · 2 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1440×640</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">逆时针滚转 + 右摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_36_seq/ref.mp4" poster="media/cases/recipe_36_seq/ref.jpg" style="aspect-ratio:1440/640"></video>
+        <div class="source-line" title="0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4">
+          0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4 · t=1.00s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>commons</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_36_seq/target.mp4" poster="media/cases/recipe_36_seq/target.jpg" style="aspect-ratio:1440/640"></video>
+        <div class="source-line" title="360_Video_of_LCS-15_Christening_and_Launch.webm">
+          360_Video_of_LCS-15_Christening_and_Launch.webm · t=41.46s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="2">
+      <header>
+        <div><span class="case-id">recipe_36_sim</span><h3>叠加组合 · 2 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1440×640</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">逆时针滚转 + 右摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_36_sim/ref.mp4" poster="media/cases/recipe_36_sim/ref.jpg" style="aspect-ratio:1440/640"></video>
+        <div class="source-line" title="0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4">
+          0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4 · t=1.00s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>commons</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_36_sim/target.mp4" poster="media/cases/recipe_36_sim/target.jpg" style="aspect-ratio:1440/640"></video>
+        <div class="source-line" title="360_Video_of_LCS-15_Christening_and_Launch.webm">
+          360_Video_of_LCS-15_Christening_and_Launch.webm · t=41.46s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="3">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_37</h2></div>
+            <p>顺时针滚转 + 小幅 Zoom Out + 左摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="3">
+      <header>
+        <div><span class="case-id">recipe_37_seq</span><h3>顺序组合 · 3 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>640×1440</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">顺时针滚转 + 小幅 Zoom Out + 左摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_37_seq/ref.mp4" poster="media/cases/recipe_37_seq/ref.jpg" style="aspect-ratio:640/1440"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=1.00s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_37_seq/target.mp4" poster="media/cases/recipe_37_seq/target.jpg" style="aspect-ratio:640/1440"></video>
+        <div class="source-line" title="05a3f507-7d57-4797-9345-cc2b10894d76.mp4">
+          05a3f507-7d57-4797-9345-cc2b10894d76.mp4 · t=222.99s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="3">
+      <header>
+        <div><span class="case-id">recipe_37_sim</span><h3>叠加组合 · 3 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>640×1440</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">顺时针滚转 + 小幅 Zoom Out + 左摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_37_sim/ref.mp4" poster="media/cases/recipe_37_sim/ref.jpg" style="aspect-ratio:640/1440"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=1.00s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_37_sim/target.mp4" poster="media/cases/recipe_37_sim/target.jpg" style="aspect-ratio:640/1440"></video>
+        <div class="source-line" title="05a3f507-7d57-4797-9345-cc2b10894d76.mp4">
+          05a3f507-7d57-4797-9345-cc2b10894d76.mp4 · t=222.99s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="4">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_38</h2></div>
+            <p>右摇 + 小幅 Zoom In + 左摇 + 下摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="4">
+      <header>
+        <div><span class="case-id">recipe_38_seq</span><h3>顺序组合 · 4 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1344×672</b><b>903,168 px</b></div>
+      </header>
+      <p class="actions">右摇 + 小幅 Zoom In + 左摇 + 下摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>commons</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_38_seq/ref.mp4" poster="media/cases/recipe_38_seq/ref.jpg" style="aspect-ratio:1344/672"></video>
+        <div class="source-line" title="360_Video_of_LCS-15_Christening_and_Launch.webm">
+          360_Video_of_LCS-15_Christening_and_Launch.webm · t=1.00s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_38_seq/target.mp4" poster="media/cases/recipe_38_seq/target.jpg" style="aspect-ratio:1344/672"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=1.00s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="4">
+      <header>
+        <div><span class="case-id">recipe_38_sim</span><h3>叠加组合 · 4 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1344×672</b><b>903,168 px</b></div>
+      </header>
+      <p class="actions">右摇 + 小幅 Zoom In + 左摇 + 下摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>commons</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_38_sim/ref.mp4" poster="media/cases/recipe_38_sim/ref.jpg" style="aspect-ratio:1344/672"></video>
+        <div class="source-line" title="360_Video_of_LCS-15_Christening_and_Launch.webm">
+          360_Video_of_LCS-15_Christening_and_Launch.webm · t=1.00s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_38_sim/target.mp4" poster="media/cases/recipe_38_sim/target.jpg" style="aspect-ratio:1344/672"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=1.00s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="5">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_39</h2></div>
+            <p>上摇 + 小幅 Zoom Out + 顺时针滚转 + 小幅 Zoom In + 左摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="5">
+      <header>
+        <div><span class="case-id">recipe_39_seq</span><h3>顺序组合 · 5 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1072×856</b><b>917,632 px</b></div>
+      </header>
+      <p class="actions">上摇 + 小幅 Zoom Out + 顺时针滚转 + 小幅 Zoom In + 左摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_39_seq/ref.mp4" poster="media/cases/recipe_39_seq/ref.jpg" style="aspect-ratio:1072/856"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=232.12s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_39_seq/target.mp4" poster="media/cases/recipe_39_seq/target.jpg" style="aspect-ratio:1072/856"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=317.67s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="5">
+      <header>
+        <div><span class="case-id">recipe_39_sim</span><h3>叠加组合 · 5 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1072×856</b><b>917,632 px</b></div>
+      </header>
+      <p class="actions">上摇 + 小幅 Zoom Out + 顺时针滚转 + 小幅 Zoom In + 左摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_39_sim/ref.mp4" poster="media/cases/recipe_39_sim/ref.jpg" style="aspect-ratio:1072/856"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=232.12s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_39_sim/target.mp4" poster="media/cases/recipe_39_sim/target.jpg" style="aspect-ratio:1072/856"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=317.67s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="6">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_40</h2></div>
+            <p>上摇 + 左摇 + 小幅 Zoom In + 右摇 + 小幅 Zoom Out + 顺时针滚转</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="6">
+      <header>
+        <div><span class="case-id">recipe_40_seq</span><h3>顺序组合 · 6 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>856×1072</b><b>917,632 px</b></div>
+      </header>
+      <p class="actions">上摇 + 左摇 + 小幅 Zoom In + 右摇 + 小幅 Zoom Out + 顺时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_40_seq/ref.mp4" poster="media/cases/recipe_40_seq/ref.jpg" style="aspect-ratio:856/1072"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=159.33s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>commons</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_40_seq/target.mp4" poster="media/cases/recipe_40_seq/target.jpg" style="aspect-ratio:856/1072"></video>
+        <div class="source-line" title="360_Video_of_LCS-15_Christening_and_Launch.webm">
+          360_Video_of_LCS-15_Christening_and_Launch.webm · t=41.46s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="6">
+      <header>
+        <div><span class="case-id">recipe_40_sim</span><h3>叠加组合 · 6 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>856×1072</b><b>917,632 px</b></div>
+      </header>
+      <p class="actions">上摇 + 左摇 + 小幅 Zoom In + 右摇 + 小幅 Zoom Out + 顺时针滚转</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_40_sim/ref.mp4" poster="media/cases/recipe_40_sim/ref.jpg" style="aspect-ratio:856/1072"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=159.33s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>commons</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_40_sim/target.mp4" poster="media/cases/recipe_40_sim/target.jpg" style="aspect-ratio:856/1072"></video>
+        <div class="source-line" title="360_Video_of_LCS-15_Christening_and_Launch.webm">
+          360_Video_of_LCS-15_Christening_and_Launch.webm · t=41.46s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="2">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY · LEGACY RETAINED</span><h2>Vertigo Roll · 旋转眩晕（旧版合法组合保留）</h2></div>
+            <p>顺时针滚转 + 小幅 Zoom In</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="2">
+      <header>
+        <div><span class="case-id">recipe_41_seq</span><h3>顺序组合 · 2 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1280×720</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">顺时针滚转 + 小幅 Zoom In</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_41_seq/ref.mp4" poster="media/cases/recipe_41_seq/ref.jpg" style="aspect-ratio:1280/720"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=210.38s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_41_seq/target.mp4" poster="media/cases/recipe_41_seq/target.jpg" style="aspect-ratio:1280/720"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=238.50s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="2">
+      <header>
+        <div><span class="case-id">recipe_41_sim</span><h3>叠加组合 · 2 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1280×720</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">顺时针滚转 + 小幅 Zoom In</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_41_sim/ref.mp4" poster="media/cases/recipe_41_sim/ref.jpg" style="aspect-ratio:1280/720"></video>
+        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
+          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=210.38s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_41_sim/target.mp4" poster="media/cases/recipe_41_sim/target.jpg" style="aspect-ratio:1280/720"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=238.50s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="3">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY · LEGACY RETAINED</span><h2>Pan → Zoom → Tilt（旧版 explicit 组合保留）</h2></div>
+            <p>右摇 + 小幅 Zoom In + 上摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="3">
+      <header>
+        <div><span class="case-id">recipe_42_seq</span><h3>顺序组合 · 3 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>720×1280</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">右摇 + 小幅 Zoom In + 上摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_42_seq/ref.mp4" poster="media/cases/recipe_42_seq/ref.jpg" style="aspect-ratio:720/1280"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=317.67s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_42_seq/target.mp4" poster="media/cases/recipe_42_seq/target.jpg" style="aspect-ratio:720/1280"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=253.60s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="3">
+      <header>
+        <div><span class="case-id">recipe_42_sim</span><h3>叠加组合 · 3 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>720×1280</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">右摇 + 小幅 Zoom In + 上摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_42_sim/ref.mp4" poster="media/cases/recipe_42_sim/ref.jpg" style="aspect-ratio:720/1280"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=317.67s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_42_sim/target.mp4" poster="media/cases/recipe_42_sim/target.jpg" style="aspect-ratio:720/1280"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=253.60s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="4">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_43</h2></div>
+            <p>左摇 + 逆时针滚转 + 上摇 + 小幅 Zoom Out</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="4">
+      <header>
+        <div><span class="case-id">recipe_43_seq</span><h3>顺序组合 · 4 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>960×960</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">左摇 + 逆时针滚转 + 上摇 + 小幅 Zoom Out</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_43_seq/ref.mp4" poster="media/cases/recipe_43_seq/ref.jpg" style="aspect-ratio:960/960"></video>
+        <div class="source-line" title="02692940-fd94-4af1-8ebc-577acacc617a.mp4">
+          02692940-fd94-4af1-8ebc-577acacc617a.mp4 · t=15.06s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_43_seq/target.mp4" poster="media/cases/recipe_43_seq/target.jpg" style="aspect-ratio:960/960"></video>
+        <div class="source-line" title="047054e3-0024-407d-be1b-ee1236f8a0fe.mp4">
+          047054e3-0024-407d-be1b-ee1236f8a0fe.mp4 · t=1.00s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="4">
+      <header>
+        <div><span class="case-id">recipe_43_sim</span><h3>叠加组合 · 4 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>960×960</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">左摇 + 逆时针滚转 + 上摇 + 小幅 Zoom Out</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_43_sim/ref.mp4" poster="media/cases/recipe_43_sim/ref.jpg" style="aspect-ratio:960/960"></video>
+        <div class="source-line" title="02692940-fd94-4af1-8ebc-577acacc617a.mp4">
+          02692940-fd94-4af1-8ebc-577acacc617a.mp4 · t=15.06s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_43_sim/target.mp4" poster="media/cases/recipe_43_sim/target.jpg" style="aspect-ratio:960/960"></video>
+        <div class="source-line" title="047054e3-0024-407d-be1b-ee1236f8a0fe.mp4">
+          047054e3-0024-407d-be1b-ee1236f8a0fe.mp4 · t=1.00s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="5">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_44</h2></div>
+            <p>右摇 + 逆时针滚转 + 上摇 + 小幅 Zoom In + 下摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="5">
+      <header>
+        <div><span class="case-id">recipe_44_seq</span><h3>顺序组合 · 5 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1104×832</b><b>918,528 px</b></div>
+      </header>
+      <p class="actions">右摇 + 逆时针滚转 + 上摇 + 小幅 Zoom In + 下摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_44_seq/ref.mp4" poster="media/cases/recipe_44_seq/ref.jpg" style="aspect-ratio:1104/832"></video>
+        <div class="source-line" title="047054e3-0024-407d-be1b-ee1236f8a0fe.mp4">
+          047054e3-0024-407d-be1b-ee1236f8a0fe.mp4 · t=1.00s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_44_seq/target.mp4" poster="media/cases/recipe_44_seq/target.jpg" style="aspect-ratio:1104/832"></video>
+        <div class="source-line" title="02692940-fd94-4af1-8ebc-577acacc617a.mp4">
+          02692940-fd94-4af1-8ebc-577acacc617a.mp4 · t=29.12s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="5">
+      <header>
+        <div><span class="case-id">recipe_44_sim</span><h3>叠加组合 · 5 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>1104×832</b><b>918,528 px</b></div>
+      </header>
+      <p class="actions">右摇 + 逆时针滚转 + 上摇 + 小幅 Zoom In + 下摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_44_sim/ref.mp4" poster="media/cases/recipe_44_sim/ref.jpg" style="aspect-ratio:1104/832"></video>
+        <div class="source-line" title="047054e3-0024-407d-be1b-ee1236f8a0fe.mp4">
+          047054e3-0024-407d-be1b-ee1236f8a0fe.mp4 · t=1.00s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_44_sim/target.mp4" poster="media/cases/recipe_44_sim/target.jpg" style="aspect-ratio:1104/832"></video>
+        <div class="source-line" title="02692940-fd94-4af1-8ebc-577acacc617a.mp4">
+          02692940-fd94-4af1-8ebc-577acacc617a.mp4 · t=29.12s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+        <section class="recipe" data-recipe data-action-count="6">
+          <div class="recipe-head">
+            <div><span>COMBINATION FAMILY</span><h2>recipe_45</h2></div>
+            <p>下摇 + 右摇 + 小幅 Zoom In + 顺时针滚转 + 小幅 Zoom Out + 左摇</p>
+          </div>
+          
+    <article class="case-card sequential" data-mode="sequential" data-actions="6">
+      <header>
+        <div><span class="case-id">recipe_45_seq</span><h3>顺序组合 · 6 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>832×1104</b><b>918,528 px</b></div>
+      </header>
+      <p class="actions">下摇 + 右摇 + 小幅 Zoom In + 顺时针滚转 + 小幅 Zoom Out + 左摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_45_seq/ref.mp4" poster="media/cases/recipe_45_seq/ref.jpg" style="aspect-ratio:832/1104"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=232.12s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_45_seq/target.mp4" poster="media/cases/recipe_45_seq/target.jpg" style="aspect-ratio:832/1104"></video>
+        <div class="source-line" title="047054e3-0024-407d-be1b-ee1236f8a0fe.mp4">
+          047054e3-0024-407d-be1b-ee1236f8a0fe.mp4 · t=193.98s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card simultaneous" data-mode="simultaneous" data-actions="6">
+      <header>
+        <div><span class="case-id">recipe_45_sim</span><h3>叠加组合 · 6 动作</h3></div>
+        <div class="badges"><b>15.00s</b><b>832×1104</b><b>918,528 px</b></div>
+      </header>
+      <p class="actions">下摇 + 右摇 + 小幅 Zoom In + 顺时针滚转 + 小幅 Zoom Out + 左摇</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_45_sim/ref.mp4" poster="media/cases/recipe_45_sim/ref.jpg" style="aspect-ratio:832/1104"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=232.12s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/recipe_45_sim/target.mp4" poster="media/cases/recipe_45_sim/target.jpg" style="aspect-ratio:832/1104"></video>
+        <div class="source-line" title="047054e3-0024-407d-be1b-ee1236f8a0fe.mp4">
+          047054e3-0024-407d-be1b-ee1236f8a0fe.mp4 · t=193.98s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+        </section>
+  
+      <section class="special-section" id="specials">
+        <div class="section-title"><span>STANDALONE SPECIALS</span><h2>小行星 5 条 + 兔子洞 5 条</h2>
+        <p>按要求不与任何 A 类动作组合；两种特殊投影合计 10 个 case。</p></div>
+        
+    <article class="case-card special" data-mode="standalone" data-actions="0">
+      <header>
+        <div><span class="case-id">tiny_planet_01</span><h3>小行星（不组合）</h3></div>
+        <div class="badges"><b>15.00s</b><b>1280×720</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">特殊球极投影；不叠加 A 类动作</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>commons</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/tiny_planet_01/ref.mp4" poster="media/cases/tiny_planet_01/ref.jpg" style="aspect-ratio:1280/720"></video>
+        <div class="source-line" title="360_Video_of_LCS-15_Christening_and_Launch.webm">
+          360_Video_of_LCS-15_Christening_and_Launch.webm · t=54.95s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/tiny_planet_01/target.mp4" poster="media/cases/tiny_planet_01/target.jpg" style="aspect-ratio:1280/720"></video>
+        <div class="source-line" title="02692940-fd94-4af1-8ebc-577acacc617a.mp4">
+          02692940-fd94-4af1-8ebc-577acacc617a.mp4 · t=15.06s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card special" data-mode="standalone" data-actions="0">
+      <header>
+        <div><span class="case-id">tiny_planet_02</span><h3>小行星（不组合）</h3></div>
+        <div class="badges"><b>15.00s</b><b>720×1280</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">特殊球极投影；不叠加 A 类动作</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/tiny_planet_02/ref.mp4" poster="media/cases/tiny_planet_02/ref.jpg" style="aspect-ratio:720/1280"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=127.30s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>commons</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/tiny_planet_02/target.mp4" poster="media/cases/tiny_planet_02/target.jpg" style="aspect-ratio:720/1280"></video>
+        <div class="source-line" title="360_Video_of_LCS-15_Christening_and_Launch.webm">
+          360_Video_of_LCS-15_Christening_and_Launch.webm · t=54.95s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card special" data-mode="standalone" data-actions="0">
+      <header>
+        <div><span class="case-id">tiny_planet_03</span><h3>小行星（不组合）</h3></div>
+        <div class="badges"><b>15.00s</b><b>960×960</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">特殊球极投影；不叠加 A 类动作</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/tiny_planet_03/ref.mp4" poster="media/cases/tiny_planet_03/ref.jpg" style="aspect-ratio:960/960"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=238.50s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/tiny_planet_03/target.mp4" poster="media/cases/tiny_planet_03/target.jpg" style="aspect-ratio:960/960"></video>
+        <div class="source-line" title="05a3f507-7d57-4797-9345-cc2b10894d76.mp4">
+          05a3f507-7d57-4797-9345-cc2b10894d76.mp4 · t=222.99s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card special" data-mode="standalone" data-actions="0">
+      <header>
+        <div><span class="case-id">tiny_planet_04</span><h3>小行星（不组合）</h3></div>
+        <div class="badges"><b>15.00s</b><b>1104×832</b><b>918,528 px</b></div>
+      </header>
+      <p class="actions">特殊球极投影；不叠加 A 类动作</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/tiny_planet_04/ref.mp4" poster="media/cases/tiny_planet_04/ref.jpg" style="aspect-ratio:1104/832"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=238.50s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/tiny_planet_04/target.mp4" poster="media/cases/tiny_planet_04/target.jpg" style="aspect-ratio:1104/832"></video>
+        <div class="source-line" title="02692940-fd94-4af1-8ebc-577acacc617a.mp4">
+          02692940-fd94-4af1-8ebc-577acacc617a.mp4 · t=29.12s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card special" data-mode="standalone" data-actions="0">
+      <header>
+        <div><span class="case-id">tiny_planet_05</span><h3>小行星（不组合）</h3></div>
+        <div class="badges"><b>15.00s</b><b>832×1104</b><b>918,528 px</b></div>
+      </header>
+      <p class="actions">特殊球极投影；不叠加 A 类动作</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/tiny_planet_05/ref.mp4" poster="media/cases/tiny_planet_05/ref.jpg" style="aspect-ratio:832/1104"></video>
+        <div class="source-line" title="047054e3-0024-407d-be1b-ee1236f8a0fe.mp4">
+          047054e3-0024-407d-be1b-ee1236f8a0fe.mp4 · t=1.00s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/tiny_planet_05/target.mp4" poster="media/cases/tiny_planet_05/target.jpg" style="aspect-ratio:832/1104"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=309.16s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card special" data-mode="standalone" data-actions="0">
+      <header>
+        <div><span class="case-id">rabbit_hole_01</span><h3>兔子洞（不组合）</h3></div>
+        <div class="badges"><b>15.00s</b><b>1440×640</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">特殊球极投影；不叠加 A 类动作</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/rabbit_hole_01/ref.mp4" poster="media/cases/rabbit_hole_01/ref.jpg" style="aspect-ratio:1440/640"></video>
+        <div class="source-line" title="0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4">
+          0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4 · t=316.52s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/rabbit_hole_01/target.mp4" poster="media/cases/rabbit_hole_01/target.jpg" style="aspect-ratio:1440/640"></video>
+        <div class="source-line" title="02692940-fd94-4af1-8ebc-577acacc617a.mp4">
+          02692940-fd94-4af1-8ebc-577acacc617a.mp4 · t=29.12s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card special" data-mode="standalone" data-actions="0">
+      <header>
+        <div><span class="case-id">rabbit_hole_02</span><h3>兔子洞（不组合）</h3></div>
+        <div class="badges"><b>15.00s</b><b>640×1440</b><b>921,600 px</b></div>
+      </header>
+      <p class="actions">特殊球极投影；不叠加 A 类动作</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/rabbit_hole_02/ref.mp4" poster="media/cases/rabbit_hole_02/ref.jpg" style="aspect-ratio:640/1440"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=1.00s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>commons</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/rabbit_hole_02/target.mp4" poster="media/cases/rabbit_hole_02/target.jpg" style="aspect-ratio:640/1440"></video>
+        <div class="source-line" title="360_Video_of_LCS-15_Christening_and_Launch.webm">
+          360_Video_of_LCS-15_Christening_and_Launch.webm · t=14.49s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card special" data-mode="standalone" data-actions="0">
+      <header>
+        <div><span class="case-id">rabbit_hole_03</span><h3>兔子洞（不组合）</h3></div>
+        <div class="badges"><b>15.00s</b><b>1344×672</b><b>903,168 px</b></div>
+      </header>
+      <p class="actions">特殊球极投影；不叠加 A 类动作</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/rabbit_hole_03/ref.mp4" poster="media/cases/rabbit_hole_03/ref.jpg" style="aspect-ratio:1344/672"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=64.15s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/rabbit_hole_03/target.mp4" poster="media/cases/rabbit_hole_03/target.jpg" style="aspect-ratio:1344/672"></video>
+        <div class="source-line" title="047054e3-0024-407d-be1b-ee1236f8a0fe.mp4">
+          047054e3-0024-407d-be1b-ee1236f8a0fe.mp4 · t=97.49s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card special" data-mode="standalone" data-actions="0">
+      <header>
+        <div><span class="case-id">rabbit_hole_04</span><h3>兔子洞（不组合）</h3></div>
+        <div class="badges"><b>15.00s</b><b>1072×856</b><b>917,632 px</b></div>
+      </header>
+      <p class="actions">特殊球极投影；不叠加 A 类动作</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/rabbit_hole_04/ref.mp4" poster="media/cases/rabbit_hole_04/ref.jpg" style="aspect-ratio:1072/856"></video>
+        <div class="source-line" title="03498a23-90d7-4428-bd12-45f88a323419.mp4">
+          03498a23-90d7-4428-bd12-45f88a323419.mp4 · t=159.33s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/rabbit_hole_04/target.mp4" poster="media/cases/rabbit_hole_04/target.jpg" style="aspect-ratio:1072/856"></video>
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=78.04s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+    <article class="case-card special" data-mode="standalone" data-actions="0">
+      <header>
+        <div><span class="case-id">rabbit_hole_05</span><h3>兔子洞（不组合）</h3></div>
+        <div class="badges"><b>15.00s</b><b>856×1072</b><b>917,632 px</b></div>
+      </header>
+      <p class="actions">特殊球极投影；不叠加 A 类动作</p>
+      <div class="video-pair" data-sync-pair>
+        
+      <figure class="video-panel">
+        <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/rabbit_hole_05/ref.mp4" poster="media/cases/rabbit_hole_05/ref.jpg" style="aspect-ratio:856/1072"></video>
+        <div class="source-line" title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">
+          06eeb914-a805-479e-be3f-8157c95190b5.mp4 · t=1.00s
+        </div>
+      </figure>
+        
+      <figure class="video-panel">
+        <figcaption><b>TARGET · 目标场景</b><span>360x</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/rabbit_hole_05/target.mp4" poster="media/cases/rabbit_hole_05/target.jpg" style="aspect-ratio:856/1072"></video>
+        <div class="source-line" title="0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4">
+          0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4 · t=237.64s
+        </div>
+      </figure>
+      </div>
+      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
+    </article>
+      </section>
+  <section class="dataset" id="sources"><div class="section-title"><span>SOURCE SCREENING LEDGER</span><h2>固定机位动态素材筛选</h2><p>算法指标与人工内容复核同时通过才会进入生成池；表中“可用窗口”都是完整 15 秒。</p></div>
+    <table><thead><tr><th>数据集</th><th>文件</th><th>原始规格</th><th>可用窗口</th><th>窗口指标均值</th><th>决定</th></tr></thead><tbody>
+          <tr class="pass">
+            <td><b>360x</b></td>
+            <td title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4</td>
+            <td>5760×2880 · 25.00fps</td>
+            <td>5</td>
+            <td>dynamic 0.0201 · global 0.063px</td>
+            <td><b>保留</b><small>manual_and_metric_checks_passed</small></td>
+          </tr>
+          <tr class="reject">
+            <td><b>360x</b></td>
+            <td title="02594cd1-c13c-4fbe-a804-f8d8c72ca409.mp4">02594cd1-c13c-4fbe-a804-f8d8c72ca409.mp4</td>
+            <td>5760×2880 · 25.00fps</td>
+            <td>0</td>
+            <td>无合格 15 秒窗口</td>
+            <td><b>剔除</b><small>manual_content_reject</small></td>
+          </tr>
+          <tr class="pass">
+            <td><b>360x</b></td>
+            <td title="02692940-fd94-4af1-8ebc-577acacc617a.mp4">02692940-fd94-4af1-8ebc-577acacc617a.mp4</td>
+            <td>5760×2880 · 25.00fps</td>
+            <td>2</td>
+            <td>dynamic 0.3756 · global 1.354px</td>
+            <td><b>保留</b><small>manual_and_metric_checks_passed</small></td>
+          </tr>
+          <tr class="pass">
+            <td><b>360x</b></td>
+            <td title="03498a23-90d7-4428-bd12-45f88a323419.mp4">03498a23-90d7-4428-bd12-45f88a323419.mp4</td>
+            <td>5760×2880 · 29.97fps</td>
+            <td>5</td>
+            <td>dynamic 0.1146 · global 0.163px</td>
+            <td><b>保留</b><small>manual_and_metric_checks_passed</small></td>
+          </tr>
+          <tr class="reject">
+            <td><b>360x</b></td>
+            <td title="034f05a8-6069-4756-8a97-d6b8bd5aceb6.mp4">034f05a8-6069-4756-8a97-d6b8bd5aceb6.mp4</td>
+            <td>5760×2880 · 29.97fps</td>
+            <td>0</td>
+            <td>无合格 15 秒窗口</td>
+            <td><b>剔除</b><small>manual_content_reject</small></td>
+          </tr>
+          <tr class="pass">
+            <td><b>360x</b></td>
+            <td title="047054e3-0024-407d-be1b-ee1236f8a0fe.mp4">047054e3-0024-407d-be1b-ee1236f8a0fe.mp4</td>
+            <td>5760×2880 · 25.00fps</td>
+            <td>5</td>
+            <td>dynamic 0.0437 · global 0.034px</td>
+            <td><b>保留</b><small>manual_and_metric_checks_passed</small></td>
+          </tr>
+          <tr class="pass">
+            <td><b>360x</b></td>
+            <td title="0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4">0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4</td>
+            <td>5760×2880 · 25.00fps</td>
+            <td>5</td>
+            <td>dynamic 0.1221 · global 0.133px</td>
+            <td><b>保留</b><small>manual_and_metric_checks_passed</small></td>
+          </tr>
+          <tr class="pass">
+            <td><b>360x</b></td>
+            <td title="05a3f507-7d57-4797-9345-cc2b10894d76.mp4">05a3f507-7d57-4797-9345-cc2b10894d76.mp4</td>
+            <td>5760×2880 · 29.97fps</td>
+            <td>5</td>
+            <td>dynamic 0.0871 · global 0.157px</td>
+            <td><b>保留</b><small>manual_and_metric_checks_passed</small></td>
+          </tr>
+          <tr class="pass">
+            <td><b>360x</b></td>
+            <td title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4</td>
+            <td>5760×2880 · 25.00fps</td>
+            <td>5</td>
+            <td>dynamic 0.0437 · global 0.026px</td>
+            <td><b>保留</b><small>manual_and_metric_checks_passed</small></td>
+          </tr>
+          <tr class="pass">
+            <td><b>360x</b></td>
+            <td title="06eeb914-a805-479e-be3f-8157c95190b5.mp4">06eeb914-a805-479e-be3f-8157c95190b5.mp4</td>
+            <td>5760×2880 · 25.00fps</td>
+            <td>5</td>
+            <td>dynamic 0.0137 · global 0.017px</td>
+            <td><b>保留</b><small>manual_and_metric_checks_passed</small></td>
+          </tr>
+          <tr class="pass">
+            <td><b>commons</b></td>
+            <td title="360_Video_of_LCS-15_Christening_and_Launch.webm">360_Video_of_LCS-15_Christening_and_Launch.webm</td>
+            <td>3840×1920 · 23.98fps</td>
+            <td>5</td>
+            <td>dynamic 0.0594 · global 0.079px</td>
+            <td><b>保留</b><small>manual_and_metric_checks_passed</small></td>
+          </tr></tbody></table>
+  </section>
+</main>
+<footer>代码、两份说明文档、逐 case 参数、素材筛选台账与验证报告均随公开仓库发布。网页直接播放生产 MP4，不使用 GIF，也不做浏览器端二次压缩。</footer>
+<script>
+  // 默认展示全部内容；过滤只在用户主动点击后生效，不会偷偷隐藏任何 ref/target。
+  document.querySelectorAll('[data-filter]').forEach(button => button.addEventListener('click', () => {
+    document.querySelectorAll('[data-filter]').forEach(item => item.classList.toggle('active', item === button));
+    const wanted = button.dataset.filter;
+    document.querySelectorAll('[data-recipe]').forEach(section => { section.hidden = wanted !== 'all' && section.dataset.actionCount !== wanted; });
+  }));
+
+  // 双向同步：播放、暂停、seek、倍速都镜像。0.08 秒容差避免浏览器解码抖动造成死循环。
+  document.querySelectorAll('[data-sync-pair]').forEach(pair => {
+    const videos = [...pair.querySelectorAll('video')];
+    let syncing = false;
+    const mirror = (source, eventName) => {
+      if (syncing) return; syncing = true;
+      videos.filter(video => video !== source).forEach(video => {
+        if (Math.abs(video.currentTime - source.currentTime) > 0.08) video.currentTime = source.currentTime;
+        video.playbackRate = source.playbackRate;
+        if (eventName === 'play') video.play().catch(() => {});
+        if (eventName === 'pause') video.pause();
+      });
+      requestAnimationFrame(() => syncing = false);
+    };
+    videos.forEach(video => ['play','pause','seeking','ratechange'].forEach(name => video.addEventListener(name, () => mirror(video, name))));
+  });
+</script>
+</body></html>

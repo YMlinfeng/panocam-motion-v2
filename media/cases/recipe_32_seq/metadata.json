@@ -1,0 +1,157 @@
+{
+  "case": {
+    "id": "recipe_32_seq",
+    "kind": "combo",
+    "mode": "sequential",
+    "recipe_id": "recipe_32",
+    "display_name": null,
+    "origin": "deterministic_random_expansion",
+    "action_count": 3,
+    "actions": [
+      {
+        "type": "zoom_in",
+        "amplitude_deg": 9.636,
+        "speed_multiplier": 1.313,
+        "phase": 0.912,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      },
+      {
+        "type": "pan_right",
+        "amplitude_deg": 38.38,
+        "speed_multiplier": 1.23,
+        "phase": 0.8123,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      },
+      {
+        "type": "roll_cw",
+        "amplitude_deg": 19.361,
+        "speed_multiplier": 1.146,
+        "phase": 0.9562,
+        "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位"
+      }
+    ],
+    "resolution": [
+      720,
+      1280
+    ],
+    "duration_seconds": 15.0,
+    "fps": 20,
+    "ref": {
+      "dataset": "360x",
+      "file": "019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4",
+      "start_seconds": 1.0,
+      "dynamic_score": 0.026203,
+      "global_flow_px": 0.060034,
+      "coherent_shift_px": 0.025047,
+      "license": "CC BY-NC-SA 4.0",
+      "source_url": "https://x360dataset.github.io/"
+    },
+    "target": {
+      "dataset": "commons",
+      "file": "360_Video_of_LCS-15_Christening_and_Launch.webm",
+      "start_seconds": 14.486,
+      "dynamic_score": 0.020012,
+      "global_flow_px": 0.057289,
+      "coherent_shift_px": 0.021341,
+      "license": "CC BY 3.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:360_Video_of_LCS-15_Christening_and_Launch.webm"
+    },
+    "trajectory_report": {
+      "frame_count": 300,
+      "base_hfov_deg": 63.088285,
+      "yaw_range_deg": [
+        0.0,
+        38.380001
+      ],
+      "pitch_range_deg": [
+        0.0,
+        0.0
+      ],
+      "roll_range_deg": [
+        0.0,
+        19.361
+      ],
+      "hfov_range_deg": [
+        53.452286,
+        63.088284
+      ],
+      "axis_scales": {
+        "yaw": 1.0,
+        "pitch": 1.0,
+        "roll": 1.0,
+        "zoom": 1.0,
+        "seam": 1.0
+      },
+      "max_abs_sampled_longitude_deg": 76.041046,
+      "seam_longitude_limit_deg": 155.0,
+      "seam_safe": true
+    }
+  },
+  "rendered": {
+    "ref": {
+      "case_id": "recipe_32_seq",
+      "side": "ref",
+      "path": "site/media/cases/recipe_32_seq/ref.mp4",
+      "width": 720,
+      "height": 1280,
+      "pixels": 921600,
+      "fps": 20.0,
+      "duration_seconds": 15.0,
+      "bytes": 4734852,
+      "sha256": "31329b7d2a282603e8e2d0014682e050d39cb0d25511622d25ac9bc4d33f9123",
+      "poster": "site/media/cases/recipe_32_seq/ref.jpg"
+    },
+    "target": {
+      "case_id": "recipe_32_seq",
+      "side": "target",
+      "path": "site/media/cases/recipe_32_seq/target.mp4",
+      "width": 720,
+      "height": 1280,
+      "pixels": 921600,
+      "fps": 20.0,
+      "duration_seconds": 15.0,
+      "bytes": 2158572,
+      "sha256": "0990ed6bfe8b0d4a2d4a309f8058579373362e58d59d8f5f33a2f5ea56b4a57b",
+      "poster": "site/media/cases/recipe_32_seq/target.jpg"
+    },
+    "codec": {
+      "codec": "libx264",
+      "crf": 22,
+      "preset": "medium",
+      "maxrate": "2400k",
+      "bufsize": "4800k",
+      "pixel_format": "yuv420p",
+      "ffmpeg_threads": 2
+    }
+  },
+  "trajectory_report": {
+    "frame_count": 300,
+    "base_hfov_deg": 63.088285,
+    "yaw_range_deg": [
+      0.0,
+      38.380001
+    ],
+    "pitch_range_deg": [
+      0.0,
+      0.0
+    ],
+    "roll_range_deg": [
+      0.0,
+      19.361
+    ],
+    "hfov_range_deg": [
+      53.452286,
+      63.088284
+    ],
+    "axis_scales": {
+      "yaw": 1.0,
+      "pitch": 1.0,
+      "roll": 1.0,
+      "zoom": 1.0,
+      "seam": 1.0
+    },
+    "max_abs_sampled_longitude_deg": 76.041046,
+    "seam_longitude_limit_deg": 155.0,
+    "seam_safe": true
+  }
+}
