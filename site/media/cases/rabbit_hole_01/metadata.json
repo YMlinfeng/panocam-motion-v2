@@ -7,22 +7,22 @@
     "action_count": 2,
     "actions": [
       {
-        "type": "roll_cw",
-        "amplitude_deg": 244.669,
+        "type": "roll_ccw",
+        "amplitude_deg": 384.464,
         "start_seconds": 0.0,
         "end_seconds": 15.0,
         "duration_seconds": 15.0,
         "profile": "linear",
-        "speed_multiplier": 0.68
+        "speed_multiplier": 1.068
       },
       {
         "type": "zoom_in",
-        "amplitude_percent": 0.03314,
+        "amplitude_percent": 0.05951,
         "start_seconds": 0.0,
         "end_seconds": 15.0,
         "duration_seconds": 15.0,
         "profile": "sine_breathing",
-        "speed_multiplier": 1.711
+        "speed_multiplier": 1.317
       }
     ],
     "showcase_tags": [
@@ -38,57 +38,59 @@
     "fps": 20,
     "ref": {
       "dataset": "360x",
-      "file": "05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4",
-      "start_seconds": 120.646,
-      "dynamic_score": 0.013592,
-      "global_flow_px": 0.01329,
-      "coherent_shift_px": 0.044546,
+      "file": "05a3f507-7d57-4797-9345-cc2b10894d76.mp4",
+      "start_seconds": 85.566,
+      "dynamic_score": 0.094608,
+      "global_flow_px": 0.064042,
+      "coherent_shift_px": 0.048024,
       "license": "CC BY-NC-SA 4.0",
       "source_url": "https://x360dataset.github.io/",
       "allowed_sides": [
         "ref"
       ],
       "privacy_face_blurred": true,
+      "synthetic_or_3d": false,
       "scene_policy": "dynamic_fixed_camera_window"
     },
     "target": {
       "dataset": "commons",
-      "file": "360_Video_of_LCS-15_Christening_and_Launch.webm",
-      "start_seconds": 1.0,
-      "dynamic_score": 0.00909,
-      "global_flow_px": 0.024096,
-      "coherent_shift_px": 0.014753,
-      "license": "CC BY 3.0",
-      "source_url": "https://commons.wikimedia.org/wiki/File:360_Video_of_LCS-15_Christening_and_Launch.webm",
+      "file": "Worlds_First_Live_360_Rocket_Launch-_Orbital_ATK_CRS-7.webm",
+      "start_seconds": 221.552,
+      "dynamic_score": 0.000843,
+      "global_flow_px": 0.008663,
+      "coherent_shift_px": 0.016998,
+      "license": "Public domain (NASA)",
+      "source_url": "https://commons.wikimedia.org/wiki/File:World%27s_First_Live_360_Rocket_Launch-_Orbital_ATK_CRS-7.webm",
       "allowed_sides": [
         "target"
       ],
       "privacy_face_blurred": false,
-      "scene_policy": "dynamic_fixed_camera_window"
+      "synthetic_or_3d": false,
+      "scene_policy": "static_scene_fixed_camera_window"
     },
     "projection_parameters": {
       "stereographic_scale": 0.92,
       "seam_orientation_deg": -144.0,
-      "roll_direction": "roll_cw",
-      "roll_total_deg": 244.669,
-      "zoom_percent": 0.03314,
-      "zoom_cycles": 1.711,
-      "zoom_phase_radians": 4.033772,
+      "roll_direction": "roll_ccw",
+      "roll_total_deg": 384.464,
+      "zoom_percent": 0.05951,
+      "zoom_cycles": 1.317,
+      "zoom_phase_radians": 0.433821,
       "note": "特殊投影使用完整 360°，并叠加持续滚转与轻微呼吸 Zoom"
     },
     "trajectory_report": {
       "frame_count": 300,
       "seam_safe": null,
-      "roll_total_deg": 244.669,
-      "roll_speed_deg_per_second": 16.311267,
+      "roll_total_deg": 384.464,
+      "roll_speed_deg_per_second": 25.630933,
       "zoom_scale_range": [
-        0.96686,
-        1.03314
+        0.94049,
+        1.05951
       ],
       "speed": {
         "continuous_motion": true,
         "max_stationary_run_frames": 0,
-        "median_deg_per_second": 16.311267
+        "median_deg_per_second": 25.630933
       },
       "note": "全 360° 特殊投影无法像普通透视视角一样完全排除 ERP 接缝"
     }
@@ -103,8 +105,8 @@
       "pixels": 921600,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 4707068,
-      "sha256": "fb886da8fe92af2fc1ef008b92d463de63fdec4c9fbe92eb781525d1a255cb22",
+      "bytes": 4711601,
+      "sha256": "d5858d96cfdb544263799fe310925be80ac547277d7a8fdd62186489cc20bfeb",
       "poster": "site/media/cases/rabbit_hole_01/ref.jpg"
     },
     "target": {
@@ -116,8 +118,8 @@
       "pixels": 921600,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 4280416,
-      "sha256": "7342d17269d68a38093336ebe554e0bf87006a4fe29b2af7303f77f2b37e9412",
+      "bytes": 4732218,
+      "sha256": "b8ad63bf46d9638bcc17149813b23a438e3309ef1af457e47fbb07e9e399fdd2",
       "poster": "site/media/cases/rabbit_hole_01/target.jpg"
     },
     "codec": {
@@ -133,16 +135,16 @@
   "trajectory_report": {
     "frame_count": 300,
     "seam_safe": null,
-    "roll_total_deg": 244.669,
-    "roll_speed_deg_per_second": 16.311267,
+    "roll_total_deg": 384.464,
+    "roll_speed_deg_per_second": 25.630933,
     "zoom_scale_range": [
-      0.96686,
-      1.03314
+      0.94049,
+      1.05951
     ],
     "speed": {
       "continuous_motion": true,
       "max_stationary_run_frames": 0,
-      "median_deg_per_second": 16.311267
+      "median_deg_per_second": 25.630933
     },
     "note": "全 360° 特殊投影无法像普通透视视角一样完全排除 ERP 接缝"
   }

@@ -7,22 +7,22 @@
     "action_count": 2,
     "actions": [
       {
-        "type": "roll_ccw",
-        "amplitude_deg": 427.898,
+        "type": "roll_cw",
+        "amplitude_deg": 443.588,
         "start_seconds": 0.0,
         "end_seconds": 15.0,
         "duration_seconds": 15.0,
         "profile": "linear",
-        "speed_multiplier": 1.189
+        "speed_multiplier": 1.232
       },
       {
         "type": "zoom_out",
-        "amplitude_percent": 0.06357,
+        "amplitude_percent": 0.04907,
         "start_seconds": 0.0,
         "end_seconds": 15.0,
         "duration_seconds": 15.0,
         "profile": "sine_breathing",
-        "speed_multiplier": 1.76
+        "speed_multiplier": 1.883
       }
     ],
     "showcase_tags": [
@@ -39,56 +39,58 @@
     "ref": {
       "dataset": "360x",
       "file": "047054e3-0024-407d-be1b-ee1236f8a0fe.mp4",
-      "start_seconds": 166.411,
-      "dynamic_score": 0.037067,
-      "global_flow_px": 0.038432,
-      "coherent_shift_px": 0.021495,
+      "start_seconds": 1.0,
+      "dynamic_score": 0.055092,
+      "global_flow_px": 0.035522,
+      "coherent_shift_px": 0.021607,
       "license": "CC BY-NC-SA 4.0",
       "source_url": "https://x360dataset.github.io/",
       "allowed_sides": [
         "ref"
       ],
       "privacy_face_blurred": true,
+      "synthetic_or_3d": false,
       "scene_policy": "dynamic_fixed_camera_window"
     },
     "target": {
       "dataset": "commons",
       "file": "360VR_Lotte_Tower_Grand_Opening_Fireworks_South_Korea.webm",
-      "start_seconds": 207.592,
-      "dynamic_score": 0.010906,
-      "global_flow_px": 0.015181,
-      "coherent_shift_px": 0.048095,
+      "start_seconds": 414.184,
+      "dynamic_score": 0.015007,
+      "global_flow_px": 0.017955,
+      "coherent_shift_px": 0.032603,
       "license": "CC BY 3.0",
       "source_url": "https://commons.wikimedia.org/wiki/File:360VR_Lotte_Tower_Grand_Opening_Fireworks(South_korea).webm",
       "allowed_sides": [
         "target"
       ],
       "privacy_face_blurred": false,
+      "synthetic_or_3d": false,
       "scene_policy": "dynamic_fixed_camera_window"
     },
     "projection_parameters": {
       "stereographic_scale": 1.0,
       "seam_orientation_deg": 0.0,
-      "roll_direction": "roll_ccw",
-      "roll_total_deg": 427.898,
-      "zoom_percent": 0.06357,
-      "zoom_cycles": 1.76,
-      "zoom_phase_radians": 4.359977,
+      "roll_direction": "roll_cw",
+      "roll_total_deg": 443.588,
+      "zoom_percent": 0.04907,
+      "zoom_cycles": 1.883,
+      "zoom_phase_radians": 2.821307,
       "note": "特殊投影使用完整 360°，并叠加持续滚转与轻微呼吸 Zoom"
     },
     "trajectory_report": {
       "frame_count": 300,
       "seam_safe": null,
-      "roll_total_deg": 427.898,
-      "roll_speed_deg_per_second": 28.526533,
+      "roll_total_deg": 443.588,
+      "roll_speed_deg_per_second": 29.572533,
       "zoom_scale_range": [
-        0.93643,
-        1.06357
+        0.95093,
+        1.04907
       ],
       "speed": {
         "continuous_motion": true,
         "max_stationary_run_frames": 0,
-        "median_deg_per_second": 28.526533
+        "median_deg_per_second": 29.572533
       },
       "note": "全 360° 特殊投影无法像普通透视视角一样完全排除 ERP 接缝"
     }
@@ -103,8 +105,8 @@
       "pixels": 921600,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 4732228,
-      "sha256": "184685e94d1768438c9864ef8051e284e076288e543c541c9e3903280614e96e",
+      "bytes": 4738853,
+      "sha256": "c5b272c4bf9f70bd3e49c6b303404ced938c9f08608a27e0a21c49cfa66f17d0",
       "poster": "site/media/cases/tiny_planet_03/ref.jpg"
     },
     "target": {
@@ -116,8 +118,8 @@
       "pixels": 921600,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 4739490,
-      "sha256": "70fd30b71450d81747f49abb2ef5bfb7cebbb08d576166b563acac8b6ac53efb",
+      "bytes": 4730440,
+      "sha256": "287f93a944e0ed2ee508e7c601a4ed405952a6ed2afeaa303cff5e64c5ca942a",
       "poster": "site/media/cases/tiny_planet_03/target.jpg"
     },
     "codec": {
@@ -133,16 +135,16 @@
   "trajectory_report": {
     "frame_count": 300,
     "seam_safe": null,
-    "roll_total_deg": 427.898,
-    "roll_speed_deg_per_second": 28.526533,
+    "roll_total_deg": 443.588,
+    "roll_speed_deg_per_second": 29.572533,
     "zoom_scale_range": [
-      0.93643,
-      1.06357
+      0.95093,
+      1.04907
     ],
     "speed": {
       "continuous_motion": true,
       "max_stationary_run_frames": 0,
-      "median_deg_per_second": 28.526533
+      "median_deg_per_second": 29.572533
     },
     "note": "全 360° 特殊投影无法像普通透视视角一样完全排除 ERP 接缝"
   }

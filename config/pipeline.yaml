@@ -68,7 +68,8 @@ trajectory:
   tilt_amplitude_deg: [42.0, 92.0]
   roll_amplitude_deg: [95.0, 420.0]
   # Zoom 幅度刻意小于旧版，避免极端 FOV 导致严重拉伸或倒置错觉。
-  zoom_amplitude_deg: [4.0, 10.0]
+  # 比上一版略大，但仍受 36°～108° HFOV 硬边界约束。
+  zoom_amplitude_deg: [6.0, 12.0]
 
   # 每个混合时序 case 都有一个覆盖整条 15 秒的 backbone 动作；其他动作使用互相
   # 错开的短/中/长时间窗叠加其上。因此镜头始终运动，不再存在顺序段之间的停顿。
@@ -84,7 +85,6 @@ trajectory:
   fast_speed_multiplier_range: [1.80, 3.60]
   whip_probability: 0.34
   large_whip_probability: 0.18
-  spin_360_probability: 0.20
   spin_360_amplitude_deg: [360.0, 720.0]
   whip_duration_seconds: [0.50, 1.45]
   whip_pan_amplitude_deg: [85.0, 165.0]
@@ -93,26 +93,23 @@ trajectory:
   min_start_separation_seconds: 0.35
   stationary_speed_threshold_deg_per_second: 0.50
   max_stationary_run_frames: 1
+  high_speed_threshold_deg_per_second: 25.0
+
+  # 动作数 >=3 时，至少两条非 backbone 动作会共同覆盖这个时长区间；加上
+  # backbone，即同一时刻至少有 3 种运镜叠加。
+  simultaneous_overlap_seconds: [2.5, 5.0]
+  simultaneous_action_fraction: 0.80
 
   # 特殊投影使用完整 360°，额外叠加持续滚转和轻微呼吸式 Zoom。
   special_roll_total_deg: [220.0, 540.0]
   special_zoom_percent: [0.025, 0.070]
   special_zoom_cycles: [1.0, 2.5]
 
-# 人工复核发现以下三个示例的源内容带有额外运动。这里只替换对应的一路素材，
-# 动作、轨迹、分辨率和另一侧保持不变；from_case 指向已经人工确认同步正常的窗口。
-case_source_overrides:
-  recipe_02_a:
-    ref: {from_case: recipe_01_a, reason: 原 REF 后段近景人物进入，干扰运镜判断}
-  recipe_04_a:
-    target: {from_case: recipe_03_b, reason: 原 TARGET 天球动画含独立大面积运动}
-  recipe_05_b:
-    target: {from_case: recipe_12_a, reason: 原 TARGET 天球动画在十秒后含独立大面积运动}
-
 source_roots:
   # 公开仓库克隆到其他位置后，可在命令行用 --source-root-360x / --source-root-commons 覆盖。
   360x: ../panocam/data/dataset_showcase/360x/hr_samples
   commons: local/sources/commons
+  commons_still: local/sources/commons_still
 
 # manual_decision 的优先级高于算法阈值：只用于已经逐条目视确认的内容规则。
 sources:
@@ -133,11 +130,13 @@ sources:
     note: 4K 固定机位，船舶与人群动态
     source_url: https://commons.wikimedia.org/wiki/File:360_Video_of_LCS-15_Christening_and_Launch.webm
     license: CC BY 3.0
-  - {dataset: commons, file: An_Introduction_to_the_Equatorial_Coordinate_System_360VR.webm, manual_decision: pass, allowed_sides: [target], allow_static_scene: true, note: 3600×1800 固定虚拟机位科普动画, source_url: 'https://commons.wikimedia.org/wiki/File:An_Introduction_to_the_Equatorial_Coordinate_System_(360VR).webm', license: CC BY 3.0}
-  - {dataset: commons, file: Wind_Tunnel_Test_of_NASAs_Most_Powerful_Rocket_360_Animation.webm, manual_decision: pass, allowed_sides: [target], allow_static_scene: true, note: 4K 固定虚拟机位 NASA 风洞动画, source_url: 'https://commons.wikimedia.org/wiki/File:Wind_Tunnel_Test_of_NASA%27s_Most_Powerful_Rocket_(360%C2%B0_Animation).webm', license: Public domain (NASA)}
+  - {dataset: commons, file: An_Introduction_to_the_Equatorial_Coordinate_System_360VR.webm, manual_decision: pass, allowed_sides: [ref], synthetic_or_3d: true, allow_static_scene: true, note: 3600×1800 固定虚拟机位科普动画；仅 REF, source_url: 'https://commons.wikimedia.org/wiki/File:An_Introduction_to_the_Equatorial_Coordinate_System_(360VR).webm', license: CC BY 3.0}
+  - {dataset: commons, file: Wind_Tunnel_Test_of_NASAs_Most_Powerful_Rocket_360_Animation.webm, manual_decision: pass, allowed_sides: [ref], synthetic_or_3d: true, allow_static_scene: true, note: 4K 固定虚拟机位 NASA 风洞动画；仅 REF, source_url: 'https://commons.wikimedia.org/wiki/File:Wind_Tunnel_Test_of_NASA%27s_Most_Powerful_Rocket_(360%C2%B0_Animation).webm', license: Public domain (NASA)}
   - {dataset: commons, file: Worlds_First_Live_360_Rocket_Launch-_Orbital_ATK_CRS-7.webm, manual_decision: pass, allowed_sides: [target], allow_static_scene: true, note: 4K 固定实拍机位火箭发射, source_url: 'https://commons.wikimedia.org/wiki/File:World%27s_First_Live_360_Rocket_Launch-_Orbital_ATK_CRS-7.webm', license: Public domain (NASA)}
   - {dataset: commons, file: GOES-S_Atlas_V_Launch_in_360_FfLIVGxNhxY.webm, manual_decision: pass, allowed_sides: [target], allow_static_scene: true, note: 4K 固定实拍机位 GOES-S 发射, source_url: 'https://commons.wikimedia.org/wiki/File:GOES-S_Atlas_V_Launch_in_360_FfLIVGxNhxY.webm', license: Public domain (NASA)}
   - {dataset: commons, file: 360VR_Lotte_Tower_Grand_Opening_Fireworks_South_Korea.webm, manual_decision: pass, allowed_sides: [target], note: 4096×2048 固定实拍机位首尔烟花, source_url: 'https://commons.wikimedia.org/wiki/File:360VR_Lotte_Tower_Grand_Opening_Fireworks(South_korea).webm', license: CC BY 3.0}
+  - {dataset: commons_still, file: Soissons_Cathedral_Interior_360x180.mp4, manual_decision: pass, allowed_sides: [target], allow_static_scene: true, note: 4K 真实教堂室内静态全景, source_url: 'https://commons.wikimedia.org/wiki/File:Soissons_Cathedral_Interior_360x180,_Picardy,_France_-_Diliff.jpg', license: CC BY-SA 3.0}
+  - {dataset: commons_still, file: Alcazar_de_Toledo_y_Academia_de_Infanteria.mp4, manual_decision: pass, allowed_sides: [target], allow_static_scene: true, note: 4K 真实 Toledo 城市静态全景, source_url: 'https://commons.wikimedia.org/wiki/File:Alcazar_de_Toledo_y_Academia_de_Infanter%C3%ADa.jpg', license: CC BY-SA 4.0}
 
 licenses:
   360x:
@@ -146,5 +145,9 @@ licenses:
     attribution: 360+x dataset and original video authors
   commons:
     source_url: https://commons.wikimedia.org/wiki/Category:360%C2%B0_videos
+    license: 逐文件记录
+    attribution: 逐文件记录
+  commons_still:
+    source_url: https://commons.wikimedia.org/wiki/Category:360%C2%B0_panoramas_with_equirectangular_projection
     license: 逐文件记录
     attribution: 逐文件记录

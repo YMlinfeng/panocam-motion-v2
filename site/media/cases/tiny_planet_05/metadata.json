@@ -7,22 +7,22 @@
     "action_count": 2,
     "actions": [
       {
-        "type": "roll_cw",
-        "amplitude_deg": 449.813,
+        "type": "roll_ccw",
+        "amplitude_deg": 424.386,
         "start_seconds": 0.0,
         "end_seconds": 15.0,
         "duration_seconds": 15.0,
         "profile": "linear",
-        "speed_multiplier": 1.249
+        "speed_multiplier": 1.179
       },
       {
-        "type": "zoom_in",
-        "amplitude_percent": 0.06948,
+        "type": "zoom_out",
+        "amplitude_percent": 0.03172,
         "start_seconds": 0.0,
         "end_seconds": 15.0,
         "duration_seconds": 15.0,
         "profile": "sine_breathing",
-        "speed_multiplier": 1.677
+        "speed_multiplier": 2.258
       }
     ],
     "showcase_tags": [
@@ -39,56 +39,58 @@
     "ref": {
       "dataset": "360x",
       "file": "047054e3-0024-407d-be1b-ee1236f8a0fe.mp4",
-      "start_seconds": 1.0,
-      "dynamic_score": 0.055092,
-      "global_flow_px": 0.035522,
-      "coherent_shift_px": 0.021607,
+      "start_seconds": 331.823,
+      "dynamic_score": 0.058563,
+      "global_flow_px": 0.050219,
+      "coherent_shift_px": 0.020385,
       "license": "CC BY-NC-SA 4.0",
       "source_url": "https://x360dataset.github.io/",
       "allowed_sides": [
         "ref"
       ],
       "privacy_face_blurred": true,
+      "synthetic_or_3d": false,
       "scene_policy": "dynamic_fixed_camera_window"
     },
     "target": {
-      "dataset": "commons",
-      "file": "360VR_Lotte_Tower_Grand_Opening_Fireworks_South_Korea.webm",
-      "start_seconds": 414.184,
-      "dynamic_score": 0.015007,
-      "global_flow_px": 0.017955,
-      "coherent_shift_px": 0.032603,
-      "license": "CC BY 3.0",
-      "source_url": "https://commons.wikimedia.org/wiki/File:360VR_Lotte_Tower_Grand_Opening_Fireworks(South_korea).webm",
+      "dataset": "commons_still",
+      "file": "Alcazar_de_Toledo_y_Academia_de_Infanteria.mp4",
+      "start_seconds": 0.5,
+      "dynamic_score": 0.0,
+      "global_flow_px": 2e-06,
+      "coherent_shift_px": 0.0,
+      "license": "CC BY-SA 4.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Alcazar_de_Toledo_y_Academia_de_Infanter%C3%ADa.jpg",
       "allowed_sides": [
         "target"
       ],
       "privacy_face_blurred": false,
-      "scene_policy": "dynamic_fixed_camera_window"
+      "synthetic_or_3d": false,
+      "scene_policy": "static_scene_fixed_camera_window"
     },
     "projection_parameters": {
       "stereographic_scale": 1.08,
       "seam_orientation_deg": 144.0,
-      "roll_direction": "roll_cw",
-      "roll_total_deg": 449.813,
-      "zoom_percent": 0.06948,
-      "zoom_cycles": 1.677,
-      "zoom_phase_radians": 0.37941,
+      "roll_direction": "roll_ccw",
+      "roll_total_deg": 424.386,
+      "zoom_percent": 0.03172,
+      "zoom_cycles": 2.258,
+      "zoom_phase_radians": 4.756623,
       "note": "特殊投影使用完整 360°，并叠加持续滚转与轻微呼吸 Zoom"
     },
     "trajectory_report": {
       "frame_count": 300,
       "seam_safe": null,
-      "roll_total_deg": 449.813,
-      "roll_speed_deg_per_second": 29.987533,
+      "roll_total_deg": 424.386,
+      "roll_speed_deg_per_second": 28.2924,
       "zoom_scale_range": [
-        0.93052,
-        1.06948
+        0.96828,
+        1.03172
       ],
       "speed": {
         "continuous_motion": true,
         "max_stationary_run_frames": 0,
-        "median_deg_per_second": 29.987533
+        "median_deg_per_second": 28.2924
       },
       "note": "全 360° 特殊投影无法像普通透视视角一样完全排除 ERP 接缝"
     }
@@ -103,8 +105,8 @@
       "pixels": 918528,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 4743615,
-      "sha256": "b2a5a9e448b345f7ac8f73f38b9c91f06672383e7461e76f0712153c061801cd",
+      "bytes": 4747190,
+      "sha256": "be9837b532ff40ca15e5fdaf3c42781c9d79d68e71eee67097888a371f7b1b8b",
       "poster": "site/media/cases/tiny_planet_05/ref.jpg"
     },
     "target": {
@@ -116,8 +118,8 @@
       "pixels": 918528,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 4734881,
-      "sha256": "c88f4978c2b90c0a6a4e85c1b0cf9f8bfbbafcd4f00669c906cad8a03a5543e5",
+      "bytes": 4730545,
+      "sha256": "ed73aab3f9de2e364900aa82a8ea5baa8cffd72ec8b335b7d1ba9d0b6af4f0a7",
       "poster": "site/media/cases/tiny_planet_05/target.jpg"
     },
     "codec": {
@@ -133,16 +135,16 @@
   "trajectory_report": {
     "frame_count": 300,
     "seam_safe": null,
-    "roll_total_deg": 449.813,
-    "roll_speed_deg_per_second": 29.987533,
+    "roll_total_deg": 424.386,
+    "roll_speed_deg_per_second": 28.2924,
     "zoom_scale_range": [
-      0.93052,
-      1.06948
+      0.96828,
+      1.03172
     ],
     "speed": {
       "continuous_motion": true,
       "max_stationary_run_frames": 0,
-      "median_deg_per_second": 29.987533
+      "median_deg_per_second": 28.2924
     },
     "note": "全 360° 特殊投影无法像普通透视视角一样完全排除 ERP 接缝"
   }

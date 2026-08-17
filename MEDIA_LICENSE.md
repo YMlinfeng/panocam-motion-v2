@@ -17,15 +17,20 @@ this project therefore assigns all 360+x clips to REF only.
 
 ## Wikimedia Commons-derived demos
 
-The current TARGET pool contains the following stationary-camera sources. The
-exact per-file license and source URL are also copied into `SOURCE_AUDIT.json`.
+The exact per-file license and source URL are copied into `SOURCE_AUDIT.json`.
+Synthetic/3D sources are REF-only. The TARGET pool contains only real scenes:
 
 - `360 Video of LCS-15 Christening and Launch` — CC BY 3.0.
-- `An Introduction to the Equatorial Coordinate System (360VR)` — CC BY 3.0.
-- `Wind Tunnel Test of NASA's Most Powerful Rocket (360° Animation)` — NASA public domain.
 - `World's First Live 360 Rocket Launch: Orbital ATK CRS-7` — NASA public domain.
 - `GOES-S Atlas V Launch in 360` — NASA public domain.
 - `360VR Lotte Tower Grand Opening Fireworks (South Korea)` — CC BY 3.0.
+- `Soissons Cathedral Interior 360x180` — CC BY-SA 3.0.
+- `Alcazar de Toledo y Academia de Infantería` — CC BY-SA 4.0.
+
+REF-only 3D/animation sources:
+
+- `An Introduction to the Equatorial Coordinate System (360VR)` — CC BY 3.0.
+- `Wind Tunnel Test of NASA's Most Powerful Rocket (360° Animation)` — NASA public domain.
 
 ## Per-case record
 

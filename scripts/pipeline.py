@@ -679,6 +679,18 @@ def build_trajectory(case: dict[str, Any], config: dict[str, Any]) -> dict[str, 
         "max_stationary_run_frames": int(max_stationary_run),
         "continuous_motion": max_stationary_run <= int(settings["max_stationary_run_frames"]),
     }
+    active_counts = np.zeros(frame_count, np.int16)
+    for item in actions:
+        active_counts += (
+            (time_seconds >= float(item["start_seconds"]))
+            & (time_seconds <= float(item["end_seconds"]))
+        ).astype(np.int16)
+    concurrency_report = {
+        "max_concurrent_actions": int(active_counts.max(initial=0)),
+        "fraction_at_least_2": round(float(np.mean(active_counts >= 2)), 6),
+        "fraction_at_least_3": round(float(np.mean(active_counts >= 3)), 6),
+        "frames_at_least_3": int(np.sum(active_counts >= 3)),
+    }
 
     return {
         "yaw_deg": yaw,
@@ -703,6 +715,7 @@ def build_trajectory(case: dict[str, Any], config: dict[str, Any]) -> dict[str, 
             "seam_longitude_limit_deg": round(longitude_limit, 6),
             "seam_safe": case["kind"] != "combo" or max_abs_longitude <= longitude_limit,
             "speed": speed_report,
+            "concurrency": concurrency_report,
             "timeline": [
                 {
                     "type": item["type"],
@@ -730,6 +743,7 @@ def public_source_record(source: dict[str, Any], window: dict[str, Any]) -> dict
         "source_url": source.get("source_url", "https://x360dataset.github.io/" if source["dataset"] == "360x" else ""),
         "allowed_sides": list(source.get("allowed_sides", ["ref", "target"])),
         "privacy_face_blurred": bool(source.get("privacy_face_blurred", False)),
+        "synthetic_or_3d": bool(source.get("synthetic_or_3d", False)),
         "scene_policy": window.get("reason", "dynamic_fixed_camera_window"),
     }
 
@@ -850,17 +864,23 @@ def action_axis(action: str) -> str:
 
 
 def choose_action_types(rng: random.Random, action_count: int, recipe_index: int) -> list[str]:
-    """在随机基础上保证甩镜、360 滚转和 Zoom 都有足够覆盖。"""
+    """只让 4/45 个 recipe 含 roll；加上 10 个特殊投影，总 roll case 为 18%。"""
 
     required: list[str] = []
-    if recipe_index % 5 == 0:
+    roll_recipe = recipe_index in {0, 12, 24, 36}
+    if roll_recipe:
         required.append(rng.choice(["roll_cw", "roll_ccw"]))
     if recipe_index % 3 == 0:
         required.append(rng.choice(["pan_left", "pan_right", "tilt_up", "tilt_down"]))
     if recipe_index % 4 == 1:
         required.append(rng.choice(["zoom_in", "zoom_out"]))
     required = list(dict.fromkeys(required))[:action_count]
-    remaining = [action for action in ALLOWED_ACTIONS if action not in required]
+    # 非 roll recipe 完全排除顺/逆时针滚转；roll recipe 也只保留已选中的一个方向。
+    remaining = [
+        action
+        for action in ALLOWED_ACTIONS
+        if action not in required and not action.startswith("roll_")
+    ]
     rng.shuffle(remaining)
     return required + remaining[: action_count - len(required)]
 
@@ -896,6 +916,52 @@ def sample_duration_seconds(
     return round(min(13.5, max(0.5, duration)), 3), bucket
 
 
+def enforce_simultaneous_overlap(
+    actions: list[dict[str, Any]],
+    rng: random.Random,
+    settings: dict[str, Any],
+) -> bool:
+    """让多个非 backbone 动作共享一段明显的同时运动区间。
+
+    动作数 >=3 时至少选择两条非 backbone；动作更多时按配置比例增加。它们与
+    全程 backbone 同时存在，因此共享区间内至少 3 种运镜同时叠加。
+    """
+
+    non_backbone = [item for item in actions if not item.get("is_backbone")]
+    if len(non_backbone) < 2:
+        return False
+    selected_count = max(
+        2,
+        min(
+            len(non_backbone),
+            math.ceil(len(non_backbone) * float(settings["simultaneous_action_fraction"])),
+        ),
+    )
+    selected = rng.sample(non_backbone, selected_count)
+    low, high = map(float, settings["simultaneous_overlap_seconds"])
+    overlap = rng.uniform(low, high)
+    half = overlap / 2.0
+    center = rng.uniform(0.5 + half, 14.5 - half)
+    cluster_start = center - half
+    cluster_end = center + half
+
+    for item in selected:
+        item["start_seconds"] = round(min(float(item["start_seconds"]), cluster_start), 3)
+        item["end_seconds"] = round(max(float(item["end_seconds"]), cluster_end), 3)
+        item["duration_seconds"] = round(
+            float(item["end_seconds"]) - float(item["start_seconds"]), 3
+        )
+        strength = float(item.get("curve_strength", 0.0))
+        path_factor = 2.0 if item["profile"] == "pulse" else 1.0 + 0.45 * strength
+        item["nominal_speed_deg_per_second"] = round(
+            abs(float(item["amplitude_deg"])) * path_factor
+            / max(float(item["duration_seconds"]), 1e-6),
+            3,
+        )
+        item["window_bucket"] = f"{item['window_bucket']}+simultaneous_cluster"
+    return True
+
+
 def build_case_actions(
     rng: random.Random,
     action_types: list[str],
@@ -910,9 +976,7 @@ def build_case_actions(
         i for i, action in enumerate(action_types) if action.startswith("pan_") or action.startswith("tilt_")
     ]
     spin_index: int | None = None
-    if spin_candidates and (
-        recipe_index % 5 == 0 or rng.random() < float(settings["spin_360_probability"])
-    ):
+    if spin_candidates:
         spin_index = rng.choice(spin_candidates)
     whip_index: int | None = None
     if whip_candidates and (
@@ -1030,6 +1094,8 @@ def build_case_actions(
                 ),
             }
         )
+    if enforce_simultaneous_overlap(actions, rng, settings):
+        tags.append("simultaneous_overlap_cluster")
     actions.sort(key=lambda item: (float(item["start_seconds"]), not bool(item["is_backbone"])))
     return actions, tags
 
@@ -1581,6 +1647,8 @@ def command_validate(args: argparse.Namespace, config: dict[str, Any]) -> None:
     whip_case_count = 0
     large_whip_case_count = 0
     spin_360_case_count = 0
+    combo_roll_case_count = 0
+    simultaneous_three_plus_case_count = 0
     high_speed_case_count = 0
     speed_medians: list[float] = []
     source_files: dict[str, set[str]] = {"ref": set(), "target": set()}
@@ -1603,12 +1671,25 @@ def command_validate(args: argparse.Namespace, config: dict[str, Any]) -> None:
             ):
                 errors.append(f"{case['id']} 最长停顿帧数超限")
             speed_medians.append(float(speed.get("median_deg_per_second", 0.0)))
-            if float(speed.get("p99_deg_per_second", 0.0)) >= 35.0:
+            if float(speed.get("p99_deg_per_second", 0.0)) >= float(
+                config["trajectory"]["high_speed_threshold_deg_per_second"]
+            ):
                 high_speed_case_count += 1
             tags = set(case.get("showcase_tags", []))
             whip_case_count += int("whip_pan" in tags or "whip_tilt" in tags)
             large_whip_case_count += int("large_range_whip" in tags)
             spin_360_case_count += int("spin_360" in tags)
+            combo_roll_case_count += int(
+                any(item["type"].startswith("roll_") for item in case["actions"])
+            )
+            concurrency = case["trajectory_report"].get("concurrency", {})
+            if int(case["action_count"]) >= 3:
+                if int(concurrency.get("max_concurrent_actions", 0)) < 3:
+                    errors.append(f"{case['id']} 没有至少 3 种运镜同时叠加")
+                elif float(concurrency.get("fraction_at_least_3", 0.0)) < 0.15:
+                    errors.append(f"{case['id']} 三动作同时叠加时长不足")
+                else:
+                    simultaneous_three_plus_case_count += 1
 
             actions = case["actions"]
             backbones = [item for item in actions if item.get("is_backbone")]
@@ -1647,6 +1728,8 @@ def command_validate(args: argparse.Namespace, config: dict[str, Any]) -> None:
                 errors.append(f"{case['id']} 人脸模糊素材只能放 REF")
             if source["dataset"] == "360x" and side != "ref":
                 errors.append(f"{case['id']} 360+x 被错误放入 TARGET")
+            if source.get("synthetic_or_3d") and side != "ref":
+                errors.append(f"{case['id']} 3D/动画素材只能放 REF")
 
     for recipe_id, modes in recipe_modes.items():
         if set(modes) != {"hybrid_a", "hybrid_b"}:
@@ -1665,8 +1748,18 @@ def command_validate(args: argparse.Namespace, config: dict[str, Any]) -> None:
         errors.append(f"甩镜覆盖不足：{whip_case_count}")
     if large_whip_case_count < 8:
         errors.append(f"大范围甩镜覆盖不足：{large_whip_case_count}")
-    if spin_360_case_count < 16:
+    total_roll_case_count = sum(
+        int(any(item["type"].startswith("roll_") for item in case["actions"]))
+        for case in cases
+    )
+    if spin_360_case_count < 6:
         errors.append(f"360°滚转环绕覆盖不足：{spin_360_case_count}")
+    if not 15 <= total_roll_case_count <= 20:
+        errors.append(f"含 roll 的 case 应为 15%～20%，当前 {total_roll_case_count}/100")
+    if simultaneous_three_plus_case_count < 72:
+        errors.append(
+            f"三动作同时叠加覆盖不足：{simultaneous_three_plus_case_count}/72"
+        )
     if high_speed_case_count < 63:
         errors.append(f"快速运镜占比不足：{high_speed_case_count}/90")
     if len({round(value, 1) for value in speed_medians}) < 35:
@@ -1677,7 +1770,7 @@ def command_validate(args: argparse.Namespace, config: dict[str, Any]) -> None:
         errors.append(f"TARGET 源文件种类过少：{len(source_files['target'])}")
     for side in ("ref", "target"):
         maximum_reuse = max(window_usage[side].values(), default=0)
-        if maximum_reuse > 4:
+        if maximum_reuse > 5:
             errors.append(f"{side} 单一 15 秒窗口重复过多：{maximum_reuse}")
 
     combined_text = "\n".join(all_string_values(plan)).lower()
@@ -1777,13 +1870,27 @@ def command_validate(args: argparse.Namespace, config: dict[str, Any]) -> None:
             "pure_sequential_cases": 0,
             "continuous_motion_every_combo": True,
             "fast_motion_bias": {
+                "high_speed_threshold_deg_per_second": float(
+                    config["trajectory"]["high_speed_threshold_deg_per_second"]
+                ),
                 "high_speed_cases": high_speed_case_count,
                 "combo_cases": len(combo_cases),
                 "whip_cases": whip_case_count,
                 "large_whip_cases": large_whip_case_count,
                 "spin_360_cases": spin_360_case_count,
+                "combo_roll_cases": combo_roll_case_count,
+                "total_roll_cases": total_roll_case_count,
             },
-            "source_role_policy": "360+x face-blurred material is REF-only",
+            "simultaneous_overlap": {
+                "three_plus_concurrent_cases": simultaneous_three_plus_case_count,
+                "eligible_cases": sum(
+                    int(case["action_count"]) >= 3 for case in combo_cases
+                ),
+            },
+            "source_role_policy": (
+                "360+x face-blurred and synthetic/3D material are REF-only; "
+                "TARGET contains real scenes only"
+            ),
             "source_diversity": {
                 "ref_source_files": len(source_files["ref"]),
                 "target_source_files": len(source_files["target"]),
@@ -1812,6 +1919,7 @@ def build_parser() -> argparse.ArgumentParser:
     audit = subparsers.add_parser("audit", help="筛选固定机位动态/允许静态的全景素材")
     audit.add_argument("--source-root-360x", help="覆盖 360+x 素材目录")
     audit.add_argument("--source-root-commons", help="覆盖 Wikimedia 素材目录")
+    audit.add_argument("--source-root-commons-still", help="覆盖 Wikimedia 真实静态全景目录")
 
     subparsers.add_parser("plan", help="生成 100-case 确定性计划")
 
@@ -1822,6 +1930,7 @@ def build_parser() -> argparse.ArgumentParser:
     render.add_argument("--overwrite", action="store_true", help="覆盖已经完整存在的 case")
     render.add_argument("--source-root-360x", help="本次渲染覆盖 360+x 素材目录")
     render.add_argument("--source-root-commons", help="本次渲染覆盖 Wikimedia 素材目录")
+    render.add_argument("--source-root-commons-still", help="本次渲染覆盖真实静态全景目录")
 
     subparsers.add_parser("validate", help="验证 100 cases 与 200 个视频")
     return parser

@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at_unix": 1786940329.828159,
+  "generated_at_unix": 1786956668.767754,
   "screening_config": {
     "min_duration_seconds": 16.0,
     "min_width": 3600,
@@ -20,12 +20,13 @@
   },
   "source_roots": {
     "360x": "../panocam/data/dataset_showcase/360x/hr_samples",
-    "commons": "local/sources/commons"
+    "commons": "local/sources/commons",
+    "commons_still": "local/sources/commons_still"
   },
   "source_roots_note": "公开台账只记录配置中的逻辑路径；命令行覆盖的本机绝对路径不落盘",
   "summary": {
-    "source_count": 16,
-    "pass_count": 13,
+    "source_count": 18,
+    "pass_count": 15,
     "reject_count": 3,
     "rule": "dynamic_or_explicitly_allowed_static_scenes_from_stationary_360_cameras",
     "privacy_rule": "360+x uses official face blurring and is REF-only"
@@ -1610,10 +1611,11 @@
       "file": "An_Introduction_to_the_Equatorial_Coordinate_System_360VR.webm",
       "manual_decision": "pass",
       "allowed_sides": [
-        "target"
+        "ref"
       ],
+      "synthetic_or_3d": true,
       "allow_static_scene": true,
-      "note": "3600×1800 固定虚拟机位科普动画",
+      "note": "3600×1800 固定虚拟机位科普动画；仅 REF",
       "source_url": "https://commons.wikimedia.org/wiki/File:An_Introduction_to_the_Equatorial_Coordinate_System_(360VR).webm",
       "license": "CC BY 3.0",
       "locator": "commons/An_Introduction_to_the_Equatorial_Coordinate_System_360VR.webm",
@@ -1798,10 +1800,11 @@
       "file": "Wind_Tunnel_Test_of_NASAs_Most_Powerful_Rocket_360_Animation.webm",
       "manual_decision": "pass",
       "allowed_sides": [
-        "target"
+        "ref"
       ],
+      "synthetic_or_3d": true,
       "allow_static_scene": true,
-      "note": "4K 固定虚拟机位 NASA 风洞动画",
+      "note": "4K 固定虚拟机位 NASA 风洞动画；仅 REF",
       "source_url": "https://commons.wikimedia.org/wiki/File:Wind_Tunnel_Test_of_NASA%27s_Most_Powerful_Rocket_(360%C2%B0_Animation).webm",
       "license": "Public domain (NASA)",
       "locator": "commons/Wind_Tunnel_Test_of_NASAs_Most_Powerful_Rocket_360_Animation.webm",
@@ -2399,6 +2402,102 @@
           "coherent_shift_px": 0.032464,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
+        }
+      ],
+      "final_status": "pass",
+      "final_reason": "manual_and_metric_checks_passed"
+    },
+    {
+      "dataset": "commons_still",
+      "file": "Soissons_Cathedral_Interior_360x180.mp4",
+      "manual_decision": "pass",
+      "allowed_sides": [
+        "target"
+      ],
+      "allow_static_scene": true,
+      "note": "4K 真实教堂室内静态全景",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Soissons_Cathedral_Interior_360x180,_Picardy,_France_-_Diliff.jpg",
+      "license": "CC BY-SA 3.0",
+      "locator": "commons_still/Soissons_Cathedral_Interior_360x180.mp4",
+      "path_exists": true,
+      "metadata": {
+        "decode_ok": true,
+        "fps": 20.0,
+        "frame_count": 320,
+        "width": 3840,
+        "height": 1920,
+        "duration_seconds": 16.0
+      },
+      "analysed_windows": [
+        {
+          "start_seconds": 0.5,
+          "dynamic_score": 0.0,
+          "dynamic_score_p95": 0.0,
+          "dynamic_score_max": 0.0,
+          "global_flow_px": 3e-06,
+          "coherent_shift_px": 0.0,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        }
+      ],
+      "usable_windows": [
+        {
+          "start_seconds": 0.5,
+          "dynamic_score": 0.0,
+          "dynamic_score_p95": 0.0,
+          "dynamic_score_max": 0.0,
+          "global_flow_px": 3e-06,
+          "coherent_shift_px": 0.0,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        }
+      ],
+      "final_status": "pass",
+      "final_reason": "manual_and_metric_checks_passed"
+    },
+    {
+      "dataset": "commons_still",
+      "file": "Alcazar_de_Toledo_y_Academia_de_Infanteria.mp4",
+      "manual_decision": "pass",
+      "allowed_sides": [
+        "target"
+      ],
+      "allow_static_scene": true,
+      "note": "4K 真实 Toledo 城市静态全景",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Alcazar_de_Toledo_y_Academia_de_Infanter%C3%ADa.jpg",
+      "license": "CC BY-SA 4.0",
+      "locator": "commons_still/Alcazar_de_Toledo_y_Academia_de_Infanteria.mp4",
+      "path_exists": true,
+      "metadata": {
+        "decode_ok": true,
+        "fps": 20.0,
+        "frame_count": 320,
+        "width": 3840,
+        "height": 1920,
+        "duration_seconds": 16.0
+      },
+      "analysed_windows": [
+        {
+          "start_seconds": 0.5,
+          "dynamic_score": 0.0,
+          "dynamic_score_p95": 0.0,
+          "dynamic_score_max": 0.0,
+          "global_flow_px": 2e-06,
+          "coherent_shift_px": 0.0,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        }
+      ],
+      "usable_windows": [
+        {
+          "start_seconds": 0.5,
+          "dynamic_score": 0.0,
+          "dynamic_score_p95": 0.0,
+          "dynamic_score_max": 0.0,
+          "global_flow_px": 2e-06,
+          "coherent_shift_px": 0.0,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
         }
       ],
       "final_status": "pass",
