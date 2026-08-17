@@ -1,11 +1,11 @@
 project:
-  random_seed: 20260817
+  random_seed: 20260819
   duration_seconds: 15.0
   fps: 20
   max_pixels: 921600
   combo_recipe_count: 45
-  sequential_cases: 45
-  simultaneous_cases: 45
+  hybrid_a_cases: 45
+  hybrid_b_cases: 45
   tiny_planet_cases: 5
   rabbit_hole_cases: 5
 
@@ -34,17 +34,22 @@ render:
 
 screening:
   min_duration_seconds: 16.0
-  min_width: 3840
-  min_height: 1920
+  # 3600×1800 的 ERP 在约 90° 视角下仍能提供约 900 个有效横向源像素，足够
+  # 生成本项目的 720P 级输出；低于这个值的候选仍会被拒绝。
+  min_width: 3600
+  min_height: 1800
   min_fps: 20.0
   audit_window_seconds: 15.0
   audit_stride_seconds: 30.0
-  max_windows_per_source: 5
+  # 增加每个长视频的候选窗口，减少 100 个 pair 中重复使用同一 15 秒片段。
+  max_windows_per_source: 8
   sample_count_per_window: 15
   analysis_width: 512
   analysis_height: 256
   pixel_difference_threshold: 10
   dynamic_score_min: 0.006
+  # 相邻抽样帧若超过 42% 像素发生显著变化，通常是剪辑切镜而非场景主体运动。
+  scene_cut_dynamic_ratio_max: 0.42
   global_flow_px_max: 1.8
   coherent_shift_px_max: 10.0
 
@@ -54,44 +59,75 @@ trajectory:
   max_vertical_fov_deg: 95.0
   hard_hfov_min_deg: 36.0
   hard_hfov_max_deg: 108.0
-  hard_yaw_center_abs_deg: 90.0
-  hard_pitch_abs_deg: 62.0
-  hard_roll_abs_deg: 45.0
-  seam_margin_deg: 25.0
-  pan_amplitude_deg: [38.0, 72.0]
-  tilt_amplitude_deg: [22.0, 44.0]
-  roll_amplitude_deg: [12.0, 28.0]
+  hard_yaw_center_abs_deg: 112.0
+  hard_pitch_abs_deg: 72.0
+  # Roll 不改变视角中心经度，允许 360°/540°/720° 大幅滚转。
+  hard_roll_abs_deg: 720.0
+  seam_margin_deg: 18.0
+  pan_amplitude_deg: [72.0, 155.0]
+  tilt_amplitude_deg: [42.0, 92.0]
+  roll_amplitude_deg: [95.0, 420.0]
   # Zoom 幅度刻意小于旧版，避免极端 FOV 导致严重拉伸或倒置错觉。
-  zoom_amplitude_deg: [6.0, 13.0]
-  simultaneous_min_overlap_ratio: 0.55
-  # >1 表示更快。每个动作会在此范围随机取值，并写入 CASE_PLAN，之后可逐条修改。
-  speed_multiplier_range: [1.05, 1.40]
-  # 顺序组合中，每个动作只占自己时间段的这一比例；余下时间保持结果。越小越快。
-  sequential_motion_fraction: 0.78
+  zoom_amplitude_deg: [4.0, 10.0]
+
+  # 每个混合时序 case 都有一个覆盖整条 15 秒的 backbone 动作；其他动作使用互相
+  # 错开的短/中/长时间窗叠加其上。因此镜头始终运动，不再存在顺序段之间的停顿。
+  backbone_start_seconds: 0.0
+  backbone_end_seconds: 15.0
+  short_duration_seconds: [0.55, 2.20]
+  medium_duration_seconds: [2.20, 6.50]
+  long_duration_seconds: [6.50, 13.50]
+  fast_action_probability: 0.72
+  medium_action_probability: 0.20
+  # speed_multiplier 同时影响采样出的动作时长和 whip 曲线陡峭度；>1 更快。
+  speed_multiplier_range: [0.75, 3.60]
+  fast_speed_multiplier_range: [1.80, 3.60]
+  whip_probability: 0.34
+  large_whip_probability: 0.18
+  spin_360_probability: 0.20
+  spin_360_amplitude_deg: [360.0, 720.0]
+  whip_duration_seconds: [0.50, 1.45]
+  whip_pan_amplitude_deg: [85.0, 165.0]
+  whip_tilt_amplitude_deg: [60.0, 115.0]
+  action_start_latest_seconds: 12.5
+  min_start_separation_seconds: 0.35
+  stationary_speed_threshold_deg_per_second: 0.50
+  max_stationary_run_frames: 1
+
+  # 特殊投影使用完整 360°，额外叠加持续滚转和轻微呼吸式 Zoom。
+  special_roll_total_deg: [220.0, 540.0]
+  special_zoom_percent: [0.025, 0.070]
+  special_zoom_cycles: [1.0, 2.5]
 
 source_roots:
   # 公开仓库克隆到其他位置后，可在命令行用 --source-root-360x / --source-root-commons 覆盖。
   360x: ../panocam/data/dataset_showcase/360x/hr_samples
-  commons: ../panocam/data/panos
+  commons: local/sources/commons
 
 # manual_decision 的优先级高于算法阈值：只用于已经逐条目视确认的内容规则。
 sources:
-  - {dataset: 360x, file: 019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4, manual_decision: pass, note: 室内固定机位，人物动态}
+  - {dataset: 360x, file: 019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4, manual_decision: pass, allowed_sides: [ref], privacy_face_blurred: true, note: 室内固定机位，人物动态；360+x 官方隐私处理会模糊人脸}
   - {dataset: 360x, file: 02594cd1-c13c-4fbe-a804-f8d8c72ca409.mp4, manual_decision: reject, note: 车厢随列车移动，不属于静止机位}
-  - {dataset: 360x, file: 02692940-fd94-4af1-8ebc-577acacc617a.mp4, manual_decision: pass, note: 商场餐区固定机位，人群动态}
-  - {dataset: 360x, file: 03498a23-90d7-4428-bd12-45f88a323419.mp4, manual_decision: pass, note: 寺庙广场固定机位，人群动态}
+  - {dataset: 360x, file: 02692940-fd94-4af1-8ebc-577acacc617a.mp4, manual_decision: pass, allowed_sides: [ref], privacy_face_blurred: true, note: 商场餐区固定机位，人群动态；人脸已模糊}
+  - {dataset: 360x, file: 03498a23-90d7-4428-bd12-45f88a323419.mp4, manual_decision: pass, allowed_sides: [ref], privacy_face_blurred: true, note: 寺庙广场固定机位，人群动态；人脸已模糊}
   - {dataset: 360x, file: 034f05a8-6069-4756-8a97-d6b8bd5aceb6.mp4, manual_decision: reject, note: 动态分数过低，近似静止画面}
-  - {dataset: 360x, file: 047054e3-0024-407d-be1b-ee1236f8a0fe.mp4, manual_decision: pass, note: 街头固定机位，人物动态}
-  - {dataset: 360x, file: 0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4, manual_decision: pass, note: 夜市固定机位，人群动态}
-  - {dataset: 360x, file: 05a3f507-7d57-4797-9345-cc2b10894d76.mp4, manual_decision: pass, note: 户外固定机位，人群动态}
-  - {dataset: 360x, file: 05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4, manual_decision: pass, note: 农田固定机位，人物动态}
-  - {dataset: 360x, file: 06eeb914-a805-479e-be3f-8157c95190b5.mp4, manual_decision: pass, note: 草地固定机位，人物动态}
+  - {dataset: 360x, file: 047054e3-0024-407d-be1b-ee1236f8a0fe.mp4, manual_decision: pass, allowed_sides: [ref], privacy_face_blurred: true, note: 街头固定机位，人物动态；人脸已模糊}
+  - {dataset: 360x, file: 0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4, manual_decision: pass, allowed_sides: [ref], privacy_face_blurred: true, note: 夜市固定机位，人群动态；人脸已模糊}
+  - {dataset: 360x, file: 05a3f507-7d57-4797-9345-cc2b10894d76.mp4, manual_decision: pass, allowed_sides: [ref], privacy_face_blurred: true, note: 户外固定机位，人群动态；人脸已模糊}
+  - {dataset: 360x, file: 05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4, manual_decision: pass, allowed_sides: [ref], privacy_face_blurred: true, note: 农田固定机位，人物动态；人脸已模糊}
+  - {dataset: 360x, file: 06eeb914-a805-479e-be3f-8157c95190b5.mp4, manual_decision: pass, allowed_sides: [ref], privacy_face_blurred: true, note: 草地固定机位，人物动态；人脸已模糊}
   - dataset: commons
     file: 360_Video_of_LCS-15_Christening_and_Launch.webm
     manual_decision: pass
+    allowed_sides: [target]
     note: 4K 固定机位，船舶与人群动态
     source_url: https://commons.wikimedia.org/wiki/File:360_Video_of_LCS-15_Christening_and_Launch.webm
     license: CC BY 3.0
+  - {dataset: commons, file: An_Introduction_to_the_Equatorial_Coordinate_System_360VR.webm, manual_decision: pass, allowed_sides: [target], allow_static_scene: true, note: 3600×1800 固定虚拟机位科普动画, source_url: 'https://commons.wikimedia.org/wiki/File:An_Introduction_to_the_Equatorial_Coordinate_System_(360VR).webm', license: CC BY 3.0}
+  - {dataset: commons, file: Wind_Tunnel_Test_of_NASAs_Most_Powerful_Rocket_360_Animation.webm, manual_decision: pass, allowed_sides: [target], allow_static_scene: true, note: 4K 固定虚拟机位 NASA 风洞动画, source_url: 'https://commons.wikimedia.org/wiki/File:Wind_Tunnel_Test_of_NASA%27s_Most_Powerful_Rocket_(360%C2%B0_Animation).webm', license: Public domain (NASA)}
+  - {dataset: commons, file: Worlds_First_Live_360_Rocket_Launch-_Orbital_ATK_CRS-7.webm, manual_decision: pass, allowed_sides: [target], allow_static_scene: true, note: 4K 固定实拍机位火箭发射, source_url: 'https://commons.wikimedia.org/wiki/File:World%27s_First_Live_360_Rocket_Launch-_Orbital_ATK_CRS-7.webm', license: Public domain (NASA)}
+  - {dataset: commons, file: GOES-S_Atlas_V_Launch_in_360_FfLIVGxNhxY.webm, manual_decision: pass, allowed_sides: [target], allow_static_scene: true, note: 4K 固定实拍机位 GOES-S 发射, source_url: 'https://commons.wikimedia.org/wiki/File:GOES-S_Atlas_V_Launch_in_360_FfLIVGxNhxY.webm', license: Public domain (NASA)}
+  - {dataset: commons, file: 360VR_Lotte_Tower_Grand_Opening_Fireworks_South_Korea.webm, manual_decision: pass, allowed_sides: [target], note: 4096×2048 固定实拍机位首尔烟花, source_url: 'https://commons.wikimedia.org/wiki/File:360VR_Lotte_Tower_Grand_Opening_Fireworks(South_korea).webm', license: CC BY 3.0}
 
 licenses:
   360x:

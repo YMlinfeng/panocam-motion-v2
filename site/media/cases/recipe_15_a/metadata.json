@@ -1,0 +1,377 @@
+{
+  "case": {
+    "id": "recipe_15_a",
+    "kind": "combo",
+    "mode": "hybrid_a",
+    "recipe_id": "recipe_15",
+    "display_name": null,
+    "origin": "randomized_continuous_layered_timeline",
+    "action_count": 6,
+    "actions": [
+      {
+        "type": "roll_cw",
+        "axis": "roll",
+        "amplitude_deg": 378.529,
+        "start_seconds": 0.0,
+        "end_seconds": 15.0,
+        "duration_seconds": 15.0,
+        "speed_multiplier": 2.338,
+        "speed_bucket": "fast",
+        "window_bucket": "full_length_backbone",
+        "profile": "linear",
+        "curve_strength": 0.0,
+        "oscillation_cycles": 1.0,
+        "nominal_speed_deg_per_second": 25.235,
+        "is_backbone": true,
+        "parameter_hint": "start/end 控制时机；amplitude 控制幅度；speed_multiplier 与 duration 控制快慢；profile/curve_strength/oscillation_cycles 控制变速、回摆和不规则程度"
+      },
+      {
+        "type": "tilt_up",
+        "axis": "pitch",
+        "amplitude_deg": 60.879,
+        "start_seconds": 0.642,
+        "end_seconds": 4.521,
+        "duration_seconds": 3.879,
+        "speed_multiplier": 2.029,
+        "speed_bucket": "fast",
+        "window_bucket": "medium",
+        "profile": "whip",
+        "curve_strength": 0.0,
+        "oscillation_cycles": 1.0,
+        "nominal_speed_deg_per_second": 15.695,
+        "is_backbone": false,
+        "parameter_hint": "start/end 控制时机；amplitude 控制幅度；speed_multiplier 与 duration 控制快慢；profile/curve_strength/oscillation_cycles 控制变速、回摆和不规则程度"
+      },
+      {
+        "type": "roll_ccw",
+        "axis": "roll",
+        "amplitude_deg": 162.003,
+        "start_seconds": 5.021,
+        "end_seconds": 5.767,
+        "duration_seconds": 0.746,
+        "speed_multiplier": 2.639,
+        "speed_bucket": "fast",
+        "window_bucket": "short_fast",
+        "profile": "smooth",
+        "curve_strength": 0.0,
+        "oscillation_cycles": 1.0,
+        "nominal_speed_deg_per_second": 217.162,
+        "is_backbone": false,
+        "parameter_hint": "start/end 控制时机；amplitude 控制幅度；speed_multiplier 与 duration 控制快慢；profile/curve_strength/oscillation_cycles 控制变速、回摆和不规则程度"
+      },
+      {
+        "type": "zoom_in",
+        "axis": "zoom",
+        "amplitude_deg": 4.386,
+        "start_seconds": 7.149,
+        "end_seconds": 7.684,
+        "duration_seconds": 0.535,
+        "speed_multiplier": 2.734,
+        "speed_bucket": "fast",
+        "window_bucket": "short_fast",
+        "profile": "pulse",
+        "curve_strength": 0.0,
+        "oscillation_cycles": 0.5,
+        "nominal_speed_deg_per_second": 16.396,
+        "is_backbone": false,
+        "parameter_hint": "start/end 控制时机；amplitude 控制幅度；speed_multiplier 与 duration 控制快慢；profile/curve_strength/oscillation_cycles 控制变速、回摆和不规则程度"
+      },
+      {
+        "type": "tilt_down",
+        "axis": "pitch",
+        "amplitude_deg": 52.474,
+        "start_seconds": 12.272,
+        "end_seconds": 12.821,
+        "duration_seconds": 0.549,
+        "speed_multiplier": 1.914,
+        "speed_bucket": "fast",
+        "window_bucket": "short_fast",
+        "profile": "swing",
+        "curve_strength": 2.298,
+        "oscillation_cycles": 2.62,
+        "nominal_speed_deg_per_second": 194.421,
+        "is_backbone": false,
+        "parameter_hint": "start/end 控制时机；amplitude 控制幅度；speed_multiplier 与 duration 控制快慢；profile/curve_strength/oscillation_cycles 控制变速、回摆和不规则程度"
+      },
+      {
+        "type": "pan_left",
+        "axis": "yaw",
+        "amplitude_deg": 109.179,
+        "start_seconds": 13.137,
+        "end_seconds": 13.783,
+        "duration_seconds": 0.647,
+        "speed_multiplier": 3.018,
+        "speed_bucket": "fast",
+        "window_bucket": "large_whip",
+        "profile": "whip",
+        "curve_strength": 0.0,
+        "oscillation_cycles": 1.0,
+        "nominal_speed_deg_per_second": 168.767,
+        "is_backbone": false,
+        "parameter_hint": "start/end 控制时机；amplitude 控制幅度；speed_multiplier 与 duration 控制快慢；profile/curve_strength/oscillation_cycles 控制变速、回摆和不规则程度"
+      }
+    ],
+    "showcase_tags": [
+      "continuous_layered_timeline",
+      "fast_large_range_bias",
+      "spin_360",
+      "whip_pan",
+      "large_range_whip"
+    ],
+    "resolution": [
+      1072,
+      856
+    ],
+    "duration_seconds": 15.0,
+    "fps": 20,
+    "ref": {
+      "dataset": "360x",
+      "file": "05a3f507-7d57-4797-9345-cc2b10894d76.mp4",
+      "start_seconds": 127.848,
+      "dynamic_score": 0.066109,
+      "global_flow_px": 0.047434,
+      "coherent_shift_px": 0.072134,
+      "license": "CC BY-NC-SA 4.0",
+      "source_url": "https://x360dataset.github.io/",
+      "allowed_sides": [
+        "ref"
+      ],
+      "privacy_face_blurred": true,
+      "scene_policy": "dynamic_fixed_camera_window"
+    },
+    "target": {
+      "dataset": "commons",
+      "file": "An_Introduction_to_the_Equatorial_Coordinate_System_360VR.webm",
+      "start_seconds": 1.0,
+      "dynamic_score": 0.0,
+      "global_flow_px": 0.002256,
+      "coherent_shift_px": 0.00262,
+      "license": "CC BY 3.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:An_Introduction_to_the_Equatorial_Coordinate_System_(360VR).webm",
+      "allowed_sides": [
+        "target"
+      ],
+      "privacy_face_blurred": false,
+      "scene_policy": "static_scene_fixed_camera_window"
+    },
+    "trajectory_report": {
+      "frame_count": 300,
+      "base_hfov_deg": 86.0,
+      "yaw_range_deg": [
+        -71.632339,
+        0.0
+      ],
+      "pitch_range_deg": [
+        -39.942711,
+        1e-06
+      ],
+      "roll_range_deg": [
+        -16.414932,
+        216.525986
+      ],
+      "hfov_range_deg": [
+        81.619148,
+        86.0
+      ],
+      "axis_scales": {
+        "yaw": 1.0,
+        "pitch": 1.0,
+        "roll": 1.0,
+        "zoom": 1.0,
+        "seam_yaw_pitch": 0.6561
+      },
+      "max_abs_sampled_longitude_deg": 122.491661,
+      "seam_longitude_limit_deg": 162.0,
+      "seam_safe": true,
+      "speed": {
+        "threshold_deg_per_second": 0.5,
+        "min_deg_per_second": 9.953308,
+        "median_deg_per_second": 25.319824,
+        "p90_deg_per_second": 45.61158,
+        "p99_deg_per_second": 295.459686,
+        "max_deg_per_second": 503.584869,
+        "stationary_frame_fraction": 0.0,
+        "max_stationary_run_frames": 0,
+        "continuous_motion": true
+      },
+      "timeline": [
+        {
+          "type": "roll_cw",
+          "start_seconds": 0.0,
+          "end_seconds": 15.0,
+          "duration_seconds": 15.0,
+          "profile": "linear",
+          "nominal_speed_deg_per_second": 25.235
+        },
+        {
+          "type": "tilt_up",
+          "start_seconds": 0.642,
+          "end_seconds": 4.521,
+          "duration_seconds": 3.879,
+          "profile": "whip",
+          "nominal_speed_deg_per_second": 15.695
+        },
+        {
+          "type": "roll_ccw",
+          "start_seconds": 5.021,
+          "end_seconds": 5.767,
+          "duration_seconds": 0.746,
+          "profile": "smooth",
+          "nominal_speed_deg_per_second": 217.162
+        },
+        {
+          "type": "zoom_in",
+          "start_seconds": 7.149,
+          "end_seconds": 7.684,
+          "duration_seconds": 0.535,
+          "profile": "pulse",
+          "nominal_speed_deg_per_second": 16.396
+        },
+        {
+          "type": "tilt_down",
+          "start_seconds": 12.272,
+          "end_seconds": 12.821,
+          "duration_seconds": 0.549,
+          "profile": "swing",
+          "nominal_speed_deg_per_second": 194.421
+        },
+        {
+          "type": "pan_left",
+          "start_seconds": 13.137,
+          "end_seconds": 13.783,
+          "duration_seconds": 0.647,
+          "profile": "whip",
+          "nominal_speed_deg_per_second": 168.767
+        }
+      ]
+    }
+  },
+  "rendered": {
+    "ref": {
+      "case_id": "recipe_15_a",
+      "side": "ref",
+      "path": "site/media/cases/recipe_15_a/ref.mp4",
+      "width": 1072,
+      "height": 856,
+      "pixels": 917632,
+      "fps": 20.0,
+      "duration_seconds": 15.0,
+      "bytes": 4741187,
+      "sha256": "c1fbc548614ecfecc521714aedf4cc0e69d4d048e1a99af229c78e6bc9949ca5",
+      "poster": "site/media/cases/recipe_15_a/ref.jpg"
+    },
+    "target": {
+      "case_id": "recipe_15_a",
+      "side": "target",
+      "path": "site/media/cases/recipe_15_a/target.mp4",
+      "width": 1072,
+      "height": 856,
+      "pixels": 917632,
+      "fps": 20.0,
+      "duration_seconds": 15.0,
+      "bytes": 2498407,
+      "sha256": "4e737f20834e8f3934f1da1420a70c6d109a525d6880fc6f61cdc76e2b98b46b",
+      "poster": "site/media/cases/recipe_15_a/target.jpg"
+    },
+    "codec": {
+      "codec": "libx264",
+      "crf": 22,
+      "preset": "medium",
+      "maxrate": "2400k",
+      "bufsize": "4800k",
+      "pixel_format": "yuv420p",
+      "ffmpeg_threads": 2
+    }
+  },
+  "trajectory_report": {
+    "frame_count": 300,
+    "base_hfov_deg": 86.0,
+    "yaw_range_deg": [
+      -71.632339,
+      0.0
+    ],
+    "pitch_range_deg": [
+      -39.942711,
+      1e-06
+    ],
+    "roll_range_deg": [
+      -16.414932,
+      216.525986
+    ],
+    "hfov_range_deg": [
+      81.619148,
+      86.0
+    ],
+    "axis_scales": {
+      "yaw": 1.0,
+      "pitch": 1.0,
+      "roll": 1.0,
+      "zoom": 1.0,
+      "seam_yaw_pitch": 0.6561
+    },
+    "max_abs_sampled_longitude_deg": 122.491661,
+    "seam_longitude_limit_deg": 162.0,
+    "seam_safe": true,
+    "speed": {
+      "threshold_deg_per_second": 0.5,
+      "min_deg_per_second": 9.953308,
+      "median_deg_per_second": 25.319824,
+      "p90_deg_per_second": 45.61158,
+      "p99_deg_per_second": 295.459686,
+      "max_deg_per_second": 503.584869,
+      "stationary_frame_fraction": 0.0,
+      "max_stationary_run_frames": 0,
+      "continuous_motion": true
+    },
+    "timeline": [
+      {
+        "type": "roll_cw",
+        "start_seconds": 0.0,
+        "end_seconds": 15.0,
+        "duration_seconds": 15.0,
+        "profile": "linear",
+        "nominal_speed_deg_per_second": 25.235
+      },
+      {
+        "type": "tilt_up",
+        "start_seconds": 0.642,
+        "end_seconds": 4.521,
+        "duration_seconds": 3.879,
+        "profile": "whip",
+        "nominal_speed_deg_per_second": 15.695
+      },
+      {
+        "type": "roll_ccw",
+        "start_seconds": 5.021,
+        "end_seconds": 5.767,
+        "duration_seconds": 0.746,
+        "profile": "smooth",
+        "nominal_speed_deg_per_second": 217.162
+      },
+      {
+        "type": "zoom_in",
+        "start_seconds": 7.149,
+        "end_seconds": 7.684,
+        "duration_seconds": 0.535,
+        "profile": "pulse",
+        "nominal_speed_deg_per_second": 16.396
+      },
+      {
+        "type": "tilt_down",
+        "start_seconds": 12.272,
+        "end_seconds": 12.821,
+        "duration_seconds": 0.549,
+        "profile": "swing",
+        "nominal_speed_deg_per_second": 194.421
+      },
+      {
+        "type": "pan_left",
+        "start_seconds": 13.137,
+        "end_seconds": 13.783,
+        "duration_seconds": 0.647,
+        "profile": "whip",
+        "nominal_speed_deg_per_second": 168.767
+      }
+    ]
+  }
+}

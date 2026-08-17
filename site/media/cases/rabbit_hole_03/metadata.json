@@ -2,10 +2,34 @@
   "case": {
     "id": "rabbit_hole_03",
     "kind": "rabbit_hole",
-    "mode": "standalone",
+    "mode": "special_motion",
     "recipe_id": null,
-    "action_count": 0,
-    "actions": [],
+    "action_count": 2,
+    "actions": [
+      {
+        "type": "roll_ccw",
+        "amplitude_deg": 322.972,
+        "start_seconds": 0.0,
+        "end_seconds": 15.0,
+        "duration_seconds": 15.0,
+        "profile": "linear",
+        "speed_multiplier": 0.897
+      },
+      {
+        "type": "zoom_out",
+        "amplitude_percent": 0.04697,
+        "start_seconds": 0.0,
+        "end_seconds": 15.0,
+        "duration_seconds": 15.0,
+        "profile": "sine_breathing",
+        "speed_multiplier": 1.056
+      }
+    ],
+    "showcase_tags": [
+      "special_projection",
+      "continuous_roll",
+      "light_zoom"
+    ],
     "resolution": [
       1344,
       672
@@ -14,32 +38,58 @@
     "fps": 20,
     "ref": {
       "dataset": "360x",
-      "file": "06eeb914-a805-479e-be3f-8157c95190b5.mp4",
-      "start_seconds": 64.15,
-      "dynamic_score": 0.008266,
-      "global_flow_px": 0.016978,
-      "coherent_shift_px": 0.038097,
+      "file": "03498a23-90d7-4428-bd12-45f88a323419.mp4",
+      "start_seconds": 46.238,
+      "dynamic_score": 0.053207,
+      "global_flow_px": 0.038023,
+      "coherent_shift_px": 0.123277,
       "license": "CC BY-NC-SA 4.0",
-      "source_url": "https://x360dataset.github.io/"
+      "source_url": "https://x360dataset.github.io/",
+      "allowed_sides": [
+        "ref"
+      ],
+      "privacy_face_blurred": true,
+      "scene_policy": "dynamic_fixed_camera_window"
     },
     "target": {
-      "dataset": "360x",
-      "file": "047054e3-0024-407d-be1b-ee1236f8a0fe.mp4",
-      "start_seconds": 97.49,
-      "dynamic_score": 0.034954,
-      "global_flow_px": 0.027298,
-      "coherent_shift_px": 0.016249,
-      "license": "CC BY-NC-SA 4.0",
-      "source_url": "https://x360dataset.github.io/"
+      "dataset": "commons",
+      "file": "360_Video_of_LCS-15_Christening_and_Launch.webm",
+      "start_seconds": 24.12,
+      "dynamic_score": 0.048649,
+      "global_flow_px": 0.061093,
+      "coherent_shift_px": 0.043792,
+      "license": "CC BY 3.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:360_Video_of_LCS-15_Christening_and_Launch.webm",
+      "allowed_sides": [
+        "target"
+      ],
+      "privacy_face_blurred": false,
+      "scene_policy": "dynamic_fixed_camera_window"
     },
     "projection_parameters": {
       "stereographic_scale": 1.0,
       "seam_orientation_deg": 0.0,
-      "note": "特殊投影需要使用完整 360°；接缝方向旋转到画面中相对不显眼的方位"
+      "roll_direction": "roll_ccw",
+      "roll_total_deg": 322.972,
+      "zoom_percent": 0.04697,
+      "zoom_cycles": 1.056,
+      "zoom_phase_radians": 4.550895,
+      "note": "特殊投影使用完整 360°，并叠加持续滚转与轻微呼吸 Zoom"
     },
     "trajectory_report": {
       "frame_count": 300,
       "seam_safe": null,
+      "roll_total_deg": 322.972,
+      "roll_speed_deg_per_second": 21.531467,
+      "zoom_scale_range": [
+        0.95303,
+        1.04697
+      ],
+      "speed": {
+        "continuous_motion": true,
+        "max_stationary_run_frames": 0,
+        "median_deg_per_second": 21.531467
+      },
       "note": "全 360° 特殊投影无法像普通透视视角一样完全排除 ERP 接缝"
     }
   },
@@ -53,8 +103,8 @@
       "pixels": 903168,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 4640811,
-      "sha256": "dd4666867290a96579128033c499cf9e7ca2b105050fc78873b18b79d7240640",
+      "bytes": 4725381,
+      "sha256": "91283b9ecb758d13c7e0c03a519083b71570dc11b74b29143db029237dbbb196",
       "poster": "site/media/cases/rabbit_hole_03/ref.jpg"
     },
     "target": {
@@ -66,8 +116,8 @@
       "pixels": 903168,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 4646554,
-      "sha256": "0d5136a7beeacb8b62043bac85870942c9d162b6bfbf2e8d2ee7bcd60e64db35",
+      "bytes": 4390465,
+      "sha256": "142ac2b6f537b18f37576272f21f0a1f72b36e2ee1e60d2b5ce4254b6f8ad95b",
       "poster": "site/media/cases/rabbit_hole_03/target.jpg"
     },
     "codec": {
@@ -83,6 +133,17 @@
   "trajectory_report": {
     "frame_count": 300,
     "seam_safe": null,
+    "roll_total_deg": 322.972,
+    "roll_speed_deg_per_second": 21.531467,
+    "zoom_scale_range": [
+      0.95303,
+      1.04697
+    ],
+    "speed": {
+      "continuous_motion": true,
+      "max_stationary_run_frames": 0,
+      "median_deg_per_second": 21.531467
+    },
     "note": "全 360° 特殊投影无法像普通透视视角一样完全排除 ERP 接缝"
   }
 }

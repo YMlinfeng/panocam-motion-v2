@@ -8,17 +8,19 @@
 四个子命令：
 
 ``audit``
-    逐素材、逐 15 秒窗口计算动态分数和全局相机运动分数。静止画面、低帧率、
-    非高清、时长不足、运动相机都会被拒绝。
+    逐素材、逐 15 秒窗口计算动态分数、切镜分数和全局相机运动分数。低帧率、
+    非高清、时长不足、运动相机与剪辑转场都会被拒绝；只有显式标记的固定机位
+    静止场景可以跳过最低动态分数。
 ``plan``
-    固定随机种子生成 45 个动作配方；每个配方同时生成 sequential 与
-    simultaneous 两个 case，再加入 5 个 tiny_planet 和 5 个 rabbit_hole。
+    固定随机种子生成 45 个动作配方；每个配方生成两个独立的错峰叠加混合时序
+    case。所有 case 都有覆盖 15 秒的持续运动骨架，其他动作在不同时间窗叠加，
+    因此不会在动作衔接处停顿。最后加入 5 个 tiny_planet 和 5 个 rabbit_hole。
 ``render``
     使用完全相同的逐帧轨迹渲染 ref/target。这里只做球面旋转与小幅 FOV 变化，
     没有深度、平移、视差或任何代理几何。
 ``validate``
     检查 100 个 case、200 个 MP4、15 秒、分辨率上限、左右一致性、动作白名单、
-    顺序/叠加配对关系与接缝安全报告。
+    连续运动、快速/大幅偏置、素材角色、低重复分配与接缝安全报告。
 """
 
 from __future__ import annotations
@@ -53,8 +55,8 @@ AUDIT_PATH = PROJECT_ROOT / "output" / "SOURCE_AUDIT.json"
 PLAN_PATH = PROJECT_ROOT / "output" / "CASE_PLAN.json"
 VALIDATION_PATH = PROJECT_ROOT / "output" / "VALIDATION.json"
 
-# 组合运镜只允许以下 8 种 A 类动作。这里没有 static，因为用户要求不再生产单独
-# A 类，组合中的“停顿”只是时间曲线的一部分，不应被伪装成一种动作。
+# 组合运镜只允许以下 8 种 A 类动作。这里没有 static；每个混合时序 case 都由
+# 持续 backbone + 多个错峰时间窗构成，任何停顿都应被验证器当成错误。
 ALLOWED_ACTIONS = (
     "pan_left",
     "pan_right",
@@ -75,7 +77,7 @@ FORBIDDEN_TOKENS = (
     "pedestal",
     "crane",
     "arc_",
-    "orbit",
+    "proxy_orbit",
     "distortion",
     "fisheye",
     "anamorphic",
@@ -91,8 +93,8 @@ def load_config(path: Path) -> dict[str, Any]:
     config = yaml.safe_load(path.read_text(encoding="utf-8"))
     project = config["project"]
     expected_total = (
-        int(project["sequential_cases"])
-        + int(project["simultaneous_cases"])
+        int(project["hybrid_a_cases"])
+        + int(project["hybrid_b_cases"])
         + int(project["tiny_planet_cases"])
         + int(project["rabbit_hole_cases"])
     )
@@ -244,7 +246,12 @@ def read_analysis_frames(
     ]
 
 
-def analyse_window(path: Path, start: float, screening: dict[str, Any]) -> dict[str, Any]:
+def analyse_window(
+    path: Path,
+    start: float,
+    screening: dict[str, Any],
+    allow_static_scene: bool = False,
+) -> dict[str, Any]:
     """计算一个窗口的动态分数与全局运动分数。
 
     ``dynamic_score``
@@ -302,19 +309,26 @@ def analyse_window(path: Path, start: float, screening: dict[str, Any]) -> dict[
     result = {
         "start_seconds": round(float(start), 3),
         "dynamic_score": round(float(np.median(dynamic_ratios)), 6),
+        "dynamic_score_p95": round(float(np.percentile(dynamic_ratios, 95)), 6),
+        "dynamic_score_max": round(float(np.max(dynamic_ratios)), 6),
         "global_flow_px": round(float(np.median(global_flow)), 6),
         "coherent_shift_px": round(
             float(np.median(coherent_shifts)) if coherent_shifts else 0.0,
             6,
         ),
     }
-    if result["dynamic_score"] < float(screening["dynamic_score_min"]):
-        result.update(status="reject", reason="static_or_nearly_static")
+    if result["dynamic_score_max"] > float(screening["scene_cut_dynamic_ratio_max"]):
+        result.update(status="reject", reason="scene_cut_or_full_frame_transition")
     elif (
         result["global_flow_px"] > float(screening["global_flow_px_max"])
         or result["coherent_shift_px"] > float(screening["coherent_shift_px_max"])
     ):
         result.update(status="reject", reason="moving_camera_or_global_motion")
+    elif result["dynamic_score"] < float(screening["dynamic_score_min"]):
+        if allow_static_scene:
+            result.update(status="pass", reason="static_scene_fixed_camera_window")
+        else:
+            result.update(status="reject", reason="static_or_nearly_static")
     else:
         result.update(status="pass", reason="dynamic_fixed_camera_window")
     return result
@@ -374,7 +388,15 @@ def command_audit(args: argparse.Namespace, config: dict[str, Any]) -> None:
             float(screening["audit_window_seconds"]),
             int(screening["max_windows_per_source"]),
         )
-        windows = [analyse_window(path, start, screening) for start in starts]
+        windows = [
+            analyse_window(
+                path,
+                start,
+                screening,
+                allow_static_scene=bool(source.get("allow_static_scene", False)),
+            )
+            for start in starts
+        ]
         usable = [window for window in windows if window["status"] == "pass"]
         row["analysed_windows"] = windows
         row["usable_windows"] = usable
@@ -395,7 +417,8 @@ def command_audit(args: argparse.Namespace, config: dict[str, Any]) -> None:
             "source_count": len(rows),
             "pass_count": sum(row["final_status"] == "pass" for row in rows),
             "reject_count": sum(row["final_status"] == "reject" for row in rows),
-            "rule": "only_dynamic_scenes_from_stationary_360_cameras",
+            "rule": "dynamic_or_explicitly_allowed_static_scenes_from_stationary_360_cameras",
+            "privacy_rule": "360+x uses official face blurring and is REF-only",
         },
         "sources": rows,
     }
@@ -436,46 +459,74 @@ def smoothstep(value: np.ndarray) -> np.ndarray:
     return value * value * (3.0 - 2.0 * value)
 
 
-def action_curve(
-    normalized_time: np.ndarray,
-    index: int,
-    action_count: int,
-    mode: str,
-    phase: float,
-    overlap_ratio: float,
-    speed_multiplier: float,
-    sequential_motion_fraction: float,
-) -> np.ndarray:
-    """返回单个动作在整条 15 秒内的 0～1 时间曲线。
+def action_curve(time_seconds: np.ndarray, item: dict[str, Any]) -> np.ndarray:
+    """根据逐动作时间窗生成连续曲线，不再把 15 秒机械均分。
 
-    顺序组合：把时间均分成 N 段；当前动作在自己的段内快速完成，之后保持结果。
-    叠加组合：每个动作使用一个宽脉冲，开始/结束略有错开，但公共重叠区至少达到
-    配置比例。脉冲会回到 0，因此同轴反向动作也不会永久相互抵消。
+    所有参数都随 case 写入 ``CASE_PLAN.json``：
+
+    ``start_seconds`` / ``end_seconds``
+        动作真实生效时间窗。不同动作的起止点互相错开并大量重叠。
+    ``profile``
+        ``linear`` 持续匀速；``smooth`` 平滑接力；``whip`` 在窗口中段集中完成，
+        形成甩镜；``swing`` 在总体前进上叠加变速/反向；``overshoot`` 越过目标后
+        回摆；``pulse`` 运动后返回起点。
+    ``speed_multiplier``
+        不直接裁掉尾部，而是调节 whip 陡峭度并在计划阶段影响动作时长。这样调快
+        不会产生“动作先做完、剩余时间静止”的平台。
     """
 
-    if mode == "sequential":
-        start = index / action_count
-        full_end = (index + 1) / action_count
-        # speed_multiplier 越大、motion_fraction 越小，动作越早完成；动作完成后保持
-        # 最终角度直到下一个动作接力，因此不会凭空回弹。
-        end = start + (full_end - start) * sequential_motion_fraction / speed_multiplier
-        local = (normalized_time - start) / max(end - start, 1e-6)
-        return smoothstep(local)
-
-    if mode != "simultaneous":
-        raise ValueError(f"未知组合模式：{mode}")
-    maximum_edge = max(0.0, (1.0 - overlap_ratio) / 2.0)
-    start = maximum_edge * phase
-    end = 1.0 - maximum_edge * (1.0 - phase)
-    local = (normalized_time - start) / max(end - start, 1e-6)
-    # 叠加模式以 0.5 为中心压缩时间轴。倍率越大，脉冲越窄、角速度越快；所有
-    # 动作仍在镜头中段同时达到显著幅度。
-    local = (local - 0.5) * speed_multiplier + 0.5
+    start = float(item["start_seconds"])
+    end = float(item["end_seconds"])
+    if end <= start:
+        raise ValueError(f"动作时间窗无效：{item}")
+    local = (time_seconds - start) / (end - start)
     inside = (local >= 0.0) & (local <= 1.0)
-    pulse = np.zeros_like(normalized_time)
-    # sin(pi*x) 的起止速度为 0，中心达到完整幅度，避免硬切或突然转向。
-    pulse[inside] = np.sin(np.pi * local[inside])
-    return pulse
+    clipped = np.clip(local, 0.0, 1.0)
+    profile = str(item["profile"])
+    speed = float(item["speed_multiplier"])
+    strength = float(item.get("curve_strength", 0.0))
+    cycles = float(item.get("oscillation_cycles", 1.0))
+
+    if profile == "linear":
+        progress = clipped
+    elif profile == "smooth":
+        progress = smoothstep(clipped)
+    elif profile == "whip":
+        # tanh 归一化后严格从 0 到 1；倍率越大，中段角速度越高。
+        sharpness = 3.0 + 2.2 * speed
+        denominator = 2.0 * math.tanh(sharpness * 0.5)
+        progress = (
+            np.tanh(sharpness * (clipped - 0.5)) + math.tanh(sharpness * 0.5)
+        ) / denominator
+    elif profile == "swing":
+        # 端点仍为 0/1，但中间可以多次加速、减速甚至短暂反向。
+        progress = clipped + strength * np.sin(2.0 * np.pi * cycles * clipped) / (
+            2.0 * np.pi * max(cycles, 1e-6)
+        )
+    elif profile == "overshoot":
+        progress = clipped + strength * np.sin(np.pi * clipped)
+    elif profile == "pulse":
+        progress = np.zeros_like(clipped)
+        progress[inside] = np.sin(np.pi * clipped[inside])
+        # pulse 在窗口结束后返回 0，而不是保持 1。
+        progress[local > 1.0] = 0.0
+    else:
+        raise ValueError(f"未知速度曲线：{profile}")
+    return progress.astype(np.float32)
+
+
+def longest_true_run(values: np.ndarray) -> int:
+    """返回布尔数组中最长连续 True 帧数，用于检测肉眼可见停顿。"""
+
+    longest = 0
+    current = 0
+    for value in values:
+        if bool(value):
+            current += 1
+            longest = max(longest, current)
+        else:
+            current = 0
+    return longest
 
 
 def rotation_matrix(yaw_deg: float, pitch_deg: float, roll_deg: float) -> np.ndarray:
@@ -523,6 +574,7 @@ def build_trajectory(case: dict[str, Any], config: dict[str, Any]) -> dict[str, 
     frame_count = int(round(float(project["duration_seconds"]) * fps))
     width, height = case["resolution"]
     normalized_time = np.arange(frame_count, dtype=np.float32) / max(frame_count - 1, 1)
+    time_seconds = normalized_time * float(project["duration_seconds"])
     base_hfov = base_hfov_for_resolution(width, height, settings)
 
     raw_yaw = np.zeros(frame_count, np.float32)
@@ -531,21 +583,11 @@ def build_trajectory(case: dict[str, Any], config: dict[str, Any]) -> dict[str, 
     raw_zoom = np.zeros(frame_count, np.float32)
 
     actions = case.get("actions", [])
-    overlap = float(settings["simultaneous_min_overlap_ratio"])
-    for index, item in enumerate(actions):
+    for item in actions:
         action = item["type"]
         if action not in ALLOWED_ACTIONS:
             raise ValueError(f"动作不在 V2 白名单：{action}")
-        curve = action_curve(
-            normalized_time,
-            index,
-            len(actions),
-            case["mode"],
-            float(item["phase"]),
-            overlap,
-            float(item["speed_multiplier"]),
-            float(settings["sequential_motion_fraction"]),
-        )
+        curve = action_curve(time_seconds, item)
         amount = float(item["amplitude_deg"]) * curve
         if action == "pan_left":
             raw_yaw -= amount
@@ -603,7 +645,9 @@ def build_trajectory(case: dict[str, Any], config: dict[str, Any]) -> dict[str, 
                     float(hfov[frame_index]),
                     float(yaw[frame_index] * seam_scale),
                     float(pitch[frame_index] * seam_scale),
-                    float(roll[frame_index] * seam_scale),
+                    # Roll 绕光轴旋转，360° 后回到同一姿态；它不会像 yaw 一样把
+                    # 视角中心推向 ERP 左右边界，因此接缝缩放只作用于 yaw/pitch。
+                    float(roll[frame_index]),
                 )
                 max_abs_longitude = max(max_abs_longitude, float(np.max(np.abs(longitudes))))
             if max_abs_longitude <= longitude_limit:
@@ -613,7 +657,28 @@ def build_trajectory(case: dict[str, Any], config: dict[str, Any]) -> dict[str, 
             raise RuntimeError(f"轨迹无法避开 ERP 接缝：{case['id']}")
         yaw *= seam_scale
         pitch *= seam_scale
-        roll *= seam_scale
+
+    # 用逐帧角度/FOV 差计算真实合成速度，而不是只看单动作的名义参数。只要不同
+    # 轴互相抵消、速度曲线尾部变平或动作时间窗有空洞，这里都会直接暴露。
+    speed_components = np.stack(
+        [np.diff(yaw), np.diff(pitch), np.diff(roll), 1.5 * np.diff(hfov)],
+        axis=1,
+    )
+    combined_speed = np.linalg.norm(speed_components, axis=1) * fps
+    stationary_threshold = float(settings["stationary_speed_threshold_deg_per_second"])
+    stationary = combined_speed < stationary_threshold
+    max_stationary_run = longest_true_run(stationary)
+    speed_report = {
+        "threshold_deg_per_second": round(stationary_threshold, 6),
+        "min_deg_per_second": round(float(combined_speed.min()), 6),
+        "median_deg_per_second": round(float(np.median(combined_speed)), 6),
+        "p90_deg_per_second": round(float(np.percentile(combined_speed, 90)), 6),
+        "p99_deg_per_second": round(float(np.percentile(combined_speed, 99)), 6),
+        "max_deg_per_second": round(float(combined_speed.max(initial=0.0)), 6),
+        "stationary_frame_fraction": round(float(np.mean(stationary)), 6),
+        "max_stationary_run_frames": int(max_stationary_run),
+        "continuous_motion": max_stationary_run <= int(settings["max_stationary_run_frames"]),
+    }
 
     return {
         "yaw_deg": yaw,
@@ -632,20 +697,25 @@ def build_trajectory(case: dict[str, Any], config: dict[str, Any]) -> dict[str, 
                 "pitch": round(pitch_scale, 6),
                 "roll": round(roll_scale, 6),
                 "zoom": round(zoom_scale, 6),
-                "seam": round(seam_scale, 6),
+                "seam_yaw_pitch": round(seam_scale, 6),
             },
             "max_abs_sampled_longitude_deg": round(max_abs_longitude, 6),
             "seam_longitude_limit_deg": round(longitude_limit, 6),
             "seam_safe": case["kind"] != "combo" or max_abs_longitude <= longitude_limit,
+            "speed": speed_report,
+            "timeline": [
+                {
+                    "type": item["type"],
+                    "start_seconds": item["start_seconds"],
+                    "end_seconds": item["end_seconds"],
+                    "duration_seconds": item["duration_seconds"],
+                    "profile": item["profile"],
+                    "nominal_speed_deg_per_second": item["nominal_speed_deg_per_second"],
+                }
+                for item in actions
+            ],
         },
     }
-
-
-def pick_window(rng: random.Random, source: dict[str, Any]) -> dict[str, Any]:
-    windows = source["usable_windows"]
-    if not windows:
-        raise ValueError(f"素材没有可用窗口：{source['file']}")
-    return rng.choice(windows)
 
 
 def public_source_record(source: dict[str, Any], window: dict[str, Any]) -> dict[str, Any]:
@@ -658,7 +728,261 @@ def public_source_record(source: dict[str, Any], window: dict[str, Any]) -> dict
         "coherent_shift_px": window["coherent_shift_px"],
         "license": source.get("license", "CC BY-NC-SA 4.0" if source["dataset"] == "360x" else "见来源台账"),
         "source_url": source.get("source_url", "https://x360dataset.github.io/" if source["dataset"] == "360x" else ""),
+        "allowed_sides": list(source.get("allowed_sides", ["ref", "target"])),
+        "privacy_face_blurred": bool(source.get("privacy_face_blurred", False)),
+        "scene_policy": window.get("reason", "dynamic_fixed_camera_window"),
     }
+
+
+class BalancedWindowAllocator:
+    """优先使用尚未用过的 15 秒窗口，并避免连续重复同一个源文件。
+
+    随机抽样很容易让少数文件被连续抽中。这里先把“源文件 × 可用窗口”展开成
+    唯一条目，每轮只从使用次数最低的条目里随机选；所有窗口用过一遍后才进入
+    下一轮。这样仍然随机，但不会产生无意义的重复偏置。
+    """
+
+    def __init__(self, sources: list[dict[str, Any]], side: str, rng: random.Random):
+        self.side = side
+        self.rng = rng
+        self.entries: list[tuple[dict[str, Any], dict[str, Any]]] = []
+        for source in sources:
+            if side not in source.get("allowed_sides", ["ref", "target"]):
+                continue
+            for window in source["usable_windows"]:
+                self.entries.append((source, window))
+        if not self.entries:
+            raise RuntimeError(f"{side} 没有可分配的合格素材窗口")
+        self.usage = [0 for _ in self.entries]
+        self.last_file: str | None = None
+
+    def take(self) -> dict[str, Any]:
+        minimum = min(self.usage)
+        candidates = [index for index, count in enumerate(self.usage) if count == minimum]
+        non_repeating = [
+            index for index in candidates if self.entries[index][0]["file"] != self.last_file
+        ]
+        if non_repeating:
+            candidates = non_repeating
+        selected = self.rng.choice(candidates)
+        self.usage[selected] += 1
+        source, window = self.entries[selected]
+        self.last_file = source["file"]
+        return public_source_record(source, window)
+
+    def report(self) -> dict[str, Any]:
+        by_file: dict[str, int] = {}
+        by_window: dict[str, int] = {}
+        for (source, window), count in zip(self.entries, self.usage):
+            key = f"{source['dataset']}/{source['file']}@{float(window['start_seconds']):.3f}"
+            by_window[key] = count
+            file_key = f"{source['dataset']}/{source['file']}"
+            by_file[file_key] = by_file.get(file_key, 0) + count
+        return {
+            "side": self.side,
+            "source_file_count": len(by_file),
+            "source_window_count": len(by_window),
+            "maximum_exact_window_reuse": max(by_window.values(), default=0),
+            "by_file": by_file,
+            "by_window": by_window,
+        }
+
+
+def action_axis(action: str) -> str:
+    if action.startswith("pan_"):
+        return "yaw"
+    if action.startswith("tilt_"):
+        return "pitch"
+    if action.startswith("roll_"):
+        return "roll"
+    if action.startswith("zoom_"):
+        return "zoom"
+    raise ValueError(f"未知动作轴：{action}")
+
+
+def choose_action_types(rng: random.Random, action_count: int, recipe_index: int) -> list[str]:
+    """在随机基础上保证甩镜、360 滚转和 Zoom 都有足够覆盖。"""
+
+    required: list[str] = []
+    if recipe_index % 5 == 0:
+        required.append(rng.choice(["roll_cw", "roll_ccw"]))
+    if recipe_index % 3 == 0:
+        required.append(rng.choice(["pan_left", "pan_right", "tilt_up", "tilt_down"]))
+    if recipe_index % 4 == 1:
+        required.append(rng.choice(["zoom_in", "zoom_out"]))
+    required = list(dict.fromkeys(required))[:action_count]
+    remaining = [action for action in ALLOWED_ACTIONS if action not in required]
+    rng.shuffle(remaining)
+    return required + remaining[: action_count - len(required)]
+
+
+def sample_speed_multiplier(rng: random.Random, settings: dict[str, Any]) -> tuple[float, str]:
+    if rng.random() < float(settings["fast_action_probability"]):
+        low, high = map(float, settings["fast_speed_multiplier_range"])
+        return round(rng.uniform(low, high), 3), "fast"
+    low, high = map(float, settings["speed_multiplier_range"])
+    return round(rng.uniform(low, high), 3), "varied"
+
+
+def sample_duration_seconds(
+    rng: random.Random,
+    settings: dict[str, Any],
+    speed_multiplier: float,
+) -> tuple[float, str]:
+    draw = rng.random()
+    fast_probability = float(settings["fast_action_probability"])
+    medium_probability = float(settings["medium_action_probability"])
+    if draw < fast_probability:
+        low, high = map(float, settings["short_duration_seconds"])
+        bucket = "short_fast"
+    elif draw < fast_probability + medium_probability:
+        low, high = map(float, settings["medium_duration_seconds"])
+        bucket = "medium"
+    else:
+        low, high = map(float, settings["long_duration_seconds"])
+        bucket = "long"
+    base = rng.uniform(low, high)
+    # 大倍率会缩短窗口，但保留完整曲线，不会像旧实现那样提前做完后静止。
+    duration = base / max(0.85, speed_multiplier ** 0.35)
+    return round(min(13.5, max(0.5, duration)), 3), bucket
+
+
+def build_case_actions(
+    rng: random.Random,
+    action_types: list[str],
+    recipe_index: int,
+    settings: dict[str, Any],
+) -> tuple[list[dict[str, Any]], list[str]]:
+    """生成一个连续、错峰叠加、速度非统一的 15 秒动作表。"""
+
+    duration_total = 15.0
+    spin_candidates = [i for i, action in enumerate(action_types) if action.startswith("roll_")]
+    whip_candidates = [
+        i for i, action in enumerate(action_types) if action.startswith("pan_") or action.startswith("tilt_")
+    ]
+    spin_index: int | None = None
+    if spin_candidates and (
+        recipe_index % 5 == 0 or rng.random() < float(settings["spin_360_probability"])
+    ):
+        spin_index = rng.choice(spin_candidates)
+    whip_index: int | None = None
+    if whip_candidates and (
+        recipe_index % 3 == 0 or rng.random() < float(settings["whip_probability"])
+    ):
+        whip_index = rng.choice(whip_candidates)
+    large_whip = whip_index is not None and (
+        recipe_index % 9 == 0 or rng.random() < float(settings["large_whip_probability"])
+    )
+
+    non_zoom = [i for i, action in enumerate(action_types) if not action.startswith("zoom_")]
+    backbone_index = spin_index if spin_index is not None else rng.choice(non_zoom or list(range(len(action_types))))
+    starts: list[float] = [0.0]
+    actions: list[dict[str, Any]] = []
+    tags = ["continuous_layered_timeline", "fast_large_range_bias"]
+    if spin_index is not None:
+        tags.append("spin_360")
+    if whip_index is not None:
+        tags.append("whip_pan" if action_types[whip_index].startswith("pan_") else "whip_tilt")
+    if large_whip:
+        tags.append("large_range_whip")
+
+    for index, action in enumerate(action_types):
+        speed_multiplier, speed_bucket = sample_speed_multiplier(rng, settings)
+        axis = action_axis(action)
+        is_backbone = index == backbone_index
+        is_whip = index == whip_index and not is_backbone
+        is_spin = index == spin_index
+
+        if is_backbone:
+            start = float(settings["backbone_start_seconds"])
+            end = float(settings["backbone_end_seconds"])
+            window_bucket = "full_length_backbone"
+            profile = "linear" if is_spin or rng.random() < 0.62 else "swing"
+        elif is_whip:
+            low, high = map(float, settings["whip_duration_seconds"])
+            action_duration = rng.uniform(low, high)
+            if large_whip:
+                action_duration *= rng.uniform(0.72, 0.95)
+            start = rng.uniform(0.35, max(0.36, duration_total - action_duration - 0.05))
+            end = min(duration_total, start + action_duration)
+            window_bucket = "large_whip" if large_whip else "whip"
+            profile = "whip"
+            speed_multiplier = max(speed_multiplier, rng.uniform(2.4, 3.6))
+            speed_bucket = "fast"
+        else:
+            action_duration, window_bucket = sample_duration_seconds(rng, settings, speed_multiplier)
+            latest = min(
+                float(settings["action_start_latest_seconds"]),
+                duration_total - action_duration,
+            )
+            start = rng.uniform(0.35, max(0.36, latest))
+            # 尽量避免多个动作在完全相同的时刻开始。
+            for _ in range(12):
+                if all(
+                    abs(start - previous) >= float(settings["min_start_separation_seconds"])
+                    for previous in starts
+                ):
+                    break
+                start = rng.uniform(0.35, max(0.36, latest))
+            end = min(duration_total, start + action_duration)
+            if axis == "zoom":
+                profile = rng.choice(["smooth", "pulse", "swing"])
+            else:
+                profile = rng.choices(
+                    ["linear", "smooth", "swing", "overshoot", "pulse", "whip"],
+                    weights=[17, 16, 25, 15, 10, 17],
+                    k=1,
+                )[0]
+        starts.append(float(start))
+
+        if is_spin:
+            low, high = map(float, settings["spin_360_amplitude_deg"])
+            amplitude = round(rng.uniform(low, high), 3)
+        elif is_whip and axis == "yaw":
+            low, high = map(float, settings["whip_pan_amplitude_deg"])
+            amplitude = round(rng.uniform(low, high), 3)
+        elif is_whip and axis == "pitch":
+            low, high = map(float, settings["whip_tilt_amplitude_deg"])
+            amplitude = round(rng.uniform(low, high), 3)
+        else:
+            amplitude = amplitude_for_action(action, rng, settings)
+
+        action_duration = max(float(end) - float(start), 1e-6)
+        curve_strength = 0.0
+        oscillation_cycles = 1.0
+        if profile == "swing":
+            curve_strength = round(rng.uniform(1.15, 2.40), 3)
+            oscillation_cycles = round(rng.uniform(1.1, 3.4), 3)
+        elif profile == "overshoot":
+            curve_strength = round(rng.uniform(0.38, 0.92), 3)
+        elif profile == "pulse":
+            oscillation_cycles = 0.5
+        path_factor = 2.0 if profile == "pulse" else 1.0 + 0.45 * curve_strength
+        nominal_speed = abs(amplitude) * path_factor / action_duration
+        actions.append(
+            {
+                "type": action,
+                "axis": axis,
+                "amplitude_deg": round(float(amplitude), 3),
+                "start_seconds": round(float(start), 3),
+                "end_seconds": round(float(end), 3),
+                "duration_seconds": round(action_duration, 3),
+                "speed_multiplier": round(float(speed_multiplier), 3),
+                "speed_bucket": speed_bucket,
+                "window_bucket": window_bucket,
+                "profile": profile,
+                "curve_strength": curve_strength,
+                "oscillation_cycles": oscillation_cycles,
+                "nominal_speed_deg_per_second": round(float(nominal_speed), 3),
+                "is_backbone": is_backbone,
+                "parameter_hint": (
+                    "start/end 控制时机；amplitude 控制幅度；speed_multiplier 与 duration 控制快慢；"
+                    "profile/curve_strength/oscillation_cycles 控制变速、回摆和不规则程度"
+                ),
+            }
+        )
+    actions.sort(key=lambda item: (float(item["start_seconds"]), not bool(item["is_backbone"])))
+    return actions, tags
 
 
 def command_plan(args: argparse.Namespace, config: dict[str, Any]) -> None:
@@ -673,122 +997,151 @@ def command_plan(args: argparse.Namespace, config: dict[str, Any]) -> None:
     recipes: list[dict[str, Any]] = []
     cases: list[dict[str, Any]] = []
     resolutions = config["resolutions"]
+    ref_allocator = BalancedWindowAllocator(pool, "ref", rng)
+    target_allocator = BalancedWindowAllocator(pool, "target", rng)
 
-    # 45 个配方平均覆盖动作数 2、3、4、5、6：每种动作数恰好 9 个配方。
+    # 45 个配方平均覆盖动作数 2、3、4、5、6：每种动作数恰好 9 个配方。每个配方
+    # 生成两个独立混合时序变体，动作类型相同，但时间窗/幅度/速度/素材都重新采样。
     for recipe_index in range(int(config["project"]["combo_recipe_count"])):
         action_count = 2 + (recipe_index % 5)
-        action_types = rng.sample(list(ALLOWED_ACTIONS), action_count)
-        actions = [
-            {
-                "type": action,
-                "amplitude_deg": amplitude_for_action(action, rng, config["trajectory"]),
-                "speed_multiplier": round(
-                    rng.uniform(*map(float, config["trajectory"]["speed_multiplier_range"])), 3
-                ),
-                # phase 只影响叠加模式中宽脉冲的轻微错开；0/1 都仍保留公共重叠区。
-                "phase": round(rng.random(), 4),
-                "parameter_hint": "调 amplitude_deg 改幅度；调 speed_multiplier 改速度；调 phase 改叠加起止错位",
-            }
-            for action in action_types
-        ]
-        # 先按普通随机流程完整消耗随机数，再覆盖两个历史纯 A 配方。这样后续 recipe
-        # 的源素材、窗口和参数不发生漂移；已经完成的其他渲染也仍与新计划一致。
-        display_name = None
-        origin = "deterministic_random_expansion"
-        if recipe_index == 40:  # recipe_41，2 动作槽
-            display_name = "Vertigo Roll · 旋转眩晕（旧版合法组合保留）"
-            origin = "legacy_retained_exact_A_only"
-            preset = [("roll_cw", 22.0), ("zoom_in", 9.0)]
-            for item, (action_type, amplitude) in zip(actions, preset):
-                item["type"] = action_type
-                item["amplitude_deg"] = amplitude
-        elif recipe_index == 41:  # recipe_42，3 动作槽
-            display_name = "Pan → Zoom → Tilt（旧版 explicit 组合保留）"
-            origin = "legacy_retained_exact_A_only"
-            preset = [("pan_right", 62.0), ("zoom_in", 9.0), ("tilt_up", 34.0)]
-            for item, (action_type, amplitude) in zip(actions, preset):
-                item["type"] = action_type
-                item["amplitude_deg"] = amplitude
-        ref_source, target_source = rng.sample(pool, 2)
-        ref_window = pick_window(rng, ref_source)
-        target_window = pick_window(rng, target_source)
+        action_types = choose_action_types(rng, action_count, recipe_index)
         recipe = {
             "id": f"recipe_{recipe_index + 1:02d}",
-            "display_name": display_name,
-            "origin": origin,
+            "display_name": None,
+            "origin": "randomized_continuous_layered_timeline",
             "action_count": action_count,
-            "actions": actions,
-            "resolution": list(resolutions[recipe_index % len(resolutions)]),
-            "ref": public_source_record(ref_source, ref_window),
-            "target": public_source_record(target_source, target_window),
+            "action_types": action_types,
         }
         recipes.append(recipe)
-        for mode in ("sequential", "simultaneous"):
-            case = {
-                "id": f"{recipe['id']}_{'seq' if mode == 'sequential' else 'sim'}",
-                "kind": "combo",
-                "mode": mode,
-                "recipe_id": recipe["id"],
-                "display_name": recipe["display_name"],
-                "origin": recipe["origin"],
-                "action_count": action_count,
-                "actions": actions,
-                "resolution": recipe["resolution"],
-                "duration_seconds": 15.0,
-                "fps": int(config["project"]["fps"]),
-                "ref": recipe["ref"],
-                "target": recipe["target"],
-            }
-            trajectory = build_trajectory(case, config)
-            case["trajectory_report"] = trajectory["report"]
-            cases.append(case)
+        for variant_index, mode in enumerate(("hybrid_a", "hybrid_b")):
+            # 极少数随机同轴组合可能发生速度抵消；最多重采样 40 次，直到真实逐帧
+            # 速度验证确认无停顿且接缝安全。
+            for _ in range(40):
+                actions, tags = build_case_actions(
+                    rng, action_types, recipe_index, config["trajectory"]
+                )
+                case = {
+                    "id": f"{recipe['id']}_{'a' if mode == 'hybrid_a' else 'b'}",
+                    "kind": "combo",
+                    "mode": mode,
+                    "recipe_id": recipe["id"],
+                    "display_name": recipe["display_name"],
+                    "origin": recipe["origin"],
+                    "action_count": action_count,
+                    "actions": actions,
+                    "showcase_tags": tags,
+                    "resolution": list(
+                        resolutions[(recipe_index * 2 + variant_index) % len(resolutions)]
+                    ),
+                    "duration_seconds": 15.0,
+                    "fps": int(config["project"]["fps"]),
+                }
+                try:
+                    trajectory = build_trajectory(case, config)
+                except RuntimeError:
+                    continue
+                if trajectory["report"]["speed"]["continuous_motion"]:
+                    case["ref"] = ref_allocator.take()
+                    case["target"] = target_allocator.take()
+                    case["trajectory_report"] = trajectory["report"]
+                    cases.append(case)
+                    break
+            else:
+                raise RuntimeError(f"{recipe['id']} {mode} 无法生成无停顿安全轨迹")
 
-    # 特殊投影不组合任何 A 类动作，因此 actions 为空、mode=standalone。
+    # 特殊投影现在明确叠加持续顺/逆时针滚转和轻微呼吸 Zoom，但仍不混入普通
+    # rectilinear 组合类别。
     for kind, count in (
         ("tiny_planet", int(config["project"]["tiny_planet_cases"])),
         ("rabbit_hole", int(config["project"]["rabbit_hole_cases"])),
     ):
         for index in range(count):
-            ref_source, target_source = rng.sample(pool, 2)
+            direction = rng.choice(["roll_cw", "roll_ccw"])
+            roll_low, roll_high = map(float, config["trajectory"]["special_roll_total_deg"])
+            zoom_low, zoom_high = map(float, config["trajectory"]["special_zoom_percent"])
+            cycle_low, cycle_high = map(float, config["trajectory"]["special_zoom_cycles"])
+            roll_total = round(rng.uniform(roll_low, roll_high), 3)
+            zoom_percent = round(rng.uniform(zoom_low, zoom_high), 5)
+            zoom_cycles = round(rng.uniform(cycle_low, cycle_high), 3)
             case = {
                 "id": f"{kind}_{index + 1:02d}",
                 "kind": kind,
-                "mode": "standalone",
+                "mode": "special_motion",
                 "recipe_id": None,
-                "action_count": 0,
-                "actions": [],
+                "action_count": 2,
+                "actions": [
+                    {
+                        "type": direction,
+                        "amplitude_deg": roll_total,
+                        "start_seconds": 0.0,
+                        "end_seconds": 15.0,
+                        "duration_seconds": 15.0,
+                        "profile": "linear",
+                        "speed_multiplier": round(roll_total / 360.0, 3),
+                    },
+                    {
+                        "type": rng.choice(["zoom_in", "zoom_out"]),
+                        "amplitude_percent": zoom_percent,
+                        "start_seconds": 0.0,
+                        "end_seconds": 15.0,
+                        "duration_seconds": 15.0,
+                        "profile": "sine_breathing",
+                        "speed_multiplier": zoom_cycles,
+                    },
+                ],
+                "showcase_tags": ["special_projection", "continuous_roll", "light_zoom"],
                 "resolution": list(resolutions[(90 + index + (0 if kind == 'tiny_planet' else 5)) % len(resolutions)]),
                 "duration_seconds": 15.0,
                 "fps": int(config["project"]["fps"]),
-                "ref": public_source_record(ref_source, pick_window(rng, ref_source)),
-                "target": public_source_record(target_source, pick_window(rng, target_source)),
+                "ref": ref_allocator.take(),
+                "target": target_allocator.take(),
                 "projection_parameters": {
                     "stereographic_scale": round(0.92 + 0.04 * index, 3),
                     "seam_orientation_deg": float(-144 + 72 * index),
-                    "note": "特殊投影需要使用完整 360°；接缝方向旋转到画面中相对不显眼的方位",
+                    "roll_direction": direction,
+                    "roll_total_deg": roll_total,
+                    "zoom_percent": zoom_percent,
+                    "zoom_cycles": zoom_cycles,
+                    "zoom_phase_radians": round(rng.uniform(0.0, 2.0 * math.pi), 6),
+                    "note": "特殊投影使用完整 360°，并叠加持续滚转与轻微呼吸 Zoom",
                 },
                 "trajectory_report": {
                     "frame_count": int(15 * config["project"]["fps"]),
                     "seam_safe": None,
+                    "roll_total_deg": roll_total,
+                    "roll_speed_deg_per_second": round(roll_total / 15.0, 6),
+                    "zoom_scale_range": [round(1.0 - zoom_percent, 6), round(1.0 + zoom_percent, 6)],
+                    "speed": {
+                        "continuous_motion": True,
+                        "max_stationary_run_frames": 0,
+                        "median_deg_per_second": round(roll_total / 15.0, 6),
+                    },
                     "note": "全 360° 特殊投影无法像普通透视视角一样完全排除 ERP 接缝",
                 },
             }
             cases.append(case)
 
-    # 网页按 recipe 相邻展示 seq/sim；特殊投影放在最后。
+    # 网页按 recipe 相邻展示两个独立混合时序变体；特殊投影放在最后。
     payload = {
-        "schema_version": 2,
+        "schema_version": 3,
         "random_seed": int(config["project"]["random_seed"]),
         "summary": {
             "total_cases": len(cases),
             "combo_cases": sum(case["kind"] == "combo" for case in cases),
-            "sequential_cases": sum(case["mode"] == "sequential" for case in cases),
-            "simultaneous_cases": sum(case["mode"] == "simultaneous" for case in cases),
+            "hybrid_a_cases": sum(case["mode"] == "hybrid_a" for case in cases),
+            "hybrid_b_cases": sum(case["mode"] == "hybrid_b" for case in cases),
             "tiny_planet_cases": sum(case["kind"] == "tiny_planet" for case in cases),
             "rabbit_hole_cases": sum(case["kind"] == "rabbit_hole" for case in cases),
             "videos": len(cases) * 2,
             "duration_seconds_each": 15.0,
             "max_pixels": int(config["project"]["max_pixels"]),
+            "pure_sequential_cases": 0,
+            "pure_simultaneous_cases": 0,
+            "continuous_motion_required": True,
+        },
+        "source_allocation": {
+            "ref": ref_allocator.report(),
+            "target": target_allocator.report(),
         },
         "recipes": recipes,
         "cases": cases,
@@ -982,20 +1335,6 @@ def render_case(case: dict[str, Any], config: dict[str, Any], overwrite: bool) -
             trajectory = build_trajectory(case, config)
         else:
             params = case["projection_parameters"]
-            ref_special_maps = stereographic_maps(
-                (width, height),
-                (ref_reader.width, ref_reader.height),
-                case["kind"],
-                float(params["stereographic_scale"]),
-                float(params["seam_orientation_deg"]),
-            )
-            target_special_maps = stereographic_maps(
-                (width, height),
-                (target_reader.width, target_reader.height),
-                case["kind"],
-                float(params["stereographic_scale"]),
-                float(params["seam_orientation_deg"]),
-            )
 
         # 当 FOV 变化时射线也变化。缓存按 0.01° 四舍五入后的射线，可减少平缓 zoom
         # 曲线中的重复三角计算；没有 zoom 的 case 通常只需要一份缓存。
@@ -1023,8 +1362,35 @@ def render_case(case: dict[str, Any], config: dict[str, Any], overwrite: bool) -
                     rays, (width, height), (target_reader.width, target_reader.height), *common
                 )
             else:
-                ref_maps = ref_special_maps
-                target_maps = target_special_maps
+                # 小行星/兔子洞不再使用一张静态采样表：orientation 逐帧滚转，scale
+                # 按正弦轻微呼吸，实现持续顺/逆时针旋转 + 轻微 Zoom。
+                progress = frame_index / max(frame_count - 1, 1)
+                roll_sign = 1.0 if params["roll_direction"] == "roll_cw" else -1.0
+                orientation = (
+                    float(params["seam_orientation_deg"])
+                    + roll_sign * float(params["roll_total_deg"]) * progress
+                )
+                zoom_wave = math.sin(
+                    2.0 * math.pi * float(params["zoom_cycles"]) * progress
+                    + float(params["zoom_phase_radians"])
+                )
+                scale = float(params["stereographic_scale"]) * (
+                    1.0 + float(params["zoom_percent"]) * zoom_wave
+                )
+                ref_maps = stereographic_maps(
+                    (width, height),
+                    (ref_reader.width, ref_reader.height),
+                    case["kind"],
+                    scale,
+                    orientation,
+                )
+                target_maps = stereographic_maps(
+                    (width, height),
+                    (target_reader.width, target_reader.height),
+                    case["kind"],
+                    scale,
+                    orientation,
+                )
 
             ref_frame = cv2.remap(
                 ref_source, ref_maps[0], ref_maps[1], cv2.INTER_LANCZOS4, borderMode=cv2.BORDER_REPLICATE
@@ -1148,17 +1514,26 @@ def command_validate(args: argparse.Namespace, config: dict[str, Any]) -> None:
         errors.append(f"case 数量不是 100：{len(cases)}")
     counts = {
         "combo": sum(case["kind"] == "combo" for case in cases),
-        "sequential": sum(case["mode"] == "sequential" for case in cases),
-        "simultaneous": sum(case["mode"] == "simultaneous" for case in cases),
+        "hybrid_a": sum(case["mode"] == "hybrid_a" for case in cases),
+        "hybrid_b": sum(case["mode"] == "hybrid_b" for case in cases),
         "tiny_planet": sum(case["kind"] == "tiny_planet" for case in cases),
         "rabbit_hole": sum(case["kind"] == "rabbit_hole" for case in cases),
     }
-    expected_counts = {"combo": 90, "sequential": 45, "simultaneous": 45, "tiny_planet": 5, "rabbit_hole": 5}
+    expected_counts = {"combo": 90, "hybrid_a": 45, "hybrid_b": 45, "tiny_planet": 5, "rabbit_hole": 5}
     if counts != expected_counts:
         errors.append(f"类目计数不正确：{counts}")
 
-    # 每个 recipe 必须同时拥有顺序与叠加，而且动作列表完全一致。
+    # 每个 recipe 必须拥有两个混合时序变体；动作类型相同，但时间窗、幅度和速度
+    # 应独立随机。纯 sequential/simultaneous 已经被本版删除。
     recipe_modes: dict[str, dict[str, dict[str, Any]]] = {}
+    combo_cases = [case for case in cases if case["kind"] == "combo"]
+    whip_case_count = 0
+    large_whip_case_count = 0
+    spin_360_case_count = 0
+    high_speed_case_count = 0
+    speed_medians: list[float] = []
+    source_files: dict[str, set[str]] = {"ref": set(), "target": set()}
+    window_usage: dict[str, dict[str, int]] = {"ref": {}, "target": {}}
     for case in cases:
         if case["kind"] == "combo":
             recipe_modes.setdefault(case["recipe_id"], {})[case["mode"]] = case
@@ -1169,14 +1544,90 @@ def command_validate(args: argparse.Namespace, config: dict[str, Any]) -> None:
                     errors.append(f"{case['id']} 含非法动作 {item['type']}")
             if not case["trajectory_report"].get("seam_safe"):
                 errors.append(f"{case['id']} 接缝安全检查未通过")
-        elif case["actions"] or case["action_count"] != 0:
-            errors.append(f"{case['id']} 特殊投影不应组合动作")
+            speed = case["trajectory_report"].get("speed", {})
+            if not speed.get("continuous_motion"):
+                errors.append(f"{case['id']} 存在可见停顿：{speed}")
+            if int(speed.get("max_stationary_run_frames", 999)) > int(
+                config["trajectory"]["max_stationary_run_frames"]
+            ):
+                errors.append(f"{case['id']} 最长停顿帧数超限")
+            speed_medians.append(float(speed.get("median_deg_per_second", 0.0)))
+            if float(speed.get("p99_deg_per_second", 0.0)) >= 35.0:
+                high_speed_case_count += 1
+            tags = set(case.get("showcase_tags", []))
+            whip_case_count += int("whip_pan" in tags or "whip_tilt" in tags)
+            large_whip_case_count += int("large_range_whip" in tags)
+            spin_360_case_count += int("spin_360" in tags)
+
+            actions = case["actions"]
+            backbones = [item for item in actions if item.get("is_backbone")]
+            if len(backbones) != 1:
+                errors.append(f"{case['id']} 必须恰好有一个持续 backbone")
+            elif (
+                float(backbones[0]["start_seconds"]) != 0.0
+                or float(backbones[0]["end_seconds"]) != 15.0
+            ):
+                errors.append(f"{case['id']} backbone 没有覆盖完整 15 秒")
+            if not any(float(item["start_seconds"]) > 0.0 for item in actions):
+                errors.append(f"{case['id']} 没有错峰动作")
+            durations = [float(item["duration_seconds"]) for item in actions]
+            if max(durations) - min(durations) < 0.25:
+                errors.append(f"{case['id']} 动作时长缺少变化")
+        else:
+            action_types = {item["type"] for item in case["actions"]}
+            if case["action_count"] != 2 or not any(
+                item.startswith("roll_") for item in action_types
+            ) or not any(item.startswith("zoom_") for item in action_types):
+                errors.append(f"{case['id']} 特殊投影必须包含滚转 + 轻微 Zoom")
+            params = case.get("projection_parameters", {})
+            if not 200.0 <= float(params.get("roll_total_deg", 0.0)) <= 720.0:
+                errors.append(f"{case['id']} 特殊投影滚转幅度不正确")
+            if not 0.0 < float(params.get("zoom_percent", 0.0)) <= 0.08:
+                errors.append(f"{case['id']} 特殊投影 Zoom 不应过大")
+
+        for side in ("ref", "target"):
+            source = case[side]
+            source_files[side].add(f"{source['dataset']}/{source['file']}")
+            window_key = (
+                f"{source['dataset']}/{source['file']}@{float(source['start_seconds']):.3f}"
+            )
+            window_usage[side][window_key] = window_usage[side].get(window_key, 0) + 1
+            if source.get("privacy_face_blurred") and side != "ref":
+                errors.append(f"{case['id']} 人脸模糊素材只能放 REF")
+            if source["dataset"] == "360x" and side != "ref":
+                errors.append(f"{case['id']} 360+x 被错误放入 TARGET")
 
     for recipe_id, modes in recipe_modes.items():
-        if set(modes) != {"sequential", "simultaneous"}:
-            errors.append(f"{recipe_id} 缺少顺序或叠加版本")
-        elif modes["sequential"]["actions"] != modes["simultaneous"]["actions"]:
-            errors.append(f"{recipe_id} 两种模式的动作配方不一致")
+        if set(modes) != {"hybrid_a", "hybrid_b"}:
+            errors.append(f"{recipe_id} 缺少 hybrid_a 或 hybrid_b")
+        else:
+            types_a = sorted(item["type"] for item in modes["hybrid_a"]["actions"])
+            types_b = sorted(item["type"] for item in modes["hybrid_b"]["actions"])
+            if types_a != types_b:
+                errors.append(f"{recipe_id} 两个变体的动作类型不一致")
+            if modes["hybrid_a"]["actions"] == modes["hybrid_b"]["actions"]:
+                errors.append(f"{recipe_id} 两个变体不应复用完全相同参数")
+
+    if any(case["mode"] in {"sequential", "simultaneous"} for case in cases):
+        errors.append("仍存在纯顺序或纯叠加 case")
+    if whip_case_count < 24:
+        errors.append(f"甩镜覆盖不足：{whip_case_count}")
+    if large_whip_case_count < 8:
+        errors.append(f"大范围甩镜覆盖不足：{large_whip_case_count}")
+    if spin_360_case_count < 16:
+        errors.append(f"360°滚转环绕覆盖不足：{spin_360_case_count}")
+    if high_speed_case_count < 63:
+        errors.append(f"快速运镜占比不足：{high_speed_case_count}/90")
+    if len({round(value, 1) for value in speed_medians}) < 35:
+        errors.append("组合运镜速度分布过于统一")
+    if len(source_files["ref"]) < 7:
+        errors.append(f"REF 源文件种类过少：{len(source_files['ref'])}")
+    if len(source_files["target"]) < 5:
+        errors.append(f"TARGET 源文件种类过少：{len(source_files['target'])}")
+    for side in ("ref", "target"):
+        maximum_reuse = max(window_usage[side].values(), default=0)
+        if maximum_reuse > 4:
+            errors.append(f"{side} 单一 15 秒窗口重复过多：{maximum_reuse}")
 
     combined_text = "\n".join(all_string_values(plan)).lower()
     for token in FORBIDDEN_TOKENS:
@@ -1256,7 +1707,7 @@ def command_validate(args: argparse.Namespace, config: dict[str, Any]) -> None:
             )
 
     validation = {
-        "schema_version": 2,
+        "schema_version": 3,
         "passed": not errors,
         "errors": errors,
         "counts": counts,
@@ -1272,6 +1723,25 @@ def command_validate(args: argparse.Namespace, config: dict[str, Any]) -> None:
             "only_A_rotation_zoom_combinations": True,
             "no_proxy_geometry": True,
             "normal_combo_seam_avoidance": True,
+            "pure_sequential_cases": 0,
+            "continuous_motion_every_combo": True,
+            "fast_motion_bias": {
+                "high_speed_cases": high_speed_case_count,
+                "combo_cases": len(combo_cases),
+                "whip_cases": whip_case_count,
+                "large_whip_cases": large_whip_case_count,
+                "spin_360_cases": spin_360_case_count,
+            },
+            "source_role_policy": "360+x face-blurred material is REF-only",
+            "source_diversity": {
+                "ref_source_files": len(source_files["ref"]),
+                "target_source_files": len(source_files["target"]),
+                "ref_unique_windows": len(window_usage["ref"]),
+                "target_unique_windows": len(window_usage["target"]),
+                "ref_maximum_window_reuse": max(window_usage["ref"].values(), default=0),
+                "target_maximum_window_reuse": max(window_usage["target"].values(), default=0),
+            },
+            "special_projection_motion": "continuous roll plus light breathing zoom",
         },
         "files": file_rows,
     }
@@ -1288,7 +1758,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG, help="YAML 配置文件")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    audit = subparsers.add_parser("audit", help="筛选固定机位动态全景素材")
+    audit = subparsers.add_parser("audit", help="筛选固定机位动态/允许静态的全景素材")
     audit.add_argument("--source-root-360x", help="覆盖 360+x 素材目录")
     audit.add_argument("--source-root-commons", help="覆盖 Wikimedia 素材目录")
 

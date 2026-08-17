@@ -2,10 +2,34 @@
   "case": {
     "id": "tiny_planet_03",
     "kind": "tiny_planet",
-    "mode": "standalone",
+    "mode": "special_motion",
     "recipe_id": null,
-    "action_count": 0,
-    "actions": [],
+    "action_count": 2,
+    "actions": [
+      {
+        "type": "roll_ccw",
+        "amplitude_deg": 427.898,
+        "start_seconds": 0.0,
+        "end_seconds": 15.0,
+        "duration_seconds": 15.0,
+        "profile": "linear",
+        "speed_multiplier": 1.189
+      },
+      {
+        "type": "zoom_out",
+        "amplitude_percent": 0.06357,
+        "start_seconds": 0.0,
+        "end_seconds": 15.0,
+        "duration_seconds": 15.0,
+        "profile": "sine_breathing",
+        "speed_multiplier": 1.76
+      }
+    ],
+    "showcase_tags": [
+      "special_projection",
+      "continuous_roll",
+      "light_zoom"
+    ],
     "resolution": [
       960,
       960
@@ -14,32 +38,58 @@
     "fps": 20,
     "ref": {
       "dataset": "360x",
-      "file": "03498a23-90d7-4428-bd12-45f88a323419.mp4",
-      "start_seconds": 238.5,
-      "dynamic_score": 0.06221,
-      "global_flow_px": 0.035653,
-      "coherent_shift_px": 0.073029,
+      "file": "047054e3-0024-407d-be1b-ee1236f8a0fe.mp4",
+      "start_seconds": 166.411,
+      "dynamic_score": 0.037067,
+      "global_flow_px": 0.038432,
+      "coherent_shift_px": 0.021495,
       "license": "CC BY-NC-SA 4.0",
-      "source_url": "https://x360dataset.github.io/"
+      "source_url": "https://x360dataset.github.io/",
+      "allowed_sides": [
+        "ref"
+      ],
+      "privacy_face_blurred": true,
+      "scene_policy": "dynamic_fixed_camera_window"
     },
     "target": {
-      "dataset": "360x",
-      "file": "05a3f507-7d57-4797-9345-cc2b10894d76.mp4",
-      "start_seconds": 222.985,
-      "dynamic_score": 0.057049,
-      "global_flow_px": 0.03636,
-      "coherent_shift_px": 0.047256,
-      "license": "CC BY-NC-SA 4.0",
-      "source_url": "https://x360dataset.github.io/"
+      "dataset": "commons",
+      "file": "360VR_Lotte_Tower_Grand_Opening_Fireworks_South_Korea.webm",
+      "start_seconds": 207.592,
+      "dynamic_score": 0.010906,
+      "global_flow_px": 0.015181,
+      "coherent_shift_px": 0.048095,
+      "license": "CC BY 3.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:360VR_Lotte_Tower_Grand_Opening_Fireworks(South_korea).webm",
+      "allowed_sides": [
+        "target"
+      ],
+      "privacy_face_blurred": false,
+      "scene_policy": "dynamic_fixed_camera_window"
     },
     "projection_parameters": {
       "stereographic_scale": 1.0,
       "seam_orientation_deg": 0.0,
-      "note": "特殊投影需要使用完整 360°；接缝方向旋转到画面中相对不显眼的方位"
+      "roll_direction": "roll_ccw",
+      "roll_total_deg": 427.898,
+      "zoom_percent": 0.06357,
+      "zoom_cycles": 1.76,
+      "zoom_phase_radians": 4.359977,
+      "note": "特殊投影使用完整 360°，并叠加持续滚转与轻微呼吸 Zoom"
     },
     "trajectory_report": {
       "frame_count": 300,
       "seam_safe": null,
+      "roll_total_deg": 427.898,
+      "roll_speed_deg_per_second": 28.526533,
+      "zoom_scale_range": [
+        0.93643,
+        1.06357
+      ],
+      "speed": {
+        "continuous_motion": true,
+        "max_stationary_run_frames": 0,
+        "median_deg_per_second": 28.526533
+      },
       "note": "全 360° 特殊投影无法像普通透视视角一样完全排除 ERP 接缝"
     }
   },
@@ -53,8 +103,8 @@
       "pixels": 921600,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 4729815,
-      "sha256": "db54eb5d0e9ba84b290d030442c3eb5dc3a89c3f4eb771d6c4d31e387e04ac9d",
+      "bytes": 4732228,
+      "sha256": "184685e94d1768438c9864ef8051e284e076288e543c541c9e3903280614e96e",
       "poster": "site/media/cases/tiny_planet_03/ref.jpg"
     },
     "target": {
@@ -66,8 +116,8 @@
       "pixels": 921600,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 4731689,
-      "sha256": "ff42a728b724a7f2025856903651f64a54f72c3c32563342f731c9d662e38fff",
+      "bytes": 4739490,
+      "sha256": "70fd30b71450d81747f49abb2ef5bfb7cebbb08d576166b563acac8b6ac53efb",
       "poster": "site/media/cases/tiny_planet_03/target.jpg"
     },
     "codec": {
@@ -83,6 +133,17 @@
   "trajectory_report": {
     "frame_count": 300,
     "seam_safe": null,
+    "roll_total_deg": 427.898,
+    "roll_speed_deg_per_second": 28.526533,
+    "zoom_scale_range": [
+      0.93643,
+      1.06357
+    ],
+    "speed": {
+      "continuous_motion": true,
+      "max_stationary_run_frames": 0,
+      "median_deg_per_second": 28.526533
+    },
     "note": "全 360° 特殊投影无法像普通透视视角一样完全排除 ERP 接缝"
   }
 }

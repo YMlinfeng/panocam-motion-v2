@@ -12,19 +12,23 @@ It does not replace the licenses of source videos or derived demo videos.
 
 Derived ref/target demos that identify `dataset: 360x` in their metadata must be
 used under CC BY-NC-SA 4.0. Commercial reuse is not granted by this repository.
+The dataset documentation describes automated Gaussian face blurring for privacy;
+this project therefore assigns all 360+x clips to REF only.
 
 ## Wikimedia Commons-derived demos
 
-The LCS-15 source used in the production pool is:
+The current TARGET pool contains the following stationary-camera sources. The
+exact per-file license and source URL are also copied into `SOURCE_AUDIT.json`.
 
-- Source: `360 Video of LCS-15 Christening and Launch`
-- File page: https://commons.wikimedia.org/wiki/File:360_Video_of_LCS-15_Christening_and_Launch.webm
-- Artist/credit recorded in the source ledger: U.S. Navy; original YouTube/Commons file page
-- License: CC BY 3.0
+- `360 Video of LCS-15 Christening and Launch` — CC BY 3.0.
+- `An Introduction to the Equatorial Coordinate System (360VR)` — CC BY 3.0.
+- `Wind Tunnel Test of NASA's Most Powerful Rocket (360° Animation)` — NASA public domain.
+- `World's First Live 360 Rocket Launch: Orbital ATK CRS-7` — NASA public domain.
+- `GOES-S Atlas V Launch in 360` — NASA public domain.
+- `360VR Lotte Tower Grand Opening Fireworks (South Korea)` — CC BY 3.0.
 
 ## Per-case record
 
 Every generated case records source file, dataset, time window, source URL and
 license in `site/media/cases/<case_id>/metadata.json`. The aggregate screening
 ledger is `output/SOURCE_AUDIT.json`.
-

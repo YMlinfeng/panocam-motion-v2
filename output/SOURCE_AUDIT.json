@@ -1,39 +1,45 @@
 {
   "schema_version": 2,
-  "generated_at_unix": 1786900946.7674901,
+  "generated_at_unix": 1786940329.828159,
   "screening_config": {
     "min_duration_seconds": 16.0,
-    "min_width": 3840,
-    "min_height": 1920,
+    "min_width": 3600,
+    "min_height": 1800,
     "min_fps": 20.0,
     "audit_window_seconds": 15.0,
     "audit_stride_seconds": 30.0,
-    "max_windows_per_source": 5,
+    "max_windows_per_source": 8,
     "sample_count_per_window": 15,
     "analysis_width": 512,
     "analysis_height": 256,
     "pixel_difference_threshold": 10,
     "dynamic_score_min": 0.006,
+    "scene_cut_dynamic_ratio_max": 0.42,
     "global_flow_px_max": 1.8,
     "coherent_shift_px_max": 10.0
   },
   "source_roots": {
     "360x": "../panocam/data/dataset_showcase/360x/hr_samples",
-    "commons": "../panocam/data/panos"
+    "commons": "local/sources/commons"
   },
   "source_roots_note": "公开台账只记录配置中的逻辑路径；命令行覆盖的本机绝对路径不落盘",
   "summary": {
-    "source_count": 11,
-    "pass_count": 9,
-    "reject_count": 2,
-    "rule": "only_dynamic_scenes_from_stationary_360_cameras"
+    "source_count": 16,
+    "pass_count": 13,
+    "reject_count": 3,
+    "rule": "dynamic_or_explicitly_allowed_static_scenes_from_stationary_360_cameras",
+    "privacy_rule": "360+x uses official face blurring and is REF-only"
   },
   "sources": [
     {
       "dataset": "360x",
       "file": "019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4",
       "manual_decision": "pass",
-      "note": "室内固定机位，人物动态",
+      "allowed_sides": [
+        "ref"
+      ],
+      "privacy_face_blurred": true,
+      "note": "室内固定机位，人物动态；360+x 官方隐私处理会模糊人脸",
       "locator": "360x/019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4",
       "path_exists": true,
       "metadata": {
@@ -48,38 +54,78 @@
         {
           "start_seconds": 1.0,
           "dynamic_score": 0.026203,
+          "dynamic_score_p95": 0.049949,
+          "dynamic_score_max": 0.059853,
           "global_flow_px": 0.060034,
           "coherent_shift_px": 0.025047,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 78.04,
-          "dynamic_score": 0.013798,
-          "global_flow_px": 0.059948,
-          "coherent_shift_px": 0.007854,
+          "start_seconds": 45.023,
+          "dynamic_score": 0.016487,
+          "dynamic_score_p95": 0.022233,
+          "dynamic_score_max": 0.022461,
+          "global_flow_px": 0.061339,
+          "coherent_shift_px": 0.028353,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 155.08,
-          "dynamic_score": 0.015465,
-          "global_flow_px": 0.059789,
-          "coherent_shift_px": 0.022176,
+          "start_seconds": 89.046,
+          "dynamic_score": 0.014324,
+          "dynamic_score_p95": 0.018647,
+          "dynamic_score_max": 0.018974,
+          "global_flow_px": 0.060713,
+          "coherent_shift_px": 0.019536,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 232.12,
-          "dynamic_score": 0.021667,
-          "global_flow_px": 0.067862,
-          "coherent_shift_px": 0.021576,
+          "start_seconds": 133.069,
+          "dynamic_score": 0.015118,
+          "dynamic_score_p95": 0.024345,
+          "dynamic_score_max": 0.028709,
+          "global_flow_px": 0.058822,
+          "coherent_shift_px": 0.030879,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 177.091,
+          "dynamic_score": 0.013855,
+          "dynamic_score_p95": 0.01749,
+          "dynamic_score_max": 0.018433,
+          "global_flow_px": 0.059962,
+          "coherent_shift_px": 0.014435,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 221.114,
+          "dynamic_score": 0.021873,
+          "dynamic_score_p95": 0.027622,
+          "dynamic_score_max": 0.029839,
+          "global_flow_px": 0.065286,
+          "coherent_shift_px": 0.027348,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 265.137,
+          "dynamic_score": 0.018085,
+          "dynamic_score_p95": 0.0235,
+          "dynamic_score_max": 0.02356,
+          "global_flow_px": 0.063761,
+          "coherent_shift_px": 0.025897,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
           "start_seconds": 309.16,
           "dynamic_score": 0.023609,
+          "dynamic_score_p95": 0.054146,
+          "dynamic_score_max": 0.077568,
           "global_flow_px": 0.06652,
           "coherent_shift_px": 0.027205,
           "status": "pass",
@@ -90,38 +136,78 @@
         {
           "start_seconds": 1.0,
           "dynamic_score": 0.026203,
+          "dynamic_score_p95": 0.049949,
+          "dynamic_score_max": 0.059853,
           "global_flow_px": 0.060034,
           "coherent_shift_px": 0.025047,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 78.04,
-          "dynamic_score": 0.013798,
-          "global_flow_px": 0.059948,
-          "coherent_shift_px": 0.007854,
+          "start_seconds": 45.023,
+          "dynamic_score": 0.016487,
+          "dynamic_score_p95": 0.022233,
+          "dynamic_score_max": 0.022461,
+          "global_flow_px": 0.061339,
+          "coherent_shift_px": 0.028353,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 155.08,
-          "dynamic_score": 0.015465,
-          "global_flow_px": 0.059789,
-          "coherent_shift_px": 0.022176,
+          "start_seconds": 89.046,
+          "dynamic_score": 0.014324,
+          "dynamic_score_p95": 0.018647,
+          "dynamic_score_max": 0.018974,
+          "global_flow_px": 0.060713,
+          "coherent_shift_px": 0.019536,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 232.12,
-          "dynamic_score": 0.021667,
-          "global_flow_px": 0.067862,
-          "coherent_shift_px": 0.021576,
+          "start_seconds": 133.069,
+          "dynamic_score": 0.015118,
+          "dynamic_score_p95": 0.024345,
+          "dynamic_score_max": 0.028709,
+          "global_flow_px": 0.058822,
+          "coherent_shift_px": 0.030879,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 177.091,
+          "dynamic_score": 0.013855,
+          "dynamic_score_p95": 0.01749,
+          "dynamic_score_max": 0.018433,
+          "global_flow_px": 0.059962,
+          "coherent_shift_px": 0.014435,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 221.114,
+          "dynamic_score": 0.021873,
+          "dynamic_score_p95": 0.027622,
+          "dynamic_score_max": 0.029839,
+          "global_flow_px": 0.065286,
+          "coherent_shift_px": 0.027348,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 265.137,
+          "dynamic_score": 0.018085,
+          "dynamic_score_p95": 0.0235,
+          "dynamic_score_max": 0.02356,
+          "global_flow_px": 0.063761,
+          "coherent_shift_px": 0.025897,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
           "start_seconds": 309.16,
           "dynamic_score": 0.023609,
+          "dynamic_score_p95": 0.054146,
+          "dynamic_score_max": 0.077568,
           "global_flow_px": 0.06652,
           "coherent_shift_px": 0.027205,
           "status": "pass",
@@ -155,7 +241,11 @@
       "dataset": "360x",
       "file": "02692940-fd94-4af1-8ebc-577acacc617a.mp4",
       "manual_decision": "pass",
-      "note": "商场餐区固定机位，人群动态",
+      "allowed_sides": [
+        "ref"
+      ],
+      "privacy_face_blurred": true,
+      "note": "商场餐区固定机位，人群动态；人脸已模糊",
       "locator": "360x/02692940-fd94-4af1-8ebc-577acacc617a.mp4",
       "path_exists": true,
       "metadata": {
@@ -170,70 +260,97 @@
         {
           "start_seconds": 1.0,
           "dynamic_score": 0.421982,
+          "dynamic_score_p95": 0.574854,
+          "dynamic_score_max": 0.615013,
           "global_flow_px": 2.067419,
           "coherent_shift_px": 0.518574,
           "status": "reject",
-          "reason": "moving_camera_or_global_motion"
+          "reason": "scene_cut_or_full_frame_transition"
         },
         {
-          "start_seconds": 15.06,
-          "dynamic_score": 0.414433,
-          "global_flow_px": 1.502244,
-          "coherent_shift_px": 0.582584,
-          "status": "pass",
-          "reason": "dynamic_fixed_camera_window"
+          "start_seconds": 9.034,
+          "dynamic_score": 0.358887,
+          "dynamic_score_p95": 0.531109,
+          "dynamic_score_max": 0.539093,
+          "global_flow_px": 1.31975,
+          "coherent_shift_px": 0.425251,
+          "status": "reject",
+          "reason": "scene_cut_or_full_frame_transition"
         },
         {
-          "start_seconds": 29.12,
+          "start_seconds": 17.069,
+          "dynamic_score": 0.430042,
+          "dynamic_score_p95": 0.549914,
+          "dynamic_score_max": 0.555077,
+          "global_flow_px": 1.911072,
+          "coherent_shift_px": 0.628087,
+          "status": "reject",
+          "reason": "scene_cut_or_full_frame_transition"
+        },
+        {
+          "start_seconds": 25.103,
           "dynamic_score": 0.3368,
+          "dynamic_score_p95": 0.511581,
+          "dynamic_score_max": 0.518112,
           "global_flow_px": 1.206645,
-          "coherent_shift_px": 0.494062,
-          "status": "pass",
-          "reason": "dynamic_fixed_camera_window"
+          "coherent_shift_px": 0.539782,
+          "status": "reject",
+          "reason": "scene_cut_or_full_frame_transition"
         },
         {
-          "start_seconds": 43.18,
-          "dynamic_score": 0.613434,
-          "global_flow_px": 4.834031,
+          "start_seconds": 33.137,
+          "dynamic_score": 0.434608,
+          "dynamic_score_p95": 0.588254,
+          "dynamic_score_max": 0.653992,
+          "global_flow_px": 2.207292,
+          "coherent_shift_px": 0.509458,
+          "status": "reject",
+          "reason": "scene_cut_or_full_frame_transition"
+        },
+        {
+          "start_seconds": 41.171,
+          "dynamic_score": 0.564926,
+          "dynamic_score_p95": 0.686558,
+          "dynamic_score_max": 0.768349,
+          "global_flow_px": 4.239094,
           "coherent_shift_px": 0.481431,
           "status": "reject",
-          "reason": "moving_camera_or_global_motion"
+          "reason": "scene_cut_or_full_frame_transition"
+        },
+        {
+          "start_seconds": 49.206,
+          "dynamic_score": 0.614956,
+          "dynamic_score_p95": 0.77438,
+          "dynamic_score_max": 0.797043,
+          "global_flow_px": 6.658784,
+          "coherent_shift_px": 0.545273,
+          "status": "reject",
+          "reason": "scene_cut_or_full_frame_transition"
         },
         {
           "start_seconds": 57.24,
           "dynamic_score": 0.503937,
+          "dynamic_score_p95": 0.649175,
+          "dynamic_score_max": 0.791,
           "global_flow_px": 5.026932,
           "coherent_shift_px": 0.724567,
           "status": "reject",
-          "reason": "moving_camera_or_global_motion"
+          "reason": "scene_cut_or_full_frame_transition"
         }
       ],
-      "usable_windows": [
-        {
-          "start_seconds": 15.06,
-          "dynamic_score": 0.414433,
-          "global_flow_px": 1.502244,
-          "coherent_shift_px": 0.582584,
-          "status": "pass",
-          "reason": "dynamic_fixed_camera_window"
-        },
-        {
-          "start_seconds": 29.12,
-          "dynamic_score": 0.3368,
-          "global_flow_px": 1.206645,
-          "coherent_shift_px": 0.494062,
-          "status": "pass",
-          "reason": "dynamic_fixed_camera_window"
-        }
-      ],
-      "final_status": "pass",
-      "final_reason": "manual_and_metric_checks_passed"
+      "usable_windows": [],
+      "final_status": "reject",
+      "final_reason": "no_usable_15_second_window"
     },
     {
       "dataset": "360x",
       "file": "03498a23-90d7-4428-bd12-45f88a323419.mp4",
       "manual_decision": "pass",
-      "note": "寺庙广场固定机位，人群动态",
+      "allowed_sides": [
+        "ref"
+      ],
+      "privacy_face_blurred": true,
+      "note": "寺庙广场固定机位，人群动态；人脸已模糊",
       "locator": "360x/03498a23-90d7-4428-bd12-45f88a323419.mp4",
       "path_exists": true,
       "metadata": {
@@ -248,38 +365,78 @@
         {
           "start_seconds": 1.0,
           "dynamic_score": 0.285522,
+          "dynamic_score_p95": 0.431105,
+          "dynamic_score_max": 0.441856,
           "global_flow_px": 0.621098,
           "coherent_shift_px": 0.331255,
+          "status": "reject",
+          "reason": "scene_cut_or_full_frame_transition"
+        },
+        {
+          "start_seconds": 46.238,
+          "dynamic_score": 0.053207,
+          "dynamic_score_p95": 0.071455,
+          "dynamic_score_max": 0.072685,
+          "global_flow_px": 0.038023,
+          "coherent_shift_px": 0.123277,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 80.167,
-          "dynamic_score": 0.046673,
-          "global_flow_px": 0.028988,
-          "coherent_shift_px": 0.057515,
+          "start_seconds": 91.476,
+          "dynamic_score": 0.023598,
+          "dynamic_score_p95": 0.026112,
+          "dynamic_score_max": 0.028046,
+          "global_flow_px": 0.023507,
+          "coherent_shift_px": 0.06631,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 159.334,
-          "dynamic_score": 0.10508,
-          "global_flow_px": 0.078636,
-          "coherent_shift_px": 0.083078,
+          "start_seconds": 136.714,
+          "dynamic_score": 0.04253,
+          "dynamic_score_p95": 0.062163,
+          "dynamic_score_max": 0.06369,
+          "global_flow_px": 0.027593,
+          "coherent_shift_px": 0.106272,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 238.5,
-          "dynamic_score": 0.06221,
-          "global_flow_px": 0.035653,
-          "coherent_shift_px": 0.073029,
+          "start_seconds": 181.953,
+          "dynamic_score": 0.08049,
+          "dynamic_score_p95": 0.323127,
+          "dynamic_score_max": 0.350159,
+          "global_flow_px": 0.079557,
+          "coherent_shift_px": 0.086735,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 227.191,
+          "dynamic_score": 0.069691,
+          "dynamic_score_p95": 0.145564,
+          "dynamic_score_max": 0.152908,
+          "global_flow_px": 0.040238,
+          "coherent_shift_px": 0.098525,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 272.429,
+          "dynamic_score": 0.033607,
+          "dynamic_score_p95": 0.051837,
+          "dynamic_score_max": 0.052139,
+          "global_flow_px": 0.02922,
+          "coherent_shift_px": 0.067284,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
           "start_seconds": 317.667,
           "dynamic_score": 0.073635,
+          "dynamic_score_p95": 0.26065,
+          "dynamic_score_max": 0.362976,
           "global_flow_px": 0.048663,
           "coherent_shift_px": 0.068389,
           "status": "pass",
@@ -288,40 +445,70 @@
       ],
       "usable_windows": [
         {
-          "start_seconds": 1.0,
-          "dynamic_score": 0.285522,
-          "global_flow_px": 0.621098,
-          "coherent_shift_px": 0.331255,
+          "start_seconds": 46.238,
+          "dynamic_score": 0.053207,
+          "dynamic_score_p95": 0.071455,
+          "dynamic_score_max": 0.072685,
+          "global_flow_px": 0.038023,
+          "coherent_shift_px": 0.123277,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 80.167,
-          "dynamic_score": 0.046673,
-          "global_flow_px": 0.028988,
-          "coherent_shift_px": 0.057515,
+          "start_seconds": 91.476,
+          "dynamic_score": 0.023598,
+          "dynamic_score_p95": 0.026112,
+          "dynamic_score_max": 0.028046,
+          "global_flow_px": 0.023507,
+          "coherent_shift_px": 0.06631,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 159.334,
-          "dynamic_score": 0.10508,
-          "global_flow_px": 0.078636,
-          "coherent_shift_px": 0.083078,
+          "start_seconds": 136.714,
+          "dynamic_score": 0.04253,
+          "dynamic_score_p95": 0.062163,
+          "dynamic_score_max": 0.06369,
+          "global_flow_px": 0.027593,
+          "coherent_shift_px": 0.106272,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 238.5,
-          "dynamic_score": 0.06221,
-          "global_flow_px": 0.035653,
-          "coherent_shift_px": 0.073029,
+          "start_seconds": 181.953,
+          "dynamic_score": 0.08049,
+          "dynamic_score_p95": 0.323127,
+          "dynamic_score_max": 0.350159,
+          "global_flow_px": 0.079557,
+          "coherent_shift_px": 0.086735,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 227.191,
+          "dynamic_score": 0.069691,
+          "dynamic_score_p95": 0.145564,
+          "dynamic_score_max": 0.152908,
+          "global_flow_px": 0.040238,
+          "coherent_shift_px": 0.098525,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 272.429,
+          "dynamic_score": 0.033607,
+          "dynamic_score_p95": 0.051837,
+          "dynamic_score_max": 0.052139,
+          "global_flow_px": 0.02922,
+          "coherent_shift_px": 0.067284,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
           "start_seconds": 317.667,
           "dynamic_score": 0.073635,
+          "dynamic_score_p95": 0.26065,
+          "dynamic_score_max": 0.362976,
           "global_flow_px": 0.048663,
           "coherent_shift_px": 0.068389,
           "status": "pass",
@@ -355,7 +542,11 @@
       "dataset": "360x",
       "file": "047054e3-0024-407d-be1b-ee1236f8a0fe.mp4",
       "manual_decision": "pass",
-      "note": "街头固定机位，人物动态",
+      "allowed_sides": [
+        "ref"
+      ],
+      "privacy_face_blurred": true,
+      "note": "街头固定机位，人物动态；人脸已模糊",
       "locator": "360x/047054e3-0024-407d-be1b-ee1236f8a0fe.mp4",
       "path_exists": true,
       "metadata": {
@@ -370,38 +561,78 @@
         {
           "start_seconds": 1.0,
           "dynamic_score": 0.055092,
+          "dynamic_score_p95": 0.226049,
+          "dynamic_score_max": 0.234985,
           "global_flow_px": 0.035522,
           "coherent_shift_px": 0.021607,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 97.49,
-          "dynamic_score": 0.034954,
-          "global_flow_px": 0.027298,
-          "coherent_shift_px": 0.016249,
+          "start_seconds": 56.137,
+          "dynamic_score": 0.132668,
+          "dynamic_score_p95": 0.181658,
+          "dynamic_score_max": 0.185204,
+          "global_flow_px": 0.040854,
+          "coherent_shift_px": 0.018028,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 193.98,
-          "dynamic_score": 0.027859,
-          "global_flow_px": 0.028235,
-          "coherent_shift_px": 0.018714,
+          "start_seconds": 111.274,
+          "dynamic_score": 0.012299,
+          "dynamic_score_p95": 0.024717,
+          "dynamic_score_max": 0.028595,
+          "global_flow_px": 0.021606,
+          "coherent_shift_px": 0.009989,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 290.47,
-          "dynamic_score": 0.037113,
-          "global_flow_px": 0.032497,
-          "coherent_shift_px": 0.016879,
+          "start_seconds": 166.411,
+          "dynamic_score": 0.037067,
+          "dynamic_score_p95": 0.05413,
+          "dynamic_score_max": 0.062546,
+          "global_flow_px": 0.038432,
+          "coherent_shift_px": 0.021495,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 221.549,
+          "dynamic_score": 0.090729,
+          "dynamic_score_p95": 0.225128,
+          "dynamic_score_max": 0.23761,
+          "global_flow_px": 0.063037,
+          "coherent_shift_px": 0.023699,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 276.686,
+          "dynamic_score": 0.04076,
+          "dynamic_score_p95": 0.114602,
+          "dynamic_score_max": 0.120102,
+          "global_flow_px": 0.041298,
+          "coherent_shift_px": 0.026981,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 331.823,
+          "dynamic_score": 0.058563,
+          "dynamic_score_p95": 0.119005,
+          "dynamic_score_max": 0.12204,
+          "global_flow_px": 0.050219,
+          "coherent_shift_px": 0.020385,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
           "start_seconds": 386.96,
           "dynamic_score": 0.06345,
+          "dynamic_score_p95": 0.120501,
+          "dynamic_score_max": 0.144875,
           "global_flow_px": 0.048227,
           "coherent_shift_px": 0.018055,
           "status": "pass",
@@ -412,38 +643,78 @@
         {
           "start_seconds": 1.0,
           "dynamic_score": 0.055092,
+          "dynamic_score_p95": 0.226049,
+          "dynamic_score_max": 0.234985,
           "global_flow_px": 0.035522,
           "coherent_shift_px": 0.021607,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 97.49,
-          "dynamic_score": 0.034954,
-          "global_flow_px": 0.027298,
-          "coherent_shift_px": 0.016249,
+          "start_seconds": 56.137,
+          "dynamic_score": 0.132668,
+          "dynamic_score_p95": 0.181658,
+          "dynamic_score_max": 0.185204,
+          "global_flow_px": 0.040854,
+          "coherent_shift_px": 0.018028,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 193.98,
-          "dynamic_score": 0.027859,
-          "global_flow_px": 0.028235,
-          "coherent_shift_px": 0.018714,
+          "start_seconds": 111.274,
+          "dynamic_score": 0.012299,
+          "dynamic_score_p95": 0.024717,
+          "dynamic_score_max": 0.028595,
+          "global_flow_px": 0.021606,
+          "coherent_shift_px": 0.009989,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 290.47,
-          "dynamic_score": 0.037113,
-          "global_flow_px": 0.032497,
-          "coherent_shift_px": 0.016879,
+          "start_seconds": 166.411,
+          "dynamic_score": 0.037067,
+          "dynamic_score_p95": 0.05413,
+          "dynamic_score_max": 0.062546,
+          "global_flow_px": 0.038432,
+          "coherent_shift_px": 0.021495,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 221.549,
+          "dynamic_score": 0.090729,
+          "dynamic_score_p95": 0.225128,
+          "dynamic_score_max": 0.23761,
+          "global_flow_px": 0.063037,
+          "coherent_shift_px": 0.023699,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 276.686,
+          "dynamic_score": 0.04076,
+          "dynamic_score_p95": 0.114602,
+          "dynamic_score_max": 0.120102,
+          "global_flow_px": 0.041298,
+          "coherent_shift_px": 0.026981,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 331.823,
+          "dynamic_score": 0.058563,
+          "dynamic_score_p95": 0.119005,
+          "dynamic_score_max": 0.12204,
+          "global_flow_px": 0.050219,
+          "coherent_shift_px": 0.020385,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
           "start_seconds": 386.96,
           "dynamic_score": 0.06345,
+          "dynamic_score_p95": 0.120501,
+          "dynamic_score_max": 0.144875,
           "global_flow_px": 0.048227,
           "coherent_shift_px": 0.018055,
           "status": "pass",
@@ -457,7 +728,11 @@
       "dataset": "360x",
       "file": "0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4",
       "manual_decision": "pass",
-      "note": "夜市固定机位，人群动态",
+      "allowed_sides": [
+        "ref"
+      ],
+      "privacy_face_blurred": true,
+      "note": "夜市固定机位，人群动态；人脸已模糊",
       "locator": "360x/0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4",
       "path_exists": true,
       "metadata": {
@@ -472,38 +747,78 @@
         {
           "start_seconds": 1.0,
           "dynamic_score": 0.13834,
+          "dynamic_score_p95": 0.213953,
+          "dynamic_score_max": 0.237122,
           "global_flow_px": 0.174234,
           "coherent_shift_px": 0.064611,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 79.88,
-          "dynamic_score": 0.116596,
-          "global_flow_px": 0.112251,
-          "coherent_shift_px": 0.038365,
+          "start_seconds": 46.074,
+          "dynamic_score": 0.117428,
+          "dynamic_score_p95": 0.191688,
+          "dynamic_score_max": 0.196434,
+          "global_flow_px": 0.143405,
+          "coherent_shift_px": 0.048082,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 158.76,
-          "dynamic_score": 0.152878,
-          "global_flow_px": 0.220221,
-          "coherent_shift_px": 0.064931,
+          "start_seconds": 91.149,
+          "dynamic_score": 0.172756,
+          "dynamic_score_p95": 0.240493,
+          "dynamic_score_max": 0.242165,
+          "global_flow_px": 0.191124,
+          "coherent_shift_px": 0.042351,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 237.64,
-          "dynamic_score": 0.065502,
-          "global_flow_px": 0.05355,
-          "coherent_shift_px": 0.033506,
+          "start_seconds": 136.223,
+          "dynamic_score": 0.090248,
+          "dynamic_score_p95": 0.108856,
+          "dynamic_score_max": 0.123734,
+          "global_flow_px": 0.078795,
+          "coherent_shift_px": 0.039062,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 181.297,
+          "dynamic_score": 0.091167,
+          "dynamic_score_p95": 0.143153,
+          "dynamic_score_max": 0.157227,
+          "global_flow_px": 0.079148,
+          "coherent_shift_px": 0.04288,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 226.371,
+          "dynamic_score": 0.063786,
+          "dynamic_score_p95": 0.080699,
+          "dynamic_score_max": 0.088638,
+          "global_flow_px": 0.051861,
+          "coherent_shift_px": 0.032032,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 271.446,
+          "dynamic_score": 0.083332,
+          "dynamic_score_p95": 0.121943,
+          "dynamic_score_max": 0.126595,
+          "global_flow_px": 0.055209,
+          "coherent_shift_px": 0.040146,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
           "start_seconds": 316.52,
           "dynamic_score": 0.137383,
+          "dynamic_score_p95": 0.212455,
+          "dynamic_score_max": 0.263092,
           "global_flow_px": 0.107175,
           "coherent_shift_px": 0.041502,
           "status": "pass",
@@ -514,38 +829,78 @@
         {
           "start_seconds": 1.0,
           "dynamic_score": 0.13834,
+          "dynamic_score_p95": 0.213953,
+          "dynamic_score_max": 0.237122,
           "global_flow_px": 0.174234,
           "coherent_shift_px": 0.064611,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 79.88,
-          "dynamic_score": 0.116596,
-          "global_flow_px": 0.112251,
-          "coherent_shift_px": 0.038365,
+          "start_seconds": 46.074,
+          "dynamic_score": 0.117428,
+          "dynamic_score_p95": 0.191688,
+          "dynamic_score_max": 0.196434,
+          "global_flow_px": 0.143405,
+          "coherent_shift_px": 0.048082,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 158.76,
-          "dynamic_score": 0.152878,
-          "global_flow_px": 0.220221,
-          "coherent_shift_px": 0.064931,
+          "start_seconds": 91.149,
+          "dynamic_score": 0.172756,
+          "dynamic_score_p95": 0.240493,
+          "dynamic_score_max": 0.242165,
+          "global_flow_px": 0.191124,
+          "coherent_shift_px": 0.042351,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 237.64,
-          "dynamic_score": 0.065502,
-          "global_flow_px": 0.05355,
-          "coherent_shift_px": 0.033506,
+          "start_seconds": 136.223,
+          "dynamic_score": 0.090248,
+          "dynamic_score_p95": 0.108856,
+          "dynamic_score_max": 0.123734,
+          "global_flow_px": 0.078795,
+          "coherent_shift_px": 0.039062,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 181.297,
+          "dynamic_score": 0.091167,
+          "dynamic_score_p95": 0.143153,
+          "dynamic_score_max": 0.157227,
+          "global_flow_px": 0.079148,
+          "coherent_shift_px": 0.04288,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 226.371,
+          "dynamic_score": 0.063786,
+          "dynamic_score_p95": 0.080699,
+          "dynamic_score_max": 0.088638,
+          "global_flow_px": 0.051861,
+          "coherent_shift_px": 0.032032,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 271.446,
+          "dynamic_score": 0.083332,
+          "dynamic_score_p95": 0.121943,
+          "dynamic_score_max": 0.126595,
+          "global_flow_px": 0.055209,
+          "coherent_shift_px": 0.040146,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
           "start_seconds": 316.52,
           "dynamic_score": 0.137383,
+          "dynamic_score_p95": 0.212455,
+          "dynamic_score_max": 0.263092,
           "global_flow_px": 0.107175,
           "coherent_shift_px": 0.041502,
           "status": "pass",
@@ -559,7 +914,11 @@
       "dataset": "360x",
       "file": "05a3f507-7d57-4797-9345-cc2b10894d76.mp4",
       "manual_decision": "pass",
-      "note": "户外固定机位，人群动态",
+      "allowed_sides": [
+        "ref"
+      ],
+      "privacy_face_blurred": true,
+      "note": "户外固定机位，人群动态；人脸已模糊",
       "locator": "360x/05a3f507-7d57-4797-9345-cc2b10894d76.mp4",
       "path_exists": true,
       "metadata": {
@@ -574,38 +933,78 @@
         {
           "start_seconds": 1.0,
           "dynamic_score": 0.180492,
+          "dynamic_score_p95": 0.333142,
+          "dynamic_score_max": 0.349304,
           "global_flow_px": 0.605378,
           "coherent_shift_px": 0.301262,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 74.995,
-          "dynamic_score": 0.069939,
-          "global_flow_px": 0.048779,
-          "coherent_shift_px": 0.06585,
+          "start_seconds": 43.283,
+          "dynamic_score": 0.119114,
+          "dynamic_score_p95": 0.196449,
+          "dynamic_score_max": 0.236588,
+          "global_flow_px": 0.087869,
+          "coherent_shift_px": 0.028904,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 148.99,
-          "dynamic_score": 0.053379,
-          "global_flow_px": 0.047538,
-          "coherent_shift_px": 0.071257,
+          "start_seconds": 85.566,
+          "dynamic_score": 0.094608,
+          "dynamic_score_p95": 0.127005,
+          "dynamic_score_max": 0.130302,
+          "global_flow_px": 0.064042,
+          "coherent_shift_px": 0.048024,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 222.985,
-          "dynamic_score": 0.057049,
-          "global_flow_px": 0.03636,
-          "coherent_shift_px": 0.047256,
+          "start_seconds": 127.848,
+          "dynamic_score": 0.066109,
+          "dynamic_score_p95": 0.164647,
+          "dynamic_score_max": 0.165306,
+          "global_flow_px": 0.047434,
+          "coherent_shift_px": 0.072134,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 170.131,
+          "dynamic_score": 0.040165,
+          "dynamic_score_p95": 0.086066,
+          "dynamic_score_max": 0.098038,
+          "global_flow_px": 0.032843,
+          "coherent_shift_px": 0.026557,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 212.414,
+          "dynamic_score": 0.047199,
+          "dynamic_score_p95": 0.073452,
+          "dynamic_score_max": 0.091766,
+          "global_flow_px": 0.035192,
+          "coherent_shift_px": 0.035147,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 254.697,
+          "dynamic_score": 0.166557,
+          "dynamic_score_p95": 0.27006,
+          "dynamic_score_max": 0.291176,
+          "global_flow_px": 0.148865,
+          "coherent_shift_px": 0.052367,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
           "start_seconds": 296.98,
           "dynamic_score": 0.074516,
+          "dynamic_score_p95": 0.190823,
+          "dynamic_score_max": 0.211632,
           "global_flow_px": 0.047806,
           "coherent_shift_px": 0.056879,
           "status": "pass",
@@ -616,38 +1015,78 @@
         {
           "start_seconds": 1.0,
           "dynamic_score": 0.180492,
+          "dynamic_score_p95": 0.333142,
+          "dynamic_score_max": 0.349304,
           "global_flow_px": 0.605378,
           "coherent_shift_px": 0.301262,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 74.995,
-          "dynamic_score": 0.069939,
-          "global_flow_px": 0.048779,
-          "coherent_shift_px": 0.06585,
+          "start_seconds": 43.283,
+          "dynamic_score": 0.119114,
+          "dynamic_score_p95": 0.196449,
+          "dynamic_score_max": 0.236588,
+          "global_flow_px": 0.087869,
+          "coherent_shift_px": 0.028904,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 148.99,
-          "dynamic_score": 0.053379,
-          "global_flow_px": 0.047538,
-          "coherent_shift_px": 0.071257,
+          "start_seconds": 85.566,
+          "dynamic_score": 0.094608,
+          "dynamic_score_p95": 0.127005,
+          "dynamic_score_max": 0.130302,
+          "global_flow_px": 0.064042,
+          "coherent_shift_px": 0.048024,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 222.985,
-          "dynamic_score": 0.057049,
-          "global_flow_px": 0.03636,
-          "coherent_shift_px": 0.047256,
+          "start_seconds": 127.848,
+          "dynamic_score": 0.066109,
+          "dynamic_score_p95": 0.164647,
+          "dynamic_score_max": 0.165306,
+          "global_flow_px": 0.047434,
+          "coherent_shift_px": 0.072134,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 170.131,
+          "dynamic_score": 0.040165,
+          "dynamic_score_p95": 0.086066,
+          "dynamic_score_max": 0.098038,
+          "global_flow_px": 0.032843,
+          "coherent_shift_px": 0.026557,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 212.414,
+          "dynamic_score": 0.047199,
+          "dynamic_score_p95": 0.073452,
+          "dynamic_score_max": 0.091766,
+          "global_flow_px": 0.035192,
+          "coherent_shift_px": 0.035147,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 254.697,
+          "dynamic_score": 0.166557,
+          "dynamic_score_p95": 0.27006,
+          "dynamic_score_max": 0.291176,
+          "global_flow_px": 0.148865,
+          "coherent_shift_px": 0.052367,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
           "start_seconds": 296.98,
           "dynamic_score": 0.074516,
+          "dynamic_score_p95": 0.190823,
+          "dynamic_score_max": 0.211632,
           "global_flow_px": 0.047806,
           "coherent_shift_px": 0.056879,
           "status": "pass",
@@ -661,7 +1100,11 @@
       "dataset": "360x",
       "file": "05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4",
       "manual_decision": "pass",
-      "note": "农田固定机位，人物动态",
+      "allowed_sides": [
+        "ref"
+      ],
+      "privacy_face_blurred": true,
+      "note": "农田固定机位，人物动态；人脸已模糊",
       "locator": "360x/05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4",
       "path_exists": true,
       "metadata": {
@@ -676,38 +1119,78 @@
         {
           "start_seconds": 1.0,
           "dynamic_score": 0.123096,
+          "dynamic_score_p95": 0.255177,
+          "dynamic_score_max": 0.255257,
           "global_flow_px": 0.068031,
           "coherent_shift_px": 0.226636,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 105.69,
-          "dynamic_score": 0.020004,
-          "global_flow_px": 0.015166,
-          "coherent_shift_px": 0.043295,
+          "start_seconds": 60.823,
+          "dynamic_score": 0.003536,
+          "dynamic_score_p95": 0.00443,
+          "dynamic_score_max": 0.004807,
+          "global_flow_px": 0.010184,
+          "coherent_shift_px": 0.020674,
+          "status": "reject",
+          "reason": "static_or_nearly_static"
+        },
+        {
+          "start_seconds": 120.646,
+          "dynamic_score": 0.013592,
+          "dynamic_score_p95": 0.037442,
+          "dynamic_score_max": 0.042366,
+          "global_flow_px": 0.01329,
+          "coherent_shift_px": 0.044546,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 210.38,
-          "dynamic_score": 0.015141,
-          "global_flow_px": 0.012082,
-          "coherent_shift_px": 0.057322,
+          "start_seconds": 180.469,
+          "dynamic_score": 0.005611,
+          "dynamic_score_p95": 0.058847,
+          "dynamic_score_max": 0.073898,
+          "global_flow_px": 0.011402,
+          "coherent_shift_px": 0.025061,
+          "status": "reject",
+          "reason": "static_or_nearly_static"
+        },
+        {
+          "start_seconds": 240.291,
+          "dynamic_score": 0.008831,
+          "dynamic_score_p95": 0.018298,
+          "dynamic_score_max": 0.020004,
+          "global_flow_px": 0.012063,
+          "coherent_shift_px": 0.048909,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 315.07,
-          "dynamic_score": 0.024422,
-          "global_flow_px": 0.014119,
-          "coherent_shift_px": 0.043723,
+          "start_seconds": 300.114,
+          "dynamic_score": 0.015495,
+          "dynamic_score_p95": 0.024968,
+          "dynamic_score_max": 0.028633,
+          "global_flow_px": 0.012577,
+          "coherent_shift_px": 0.062528,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 359.937,
+          "dynamic_score": 0.010406,
+          "dynamic_score_p95": 0.0188,
+          "dynamic_score_max": 0.02063,
+          "global_flow_px": 0.012759,
+          "coherent_shift_px": 0.0474,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
           "start_seconds": 419.76,
           "dynamic_score": 0.036015,
+          "dynamic_score_p95": 0.371708,
+          "dynamic_score_max": 0.380173,
           "global_flow_px": 0.019392,
           "coherent_shift_px": 0.064346,
           "status": "pass",
@@ -718,38 +1201,58 @@
         {
           "start_seconds": 1.0,
           "dynamic_score": 0.123096,
+          "dynamic_score_p95": 0.255177,
+          "dynamic_score_max": 0.255257,
           "global_flow_px": 0.068031,
           "coherent_shift_px": 0.226636,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 105.69,
-          "dynamic_score": 0.020004,
-          "global_flow_px": 0.015166,
-          "coherent_shift_px": 0.043295,
+          "start_seconds": 120.646,
+          "dynamic_score": 0.013592,
+          "dynamic_score_p95": 0.037442,
+          "dynamic_score_max": 0.042366,
+          "global_flow_px": 0.01329,
+          "coherent_shift_px": 0.044546,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 210.38,
-          "dynamic_score": 0.015141,
-          "global_flow_px": 0.012082,
-          "coherent_shift_px": 0.057322,
+          "start_seconds": 240.291,
+          "dynamic_score": 0.008831,
+          "dynamic_score_p95": 0.018298,
+          "dynamic_score_max": 0.020004,
+          "global_flow_px": 0.012063,
+          "coherent_shift_px": 0.048909,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 315.07,
-          "dynamic_score": 0.024422,
-          "global_flow_px": 0.014119,
-          "coherent_shift_px": 0.043723,
+          "start_seconds": 300.114,
+          "dynamic_score": 0.015495,
+          "dynamic_score_p95": 0.024968,
+          "dynamic_score_max": 0.028633,
+          "global_flow_px": 0.012577,
+          "coherent_shift_px": 0.062528,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 359.937,
+          "dynamic_score": 0.010406,
+          "dynamic_score_p95": 0.0188,
+          "dynamic_score_max": 0.02063,
+          "global_flow_px": 0.012759,
+          "coherent_shift_px": 0.0474,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
           "start_seconds": 419.76,
           "dynamic_score": 0.036015,
+          "dynamic_score_p95": 0.371708,
+          "dynamic_score_max": 0.380173,
           "global_flow_px": 0.019392,
           "coherent_shift_px": 0.064346,
           "status": "pass",
@@ -763,7 +1266,11 @@
       "dataset": "360x",
       "file": "06eeb914-a805-479e-be3f-8157c95190b5.mp4",
       "manual_decision": "pass",
-      "note": "草地固定机位，人物动态",
+      "allowed_sides": [
+        "ref"
+      ],
+      "privacy_face_blurred": true,
+      "note": "草地固定机位，人物动态；人脸已模糊",
       "locator": "360x/06eeb914-a805-479e-be3f-8157c95190b5.mp4",
       "path_exists": true,
       "metadata": {
@@ -778,38 +1285,78 @@
         {
           "start_seconds": 1.0,
           "dynamic_score": 0.028049,
+          "dynamic_score_p95": 0.087296,
+          "dynamic_score_max": 0.126305,
           "global_flow_px": 0.018597,
           "coherent_shift_px": 0.306503,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 64.15,
-          "dynamic_score": 0.008266,
-          "global_flow_px": 0.016978,
-          "coherent_shift_px": 0.038097,
+          "start_seconds": 37.086,
+          "dynamic_score": 0.015049,
+          "dynamic_score_p95": 0.023796,
+          "dynamic_score_max": 0.025482,
+          "global_flow_px": 0.017301,
+          "coherent_shift_px": 0.19835,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 127.3,
-          "dynamic_score": 0.013191,
-          "global_flow_px": 0.01574,
-          "coherent_shift_px": 0.158994,
+          "start_seconds": 73.171,
+          "dynamic_score": 0.006779,
+          "dynamic_score_p95": 0.016973,
+          "dynamic_score_max": 0.031464,
+          "global_flow_px": 0.016893,
+          "coherent_shift_px": 0.053321,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 190.45,
-          "dynamic_score": 0.012634,
-          "global_flow_px": 0.017073,
-          "coherent_shift_px": 0.124916,
+          "start_seconds": 109.257,
+          "dynamic_score": 0.011944,
+          "dynamic_score_p95": 0.029428,
+          "dynamic_score_max": 0.031471,
+          "global_flow_px": 0.016838,
+          "coherent_shift_px": 0.313125,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 145.343,
+          "dynamic_score": 0.024414,
+          "dynamic_score_p95": 0.098916,
+          "dynamic_score_max": 0.099739,
+          "global_flow_px": 0.016855,
+          "coherent_shift_px": 0.260785,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 181.429,
+          "dynamic_score": 0.011673,
+          "dynamic_score_p95": 0.019746,
+          "dynamic_score_max": 0.020187,
+          "global_flow_px": 0.01674,
+          "coherent_shift_px": 0.1615,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 217.514,
+          "dynamic_score": 0.006245,
+          "dynamic_score_p95": 0.011933,
+          "dynamic_score_max": 0.012245,
+          "global_flow_px": 0.017499,
+          "coherent_shift_px": 0.084431,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
           "start_seconds": 253.6,
           "dynamic_score": 0.006538,
+          "dynamic_score_p95": 0.259146,
+          "dynamic_score_max": 0.365891,
           "global_flow_px": 0.015078,
           "coherent_shift_px": 0.078472,
           "status": "pass",
@@ -820,38 +1367,78 @@
         {
           "start_seconds": 1.0,
           "dynamic_score": 0.028049,
+          "dynamic_score_p95": 0.087296,
+          "dynamic_score_max": 0.126305,
           "global_flow_px": 0.018597,
           "coherent_shift_px": 0.306503,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 64.15,
-          "dynamic_score": 0.008266,
-          "global_flow_px": 0.016978,
-          "coherent_shift_px": 0.038097,
+          "start_seconds": 37.086,
+          "dynamic_score": 0.015049,
+          "dynamic_score_p95": 0.023796,
+          "dynamic_score_max": 0.025482,
+          "global_flow_px": 0.017301,
+          "coherent_shift_px": 0.19835,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 127.3,
-          "dynamic_score": 0.013191,
-          "global_flow_px": 0.01574,
-          "coherent_shift_px": 0.158994,
+          "start_seconds": 73.171,
+          "dynamic_score": 0.006779,
+          "dynamic_score_p95": 0.016973,
+          "dynamic_score_max": 0.031464,
+          "global_flow_px": 0.016893,
+          "coherent_shift_px": 0.053321,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 190.45,
-          "dynamic_score": 0.012634,
-          "global_flow_px": 0.017073,
-          "coherent_shift_px": 0.124916,
+          "start_seconds": 109.257,
+          "dynamic_score": 0.011944,
+          "dynamic_score_p95": 0.029428,
+          "dynamic_score_max": 0.031471,
+          "global_flow_px": 0.016838,
+          "coherent_shift_px": 0.313125,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 145.343,
+          "dynamic_score": 0.024414,
+          "dynamic_score_p95": 0.098916,
+          "dynamic_score_max": 0.099739,
+          "global_flow_px": 0.016855,
+          "coherent_shift_px": 0.260785,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 181.429,
+          "dynamic_score": 0.011673,
+          "dynamic_score_p95": 0.019746,
+          "dynamic_score_max": 0.020187,
+          "global_flow_px": 0.01674,
+          "coherent_shift_px": 0.1615,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 217.514,
+          "dynamic_score": 0.006245,
+          "dynamic_score_p95": 0.011933,
+          "dynamic_score_max": 0.012245,
+          "global_flow_px": 0.017499,
+          "coherent_shift_px": 0.084431,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
           "start_seconds": 253.6,
           "dynamic_score": 0.006538,
+          "dynamic_score_p95": 0.259146,
+          "dynamic_score_max": 0.365891,
           "global_flow_px": 0.015078,
           "coherent_shift_px": 0.078472,
           "status": "pass",
@@ -865,6 +1452,9 @@
       "dataset": "commons",
       "file": "360_Video_of_LCS-15_Christening_and_Launch.webm",
       "manual_decision": "pass",
+      "allowed_sides": [
+        "target"
+      ],
       "note": "4K 固定机位，船舶与人群动态",
       "source_url": "https://commons.wikimedia.org/wiki/File:360_Video_of_LCS-15_Christening_and_Launch.webm",
       "license": "CC BY 3.0",
@@ -882,38 +1472,78 @@
         {
           "start_seconds": 1.0,
           "dynamic_score": 0.00909,
+          "dynamic_score_p95": 0.021866,
+          "dynamic_score_max": 0.023071,
           "global_flow_px": 0.024096,
           "coherent_shift_px": 0.014753,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 14.486,
-          "dynamic_score": 0.020012,
-          "global_flow_px": 0.057289,
-          "coherent_shift_px": 0.021341,
+          "start_seconds": 8.707,
+          "dynamic_score": 0.009907,
+          "dynamic_score_p95": 0.015266,
+          "dynamic_score_max": 0.016922,
+          "global_flow_px": 0.025739,
+          "coherent_shift_px": 0.017486,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 27.973,
-          "dynamic_score": 0.048042,
-          "global_flow_px": 0.059503,
-          "coherent_shift_px": 0.048999,
+          "start_seconds": 16.413,
+          "dynamic_score": 0.027119,
+          "dynamic_score_p95": 0.079477,
+          "dynamic_score_max": 0.079933,
+          "global_flow_px": 0.050738,
+          "coherent_shift_px": 0.018403,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 41.459,
-          "dynamic_score": 0.126549,
-          "global_flow_px": 0.139795,
-          "coherent_shift_px": 0.102791,
+          "start_seconds": 24.12,
+          "dynamic_score": 0.048649,
+          "dynamic_score_p95": 0.082639,
+          "dynamic_score_max": 0.086983,
+          "global_flow_px": 0.061093,
+          "coherent_shift_px": 0.043792,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 31.826,
+          "dynamic_score": 0.062592,
+          "dynamic_score_p95": 0.656715,
+          "dynamic_score_max": 0.676636,
+          "global_flow_px": 0.087356,
+          "coherent_shift_px": 0.036671,
+          "status": "reject",
+          "reason": "scene_cut_or_full_frame_transition"
+        },
+        {
+          "start_seconds": 39.533,
+          "dynamic_score": 0.173206,
+          "dynamic_score_p95": 0.633447,
+          "dynamic_score_max": 0.688438,
+          "global_flow_px": 0.162275,
+          "coherent_shift_px": 0.122035,
+          "status": "reject",
+          "reason": "scene_cut_or_full_frame_transition"
+        },
+        {
+          "start_seconds": 47.239,
+          "dynamic_score": 0.098061,
+          "dynamic_score_p95": 0.258472,
+          "dynamic_score_max": 0.52301,
+          "global_flow_px": 0.120014,
+          "coherent_shift_px": 0.12946,
+          "status": "reject",
+          "reason": "scene_cut_or_full_frame_transition"
         },
         {
           "start_seconds": 54.946,
           "dynamic_score": 0.093105,
+          "dynamic_score_p95": 0.105552,
+          "dynamic_score_max": 0.107521,
           "global_flow_px": 0.114289,
           "coherent_shift_px": 0.079857,
           "status": "pass",
@@ -924,40 +1554,849 @@
         {
           "start_seconds": 1.0,
           "dynamic_score": 0.00909,
+          "dynamic_score_p95": 0.021866,
+          "dynamic_score_max": 0.023071,
           "global_flow_px": 0.024096,
           "coherent_shift_px": 0.014753,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 14.486,
-          "dynamic_score": 0.020012,
-          "global_flow_px": 0.057289,
-          "coherent_shift_px": 0.021341,
+          "start_seconds": 8.707,
+          "dynamic_score": 0.009907,
+          "dynamic_score_p95": 0.015266,
+          "dynamic_score_max": 0.016922,
+          "global_flow_px": 0.025739,
+          "coherent_shift_px": 0.017486,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 27.973,
-          "dynamic_score": 0.048042,
-          "global_flow_px": 0.059503,
-          "coherent_shift_px": 0.048999,
+          "start_seconds": 16.413,
+          "dynamic_score": 0.027119,
+          "dynamic_score_p95": 0.079477,
+          "dynamic_score_max": 0.079933,
+          "global_flow_px": 0.050738,
+          "coherent_shift_px": 0.018403,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
-          "start_seconds": 41.459,
-          "dynamic_score": 0.126549,
-          "global_flow_px": 0.139795,
-          "coherent_shift_px": 0.102791,
+          "start_seconds": 24.12,
+          "dynamic_score": 0.048649,
+          "dynamic_score_p95": 0.082639,
+          "dynamic_score_max": 0.086983,
+          "global_flow_px": 0.061093,
+          "coherent_shift_px": 0.043792,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         },
         {
           "start_seconds": 54.946,
           "dynamic_score": 0.093105,
+          "dynamic_score_p95": 0.105552,
+          "dynamic_score_max": 0.107521,
           "global_flow_px": 0.114289,
           "coherent_shift_px": 0.079857,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        }
+      ],
+      "final_status": "pass",
+      "final_reason": "manual_and_metric_checks_passed"
+    },
+    {
+      "dataset": "commons",
+      "file": "An_Introduction_to_the_Equatorial_Coordinate_System_360VR.webm",
+      "manual_decision": "pass",
+      "allowed_sides": [
+        "target"
+      ],
+      "allow_static_scene": true,
+      "note": "3600×1800 固定虚拟机位科普动画",
+      "source_url": "https://commons.wikimedia.org/wiki/File:An_Introduction_to_the_Equatorial_Coordinate_System_(360VR).webm",
+      "license": "CC BY 3.0",
+      "locator": "commons/An_Introduction_to_the_Equatorial_Coordinate_System_360VR.webm",
+      "path_exists": true,
+      "metadata": {
+        "decode_ok": true,
+        "fps": 30.0,
+        "frame_count": 3181,
+        "width": 3600,
+        "height": 1800,
+        "duration_seconds": 106.033333
+      },
+      "analysed_windows": [
+        {
+          "start_seconds": 1.0,
+          "dynamic_score": 0.0,
+          "dynamic_score_p95": 0.226907,
+          "dynamic_score_max": 0.247765,
+          "global_flow_px": 0.002256,
+          "coherent_shift_px": 0.00262,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        },
+        {
+          "start_seconds": 13.719,
+          "dynamic_score": 0.096588,
+          "dynamic_score_p95": 0.366257,
+          "dynamic_score_max": 0.372406,
+          "global_flow_px": 0.467318,
+          "coherent_shift_px": 0.087864,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 26.438,
+          "dynamic_score": 0.086533,
+          "dynamic_score_p95": 0.353571,
+          "dynamic_score_max": 0.360107,
+          "global_flow_px": 0.371679,
+          "coherent_shift_px": 0.02178,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 39.157,
+          "dynamic_score": 0.007603,
+          "dynamic_score_p95": 0.016488,
+          "dynamic_score_max": 0.019081,
+          "global_flow_px": 0.001023,
+          "coherent_shift_px": 0.019155,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 51.876,
+          "dynamic_score": 0.024105,
+          "dynamic_score_p95": 0.09388,
+          "dynamic_score_max": 0.096474,
+          "global_flow_px": 0.004141,
+          "coherent_shift_px": 0.017242,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 64.595,
+          "dynamic_score": 0.096817,
+          "dynamic_score_p95": 0.100962,
+          "dynamic_score_max": 0.101135,
+          "global_flow_px": 0.414312,
+          "coherent_shift_px": 0.044064,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 77.314,
+          "dynamic_score": 0.014343,
+          "dynamic_score_p95": 0.095975,
+          "dynamic_score_max": 0.096748,
+          "global_flow_px": 0.003735,
+          "coherent_shift_px": 0.015472,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 90.033,
+          "dynamic_score": 0.000195,
+          "dynamic_score_p95": 0.002209,
+          "dynamic_score_max": 0.002289,
+          "global_flow_px": 0.001193,
+          "coherent_shift_px": 0.009788,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        }
+      ],
+      "usable_windows": [
+        {
+          "start_seconds": 1.0,
+          "dynamic_score": 0.0,
+          "dynamic_score_p95": 0.226907,
+          "dynamic_score_max": 0.247765,
+          "global_flow_px": 0.002256,
+          "coherent_shift_px": 0.00262,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        },
+        {
+          "start_seconds": 13.719,
+          "dynamic_score": 0.096588,
+          "dynamic_score_p95": 0.366257,
+          "dynamic_score_max": 0.372406,
+          "global_flow_px": 0.467318,
+          "coherent_shift_px": 0.087864,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 26.438,
+          "dynamic_score": 0.086533,
+          "dynamic_score_p95": 0.353571,
+          "dynamic_score_max": 0.360107,
+          "global_flow_px": 0.371679,
+          "coherent_shift_px": 0.02178,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 39.157,
+          "dynamic_score": 0.007603,
+          "dynamic_score_p95": 0.016488,
+          "dynamic_score_max": 0.019081,
+          "global_flow_px": 0.001023,
+          "coherent_shift_px": 0.019155,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 51.876,
+          "dynamic_score": 0.024105,
+          "dynamic_score_p95": 0.09388,
+          "dynamic_score_max": 0.096474,
+          "global_flow_px": 0.004141,
+          "coherent_shift_px": 0.017242,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 64.595,
+          "dynamic_score": 0.096817,
+          "dynamic_score_p95": 0.100962,
+          "dynamic_score_max": 0.101135,
+          "global_flow_px": 0.414312,
+          "coherent_shift_px": 0.044064,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 77.314,
+          "dynamic_score": 0.014343,
+          "dynamic_score_p95": 0.095975,
+          "dynamic_score_max": 0.096748,
+          "global_flow_px": 0.003735,
+          "coherent_shift_px": 0.015472,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 90.033,
+          "dynamic_score": 0.000195,
+          "dynamic_score_p95": 0.002209,
+          "dynamic_score_max": 0.002289,
+          "global_flow_px": 0.001193,
+          "coherent_shift_px": 0.009788,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        }
+      ],
+      "final_status": "pass",
+      "final_reason": "manual_and_metric_checks_passed"
+    },
+    {
+      "dataset": "commons",
+      "file": "Wind_Tunnel_Test_of_NASAs_Most_Powerful_Rocket_360_Animation.webm",
+      "manual_decision": "pass",
+      "allowed_sides": [
+        "target"
+      ],
+      "allow_static_scene": true,
+      "note": "4K 固定虚拟机位 NASA 风洞动画",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Wind_Tunnel_Test_of_NASA%27s_Most_Powerful_Rocket_(360%C2%B0_Animation).webm",
+      "license": "Public domain (NASA)",
+      "locator": "commons/Wind_Tunnel_Test_of_NASAs_Most_Powerful_Rocket_360_Animation.webm",
+      "path_exists": true,
+      "metadata": {
+        "decode_ok": true,
+        "fps": 29.97003,
+        "frame_count": 4955,
+        "width": 3840,
+        "height": 1920,
+        "duration_seconds": 165.331833
+      },
+      "analysed_windows": [
+        {
+          "start_seconds": 1.0,
+          "dynamic_score": 0.0,
+          "dynamic_score_p95": 0.009781,
+          "dynamic_score_max": 0.011086,
+          "global_flow_px": 0.000284,
+          "coherent_shift_px": 0.000593,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        },
+        {
+          "start_seconds": 22.19,
+          "dynamic_score": 0.003674,
+          "dynamic_score_p95": 0.01591,
+          "dynamic_score_max": 0.01722,
+          "global_flow_px": 0.006855,
+          "coherent_shift_px": 0.00651,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        },
+        {
+          "start_seconds": 43.381,
+          "dynamic_score": 0.00238,
+          "dynamic_score_p95": 0.68741,
+          "dynamic_score_max": 0.690842,
+          "global_flow_px": 0.003022,
+          "coherent_shift_px": 0.014952,
+          "status": "reject",
+          "reason": "scene_cut_or_full_frame_transition"
+        },
+        {
+          "start_seconds": 64.571,
+          "dynamic_score": 0.00433,
+          "dynamic_score_p95": 0.617677,
+          "dynamic_score_max": 0.637444,
+          "global_flow_px": 0.001847,
+          "coherent_shift_px": 0.016376,
+          "status": "reject",
+          "reason": "scene_cut_or_full_frame_transition"
+        },
+        {
+          "start_seconds": 85.761,
+          "dynamic_score": 0.007534,
+          "dynamic_score_p95": 0.418371,
+          "dynamic_score_max": 0.825241,
+          "global_flow_px": 0.001742,
+          "coherent_shift_px": 0.016389,
+          "status": "reject",
+          "reason": "scene_cut_or_full_frame_transition"
+        },
+        {
+          "start_seconds": 106.951,
+          "dynamic_score": 0.003815,
+          "dynamic_score_p95": 0.944883,
+          "dynamic_score_max": 0.997658,
+          "global_flow_px": 0.00049,
+          "coherent_shift_px": 0.003866,
+          "status": "reject",
+          "reason": "scene_cut_or_full_frame_transition"
+        },
+        {
+          "start_seconds": 128.142,
+          "dynamic_score": 0.0,
+          "dynamic_score_p95": 0.328317,
+          "dynamic_score_max": 0.874672,
+          "global_flow_px": 0.005661,
+          "coherent_shift_px": 0.000589,
+          "status": "reject",
+          "reason": "scene_cut_or_full_frame_transition"
+        },
+        {
+          "start_seconds": 149.332,
+          "dynamic_score": 0.355762,
+          "dynamic_score_p95": 0.839765,
+          "dynamic_score_max": 0.855629,
+          "global_flow_px": 0.436431,
+          "coherent_shift_px": 0.565385,
+          "status": "reject",
+          "reason": "scene_cut_or_full_frame_transition"
+        }
+      ],
+      "usable_windows": [
+        {
+          "start_seconds": 1.0,
+          "dynamic_score": 0.0,
+          "dynamic_score_p95": 0.009781,
+          "dynamic_score_max": 0.011086,
+          "global_flow_px": 0.000284,
+          "coherent_shift_px": 0.000593,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        },
+        {
+          "start_seconds": 22.19,
+          "dynamic_score": 0.003674,
+          "dynamic_score_p95": 0.01591,
+          "dynamic_score_max": 0.01722,
+          "global_flow_px": 0.006855,
+          "coherent_shift_px": 0.00651,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        }
+      ],
+      "final_status": "pass",
+      "final_reason": "manual_and_metric_checks_passed"
+    },
+    {
+      "dataset": "commons",
+      "file": "Worlds_First_Live_360_Rocket_Launch-_Orbital_ATK_CRS-7.webm",
+      "manual_decision": "pass",
+      "allowed_sides": [
+        "target"
+      ],
+      "allow_static_scene": true,
+      "note": "4K 固定实拍机位火箭发射",
+      "source_url": "https://commons.wikimedia.org/wiki/File:World%27s_First_Live_360_Rocket_Launch-_Orbital_ATK_CRS-7.webm",
+      "license": "Public domain (NASA)",
+      "locator": "commons/Worlds_First_Live_360_Rocket_Launch-_Orbital_ATK_CRS-7.webm",
+      "path_exists": true,
+      "metadata": {
+        "decode_ok": true,
+        "fps": 30.0,
+        "frame_count": 23668,
+        "width": 3840,
+        "height": 2048,
+        "duration_seconds": 788.933333
+      },
+      "analysed_windows": [
+        {
+          "start_seconds": 1.0,
+          "dynamic_score": 0.000725,
+          "dynamic_score_p95": 0.001005,
+          "dynamic_score_max": 0.001015,
+          "global_flow_px": 0.008979,
+          "coherent_shift_px": 0.015048,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        },
+        {
+          "start_seconds": 111.276,
+          "dynamic_score": 0.000645,
+          "dynamic_score_p95": 0.000911,
+          "dynamic_score_max": 0.000916,
+          "global_flow_px": 0.008672,
+          "coherent_shift_px": 0.012782,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        },
+        {
+          "start_seconds": 221.552,
+          "dynamic_score": 0.000843,
+          "dynamic_score_p95": 0.002626,
+          "dynamic_score_max": 0.002686,
+          "global_flow_px": 0.008663,
+          "coherent_shift_px": 0.016998,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        },
+        {
+          "start_seconds": 331.829,
+          "dynamic_score": 0.000988,
+          "dynamic_score_p95": 0.001155,
+          "dynamic_score_max": 0.00119,
+          "global_flow_px": 0.008268,
+          "coherent_shift_px": 0.009198,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        },
+        {
+          "start_seconds": 442.105,
+          "dynamic_score": 0.000919,
+          "dynamic_score_p95": 0.00243,
+          "dynamic_score_max": 0.002495,
+          "global_flow_px": 0.00841,
+          "coherent_shift_px": 0.012827,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        },
+        {
+          "start_seconds": 552.381,
+          "dynamic_score": 0.000706,
+          "dynamic_score_p95": 0.00097,
+          "dynamic_score_max": 0.000999,
+          "global_flow_px": 0.00832,
+          "coherent_shift_px": 0.010699,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        },
+        {
+          "start_seconds": 662.657,
+          "dynamic_score": 0.237,
+          "dynamic_score_p95": 0.384436,
+          "dynamic_score_max": 0.407188,
+          "global_flow_px": 0.074375,
+          "coherent_shift_px": 0.037218,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 772.933,
+          "dynamic_score": 0.000584,
+          "dynamic_score_p95": 0.010256,
+          "dynamic_score_max": 0.027504,
+          "global_flow_px": 0.012979,
+          "coherent_shift_px": 0.007618,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        }
+      ],
+      "usable_windows": [
+        {
+          "start_seconds": 1.0,
+          "dynamic_score": 0.000725,
+          "dynamic_score_p95": 0.001005,
+          "dynamic_score_max": 0.001015,
+          "global_flow_px": 0.008979,
+          "coherent_shift_px": 0.015048,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        },
+        {
+          "start_seconds": 111.276,
+          "dynamic_score": 0.000645,
+          "dynamic_score_p95": 0.000911,
+          "dynamic_score_max": 0.000916,
+          "global_flow_px": 0.008672,
+          "coherent_shift_px": 0.012782,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        },
+        {
+          "start_seconds": 221.552,
+          "dynamic_score": 0.000843,
+          "dynamic_score_p95": 0.002626,
+          "dynamic_score_max": 0.002686,
+          "global_flow_px": 0.008663,
+          "coherent_shift_px": 0.016998,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        },
+        {
+          "start_seconds": 331.829,
+          "dynamic_score": 0.000988,
+          "dynamic_score_p95": 0.001155,
+          "dynamic_score_max": 0.00119,
+          "global_flow_px": 0.008268,
+          "coherent_shift_px": 0.009198,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        },
+        {
+          "start_seconds": 442.105,
+          "dynamic_score": 0.000919,
+          "dynamic_score_p95": 0.00243,
+          "dynamic_score_max": 0.002495,
+          "global_flow_px": 0.00841,
+          "coherent_shift_px": 0.012827,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        },
+        {
+          "start_seconds": 552.381,
+          "dynamic_score": 0.000706,
+          "dynamic_score_p95": 0.00097,
+          "dynamic_score_max": 0.000999,
+          "global_flow_px": 0.00832,
+          "coherent_shift_px": 0.010699,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        },
+        {
+          "start_seconds": 662.657,
+          "dynamic_score": 0.237,
+          "dynamic_score_p95": 0.384436,
+          "dynamic_score_max": 0.407188,
+          "global_flow_px": 0.074375,
+          "coherent_shift_px": 0.037218,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 772.933,
+          "dynamic_score": 0.000584,
+          "dynamic_score_p95": 0.010256,
+          "dynamic_score_max": 0.027504,
+          "global_flow_px": 0.012979,
+          "coherent_shift_px": 0.007618,
+          "status": "pass",
+          "reason": "static_scene_fixed_camera_window"
+        }
+      ],
+      "final_status": "pass",
+      "final_reason": "manual_and_metric_checks_passed"
+    },
+    {
+      "dataset": "commons",
+      "file": "GOES-S_Atlas_V_Launch_in_360_FfLIVGxNhxY.webm",
+      "manual_decision": "pass",
+      "allowed_sides": [
+        "target"
+      ],
+      "allow_static_scene": true,
+      "note": "4K 固定实拍机位 GOES-S 发射",
+      "source_url": "https://commons.wikimedia.org/wiki/File:GOES-S_Atlas_V_Launch_in_360_FfLIVGxNhxY.webm",
+      "license": "Public domain (NASA)",
+      "locator": "commons/GOES-S_Atlas_V_Launch_in_360_FfLIVGxNhxY.webm",
+      "path_exists": true,
+      "metadata": {
+        "decode_ok": true,
+        "fps": 29.97003,
+        "frame_count": 5519,
+        "width": 3840,
+        "height": 2048,
+        "duration_seconds": 184.150633
+      },
+      "analysed_windows": [
+        {
+          "start_seconds": 1.0,
+          "dynamic_score": 0.035854,
+          "dynamic_score_p95": 0.741032,
+          "dynamic_score_max": 0.995598,
+          "global_flow_px": 0.017357,
+          "coherent_shift_px": 0.192703,
+          "status": "reject",
+          "reason": "scene_cut_or_full_frame_transition"
+        },
+        {
+          "start_seconds": 24.879,
+          "dynamic_score": 0.06403,
+          "dynamic_score_p95": 0.767098,
+          "dynamic_score_max": 0.802025,
+          "global_flow_px": 0.019758,
+          "coherent_shift_px": 0.21769,
+          "status": "reject",
+          "reason": "scene_cut_or_full_frame_transition"
+        },
+        {
+          "start_seconds": 48.757,
+          "dynamic_score": 0.369568,
+          "dynamic_score_p95": 0.629087,
+          "dynamic_score_max": 0.902359,
+          "global_flow_px": 1.351912,
+          "coherent_shift_px": 0.099458,
+          "status": "reject",
+          "reason": "scene_cut_or_full_frame_transition"
+        },
+        {
+          "start_seconds": 72.636,
+          "dynamic_score": 0.592018,
+          "dynamic_score_p95": 0.834925,
+          "dynamic_score_max": 0.927948,
+          "global_flow_px": 3.716252,
+          "coherent_shift_px": 0.079093,
+          "status": "reject",
+          "reason": "scene_cut_or_full_frame_transition"
+        },
+        {
+          "start_seconds": 96.515,
+          "dynamic_score": 0.003216,
+          "dynamic_score_p95": 0.849564,
+          "dynamic_score_max": 0.861382,
+          "global_flow_px": 0.014529,
+          "coherent_shift_px": 0.011586,
+          "status": "reject",
+          "reason": "scene_cut_or_full_frame_transition"
+        },
+        {
+          "start_seconds": 120.393,
+          "dynamic_score": 0.009548,
+          "dynamic_score_p95": 0.688956,
+          "dynamic_score_max": 0.856232,
+          "global_flow_px": 0.039931,
+          "coherent_shift_px": 0.021388,
+          "status": "reject",
+          "reason": "scene_cut_or_full_frame_transition"
+        },
+        {
+          "start_seconds": 144.272,
+          "dynamic_score": 0.02639,
+          "dynamic_score_p95": 0.142917,
+          "dynamic_score_max": 0.172508,
+          "global_flow_px": 0.060853,
+          "coherent_shift_px": 0.036807,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 168.151,
+          "dynamic_score": 0.011005,
+          "dynamic_score_p95": 0.368195,
+          "dynamic_score_max": 1.0,
+          "global_flow_px": 0.030894,
+          "coherent_shift_px": 0.01971,
+          "status": "reject",
+          "reason": "scene_cut_or_full_frame_transition"
+        }
+      ],
+      "usable_windows": [
+        {
+          "start_seconds": 144.272,
+          "dynamic_score": 0.02639,
+          "dynamic_score_p95": 0.142917,
+          "dynamic_score_max": 0.172508,
+          "global_flow_px": 0.060853,
+          "coherent_shift_px": 0.036807,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        }
+      ],
+      "final_status": "pass",
+      "final_reason": "manual_and_metric_checks_passed"
+    },
+    {
+      "dataset": "commons",
+      "file": "360VR_Lotte_Tower_Grand_Opening_Fireworks_South_Korea.webm",
+      "manual_decision": "pass",
+      "allowed_sides": [
+        "target"
+      ],
+      "note": "4096×2048 固定实拍机位首尔烟花",
+      "source_url": "https://commons.wikimedia.org/wiki/File:360VR_Lotte_Tower_Grand_Opening_Fireworks(South_korea).webm",
+      "license": "CC BY 3.0",
+      "locator": "commons/360VR_Lotte_Tower_Grand_Opening_Fireworks_South_Korea.webm",
+      "path_exists": true,
+      "metadata": {
+        "decode_ok": true,
+        "fps": 29.97003,
+        "frame_count": 22180,
+        "width": 4096,
+        "height": 2048,
+        "duration_seconds": 740.072667
+      },
+      "analysed_windows": [
+        {
+          "start_seconds": 1.0,
+          "dynamic_score": 0.001228,
+          "dynamic_score_p95": 0.003384,
+          "dynamic_score_max": 0.003448,
+          "global_flow_px": 0.0,
+          "coherent_shift_px": 0.657607,
+          "status": "reject",
+          "reason": "static_or_nearly_static"
+        },
+        {
+          "start_seconds": 104.296,
+          "dynamic_score": 0.008831,
+          "dynamic_score_p95": 0.012438,
+          "dynamic_score_max": 0.015785,
+          "global_flow_px": 0.014141,
+          "coherent_shift_px": 0.022943,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 207.592,
+          "dynamic_score": 0.010906,
+          "dynamic_score_p95": 0.024222,
+          "dynamic_score_max": 0.033287,
+          "global_flow_px": 0.015181,
+          "coherent_shift_px": 0.048095,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 310.888,
+          "dynamic_score": 0.03627,
+          "dynamic_score_p95": 0.166444,
+          "dynamic_score_max": 0.166687,
+          "global_flow_px": 0.036553,
+          "coherent_shift_px": 0.063039,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 414.184,
+          "dynamic_score": 0.015007,
+          "dynamic_score_p95": 0.07216,
+          "dynamic_score_max": 0.091942,
+          "global_flow_px": 0.017955,
+          "coherent_shift_px": 0.032603,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 517.48,
+          "dynamic_score": 0.010582,
+          "dynamic_score_p95": 0.141571,
+          "dynamic_score_max": 0.147141,
+          "global_flow_px": 0.016272,
+          "coherent_shift_px": 0.025193,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 620.777,
+          "dynamic_score": 0.010105,
+          "dynamic_score_p95": 0.02059,
+          "dynamic_score_max": 0.030037,
+          "global_flow_px": 0.016007,
+          "coherent_shift_px": 0.037257,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 724.073,
+          "dynamic_score": 0.012947,
+          "dynamic_score_p95": 0.023009,
+          "dynamic_score_max": 0.023674,
+          "global_flow_px": 0.017661,
+          "coherent_shift_px": 0.032464,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        }
+      ],
+      "usable_windows": [
+        {
+          "start_seconds": 104.296,
+          "dynamic_score": 0.008831,
+          "dynamic_score_p95": 0.012438,
+          "dynamic_score_max": 0.015785,
+          "global_flow_px": 0.014141,
+          "coherent_shift_px": 0.022943,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 207.592,
+          "dynamic_score": 0.010906,
+          "dynamic_score_p95": 0.024222,
+          "dynamic_score_max": 0.033287,
+          "global_flow_px": 0.015181,
+          "coherent_shift_px": 0.048095,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 310.888,
+          "dynamic_score": 0.03627,
+          "dynamic_score_p95": 0.166444,
+          "dynamic_score_max": 0.166687,
+          "global_flow_px": 0.036553,
+          "coherent_shift_px": 0.063039,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 414.184,
+          "dynamic_score": 0.015007,
+          "dynamic_score_p95": 0.07216,
+          "dynamic_score_max": 0.091942,
+          "global_flow_px": 0.017955,
+          "coherent_shift_px": 0.032603,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 517.48,
+          "dynamic_score": 0.010582,
+          "dynamic_score_p95": 0.141571,
+          "dynamic_score_max": 0.147141,
+          "global_flow_px": 0.016272,
+          "coherent_shift_px": 0.025193,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 620.777,
+          "dynamic_score": 0.010105,
+          "dynamic_score_p95": 0.02059,
+          "dynamic_score_max": 0.030037,
+          "global_flow_px": 0.016007,
+          "coherent_shift_px": 0.037257,
+          "status": "pass",
+          "reason": "dynamic_fixed_camera_window"
+        },
+        {
+          "start_seconds": 724.073,
+          "dynamic_score": 0.012947,
+          "dynamic_score_p95": 0.023009,
+          "dynamic_score_max": 0.023674,
+          "global_flow_px": 0.017661,
+          "coherent_shift_px": 0.032464,
           "status": "pass",
           "reason": "dynamic_fixed_camera_window"
         }

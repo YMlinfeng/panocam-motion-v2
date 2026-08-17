@@ -6,11 +6,15 @@
 - `output/SOURCE_AUDIT.json`：逐窗口动态分数、全局运动分数和最终去留；
 - `output/CASE_PLAN.json`：每条 demo 实际使用的源文件与时间窗。
 
-本机默认从相邻旧项目已经下载的只读目录读取素材；也可以把数据放到任意目录，然后使用：
+当前角色规则：360+x 官方人脸模糊素材只进入 REF；通过筛查的 Wikimedia
+Commons/NASA 固定机位素材进入 TARGET。长视频最多取 8 个不同 15 秒窗口，并用
+最低使用次数优先的分配器减少重复。
+
+本机默认只读引用相邻旧项目的 360+x 5K 数据；Commons/NASA 文件位于当前项目
+`local/sources/commons`。也可以把数据放到任意目录，然后使用：
 
 ```bash
 local/.venv/bin/python scripts/pipeline.py audit \
   --source-root-360x /你的/360x/hr_samples \
   --source-root-commons /你的/Wikimedia/videos
 ```
-
