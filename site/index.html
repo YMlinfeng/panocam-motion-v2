@@ -7,43 +7,33 @@
   <style>
     :root{--ink:#17211f;--muted:#62706b;--paper:#f4f1e9;--card:#fffefb;--line:#d8d5ca;--green:#1d684f;--blue:#2b5f8d;--orange:#a44e2e}
     *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-    nav{position:sticky;top:0;z-index:10;display:flex;gap:14px;align-items:center;padding:12px max(24px,calc((100vw - 1320px)/2));background:rgba(23,33,31,.96);color:white;overflow-x:auto;white-space:nowrap}
-    nav b{margin-right:auto} nav a{color:white;text-decoration:none;opacity:.85} nav a:hover{opacity:1}
-    main{max-width:1320px;margin:auto;padding:28px 24px 80px} .hero{padding:36px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(135deg,#fffefb,#e6eee7)}
-    .eyebrow,.section-title>span,.recipe-head span{font-size:12px;letter-spacing:.14em;font-weight:800;color:var(--green)} h1{font-size:clamp(36px,6vw,72px);line-height:1;margin:10px 0 18px} h2,h3,p{margin-top:0}
-    .hero p{max-width:950px;font-size:18px} .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:24px} .stat{padding:16px;border-radius:14px;background:white;border:1px solid var(--line)} .stat b{display:block;font-size:25px}
-    .rules{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0 0;padding:0;list-style:none} .rules li{background:#17211f;color:white;border-radius:14px;padding:16px}
-    .filters{position:sticky;top:48px;z-index:8;display:flex;flex-wrap:wrap;gap:8px;margin:28px 0;padding:14px;border:1px solid var(--line);border-radius:16px;background:rgba(244,241,233,.95);backdrop-filter:blur(8px)}
+    main{max-width:1320px;margin:auto;padding:22px 24px 70px} .hero{padding:18px 22px;border:1px solid var(--line);border-radius:18px;background:var(--card)}
+    h1{font-size:clamp(24px,3vw,38px);line-height:1.2;margin:0} h2,h3,p{margin-top:0}
+    .filters{position:sticky;top:0;z-index:8;display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;padding:10px;border:1px solid var(--line);border-radius:14px;background:rgba(244,241,233,.96);backdrop-filter:blur(8px)}
     button{border:1px solid #b9c1bd;border-radius:999px;background:white;padding:8px 13px;cursor:pointer} button.active{background:var(--ink);color:white;border-color:var(--ink)}
     .recipe,.special-section{margin:28px 0;padding:22px;border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.55)} .recipe[hidden]{display:none}
     .recipe-head{display:flex;justify-content:space-between;gap:20px;align-items:end;border-bottom:1px solid var(--line);margin-bottom:16px} .recipe-head h2{font-size:25px;margin:4px 0 12px} .recipe-head p{max-width:65%;font-weight:650;text-align:right}
     .case-card{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--blue);border-radius:18px;padding:18px;margin:16px 0;box-shadow:0 8px 22px rgba(33,42,38,.05)} .case-card.hybrid_b{border-left-color:var(--orange)} .case-card.special{border-left-color:var(--green)}
     .case-card>header{display:flex;justify-content:space-between;gap:18px;align-items:start} .case-card h3{margin:2px 0 4px;font-size:21px} .case-id{font:700 12px ui-monospace,monospace;color:var(--muted)} .badges{display:flex;gap:7px;flex-wrap:wrap;justify-content:end} .badges b{font-size:12px;background:#e8ede9;border-radius:999px;padding:5px 9px} .actions{font-weight:650;color:#34453f}
     .video-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;min-width:0} .video-panel{margin:0;min-width:0;background:#101312;border-radius:13px;overflow:hidden} .video-panel figcaption{display:flex;justify-content:space-between;padding:9px 11px;color:white} .video-panel video{display:block;width:100%;aspect-ratio:16/9;background:#000;object-fit:contain} .source-line{color:#d2d9d5;padding:8px 11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px}
-    .sync-note{margin:10px 0 0;color:var(--muted);font-size:12px} .section-title{margin-bottom:20px} .section-title h2{font-size:32px;margin:5px 0}
-    footer{max-width:1320px;margin:auto;padding:0 24px 50px;color:var(--muted)}
-    @media(max-width:800px){main{padding:16px 10px 60px}.hero{padding:22px}.stats{grid-template-columns:repeat(2,1fr)}.rules{grid-template-columns:1fr}.recipe,.special-section{padding:10px}.case-card{padding:10px}.video-pair{min-width:720px}.case-card{overflow-x:auto}.recipe-head{display:block}.recipe-head p{max-width:none;text-align:left}}
+    .section-title{margin-bottom:14px} .section-title h2{font-size:28px;margin:0}
+    @media(max-width:800px){main{padding:12px 10px 50px}.hero{padding:14px}.recipe,.special-section{padding:10px}.case-card{padding:10px}.video-pair{min-width:720px}.case-card{overflow-x:auto}.recipe-head{display:block}.recipe-head p{max-width:none;text-align:left}}
   </style>
 </head>
 <body>
-<nav><b>Panocam Motion V2</b><a href="#overview">总览</a><a href="#combinations">90 个连续组合</a><a href="#specials">10 个动态特殊投影</a></nav>
 <main>
   <section class="hero" id="overview">
-    <span class="eyebrow">PANORAMIC VIRTUAL CAMERA · VERSION 2</span>
-    <h1>100 个 15 秒<br>Cross-Pair 高清示例</h1>
-    <p>每条组合都是“持续 backbone + 多个错峰时间窗”的混合时序：动作长短、起止、速度和幅度均不统一，以快速、大范围运镜为主，并加入甩镜、360°滚转环绕和不规则回摆。ref 与 target 的轨迹、时长、分辨率逐帧一致。</p>
-    <div class="stats"><div class="stat"><b>100</b>cases</div><div class="stat"><b>200</b>左右 MP4</div><div class="stat"><b>15.00s</b>每条</div><div class="stat"><b>≤ 960²</b>max pixels</div><div class="stat"><b>全量验证通过</b>748.7 MiB</div></div>
-    <ul class="rules"><li><b>零停顿</b><br>每条都有覆盖完整 15 秒的持续动作，逐帧速度验证</li><li><b>快速/大幅偏置</b><br>错峰叠加、甩镜、大范围甩镜、360°滚转环绕</li><li><b>特殊投影</b><br>小行星 5 + 兔子洞 5；持续滚转 + 轻微 Zoom</li></ul>
+    <h1>100 个 15 秒全景运镜 Cross-Pair Demo</h1>
   </section>
-  <div class="filters" id="combinations"><b>显示动作数：</b><button class="active" data-filter="all">全部 45 个配方</button><button data-filter="2">2 动作</button><button data-filter="3">3 动作</button><button data-filter="4">4 动作</button><button data-filter="5">5 动作</button><button data-filter="6">6 动作</button></div>
+  <div class="filters" id="combinations"><button class="active" data-filter="all">全部</button><button data-filter="2">2 动作</button><button data-filter="3">3 动作</button><button data-filter="4">4 动作</button><button data-filter="5">5 动作</button><button data-filter="6">6 动作</button></div>
   
         <section class="recipe" data-recipe data-action-count="2">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_01</h2></div>
+            <h2>recipe_01</h2>
             <p>逆时针滚转 + 下摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="2">
+    <article id="recipe_01_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="2">
       <header>
         <div><span class="case-id">recipe_01_a</span><h3>混合时序 A · 连续错峰叠加 · 2 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1280×720</b><b>921,600 px</b><b>中位 41.5°/s</b><b>P99 123.6°/s</b></div>
@@ -67,9 +57,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="2">
+    <article id="recipe_01_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="2">
       <header>
         <div><span class="case-id">recipe_01_b</span><h3>混合时序 B · 连续错峰叠加 · 2 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>720×1280</b><b>921,600 px</b><b>中位 31.4°/s</b><b>P99 95.8°/s</b></div>
@@ -93,16 +82,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="3">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_02</h2></div>
+            <h2>recipe_02</h2>
             <p>左摇 + 小幅 Zoom In + 小幅 Zoom Out</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="3">
+    <article id="recipe_02_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="3">
       <header>
         <div><span class="case-id">recipe_02_a</span><h3>混合时序 A · 连续错峰叠加 · 3 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>960×960</b><b>921,600 px</b><b>中位 5.6°/s</b><b>P99 21.5°/s</b></div>
@@ -113,8 +101,8 @@
       <figure class="video-panel">
         <figcaption><b>REF · 参考场景</b><span>360x</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/recipe_02_a/ref.mp4" poster="media/cases/recipe_02_a/ref.jpg" style="aspect-ratio:960/960"></video>
-        <div class="source-line" title="05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4">
-          05e84dbf-6eaa-47d6-9b82-8ed75ee5d66c.mp4 · t=419.76s
+        <div class="source-line" title="019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4">
+          019cc67f-512f-4b8a-96ef-81f806c86ce1.mp4 · t=177.09s
         </div>
       </figure>
         
@@ -126,9 +114,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="3">
+    <article id="recipe_02_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="3">
       <header>
         <div><span class="case-id">recipe_02_b</span><h3>混合时序 B · 连续错峰叠加 · 3 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1104×832</b><b>918,528 px</b><b>中位 7.5°/s</b><b>P99 21.8°/s</b></div>
@@ -152,16 +139,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="4">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_03</h2></div>
+            <h2>recipe_03</h2>
             <p>左摇 + 小幅 Zoom In + 右摇 + 逆时针滚转</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="4">
+    <article id="recipe_03_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="4">
       <header>
         <div><span class="case-id">recipe_03_a</span><h3>混合时序 A · 连续错峰叠加 · 4 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>832×1104</b><b>918,528 px</b><b>中位 5.2°/s</b><b>P99 418.9°/s</b></div>
@@ -185,9 +171,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="4">
+    <article id="recipe_03_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="4">
       <header>
         <div><span class="case-id">recipe_03_b</span><h3>混合时序 B · 连续错峰叠加 · 4 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1440×640</b><b>921,600 px</b><b>中位 32.1°/s</b><b>P99 275.8°/s</b></div>
@@ -211,16 +196,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="5">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_04</h2></div>
+            <h2>recipe_04</h2>
             <p>下摇 + 逆时针滚转 + 小幅 Zoom In + 左摇 + 顺时针滚转</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="5">
+    <article id="recipe_04_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="5">
       <header>
         <div><span class="case-id">recipe_04_a</span><h3>混合时序 A · 连续错峰叠加 · 5 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>640×1440</b><b>921,600 px</b><b>中位 3.9°/s</b><b>P99 841.0°/s</b></div>
@@ -239,14 +223,13 @@
       <figure class="video-panel">
         <figcaption><b>TARGET · 目标场景</b><span>commons</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/recipe_04_a/target.mp4" poster="media/cases/recipe_04_a/target.jpg" style="aspect-ratio:640/1440"></video>
-        <div class="source-line" title="An_Introduction_to_the_Equatorial_Coordinate_System_360VR.webm">
-          An_Introduction_to_the_Equatorial_Coordinate_System_360VR.webm · t=64.59s
+        <div class="source-line" title="Worlds_First_Live_360_Rocket_Launch-_Orbital_ATK_CRS-7.webm">
+          Worlds_First_Live_360_Rocket_Launch-_Orbital_ATK_CRS-7.webm · t=111.28s
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="5">
+    <article id="recipe_04_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="5">
       <header>
         <div><span class="case-id">recipe_04_b</span><h3>混合时序 B · 连续错峰叠加 · 5 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1344×672</b><b>903,168 px</b><b>中位 10.2°/s</b><b>P99 761.6°/s</b></div>
@@ -270,16 +253,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="6">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_05</h2></div>
+            <h2>recipe_05</h2>
             <p>逆时针滚转 + 顺时针滚转 + 右摇 + 小幅 Zoom In + 小幅 Zoom Out + 上摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="6">
+    <article id="recipe_05_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="6">
       <header>
         <div><span class="case-id">recipe_05_a</span><h3>混合时序 A · 连续错峰叠加 · 6 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1072×856</b><b>917,632 px</b><b>中位 33.6°/s</b><b>P99 207.8°/s</b></div>
@@ -303,9 +285,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="6">
+    <article id="recipe_05_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="6">
       <header>
         <div><span class="case-id">recipe_05_b</span><h3>混合时序 B · 连续错峰叠加 · 6 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>856×1072</b><b>917,632 px</b><b>中位 5.9°/s</b><b>P99 1242.4°/s</b></div>
@@ -324,21 +305,20 @@
       <figure class="video-panel">
         <figcaption><b>TARGET · 目标场景</b><span>commons</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/recipe_05_b/target.mp4" poster="media/cases/recipe_05_b/target.jpg" style="aspect-ratio:856/1072"></video>
-        <div class="source-line" title="An_Introduction_to_the_Equatorial_Coordinate_System_360VR.webm">
-          An_Introduction_to_the_Equatorial_Coordinate_System_360VR.webm · t=51.88s
+        <div class="source-line" title="360_Video_of_LCS-15_Christening_and_Launch.webm">
+          360_Video_of_LCS-15_Christening_and_Launch.webm · t=8.71s
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="2">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_06</h2></div>
+            <h2>recipe_06</h2>
             <p>逆时针滚转 + 小幅 Zoom In</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="2">
+    <article id="recipe_06_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="2">
       <header>
         <div><span class="case-id">recipe_06_a</span><h3>混合时序 A · 连续错峰叠加 · 2 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1280×720</b><b>921,600 px</b><b>中位 36.5°/s</b><b>P99 42.1°/s</b></div>
@@ -362,9 +342,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="2">
+    <article id="recipe_06_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="2">
       <header>
         <div><span class="case-id">recipe_06_b</span><h3>混合时序 B · 连续错峰叠加 · 2 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>720×1280</b><b>921,600 px</b><b>中位 38.7°/s</b><b>P99 39.4°/s</b></div>
@@ -388,16 +367,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="3">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_07</h2></div>
+            <h2>recipe_07</h2>
             <p>左摇 + 右摇 + 小幅 Zoom In</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="3">
+    <article id="recipe_07_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="3">
       <header>
         <div><span class="case-id">recipe_07_a</span><h3>混合时序 A · 连续错峰叠加 · 3 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>960×960</b><b>921,600 px</b><b>中位 5.6°/s</b><b>P99 130.5°/s</b></div>
@@ -421,9 +399,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="3">
+    <article id="recipe_07_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="3">
       <header>
         <div><span class="case-id">recipe_07_b</span><h3>混合时序 B · 连续错峰叠加 · 3 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1104×832</b><b>918,528 px</b><b>中位 7.2°/s</b><b>P99 549.9°/s</b></div>
@@ -447,16 +424,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="4">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_08</h2></div>
+            <h2>recipe_08</h2>
             <p>顺时针滚转 + 小幅 Zoom In + 左摇 + 逆时针滚转</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="4">
+    <article id="recipe_08_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="4">
       <header>
         <div><span class="case-id">recipe_08_a</span><h3>混合时序 A · 连续错峰叠加 · 4 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>832×1104</b><b>918,528 px</b><b>中位 40.0°/s</b><b>P99 279.5°/s</b></div>
@@ -480,9 +456,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="4">
+    <article id="recipe_08_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="4">
       <header>
         <div><span class="case-id">recipe_08_b</span><h3>混合时序 B · 连续错峰叠加 · 4 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1440×640</b><b>921,600 px</b><b>中位 7.5°/s</b><b>P99 216.0°/s</b></div>
@@ -506,16 +481,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="5">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_09</h2></div>
+            <h2>recipe_09</h2>
             <p>上摇 + 左摇 + 逆时针滚转 + 顺时针滚转 + 小幅 Zoom In</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="5">
+    <article id="recipe_09_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="5">
       <header>
         <div><span class="case-id">recipe_09_a</span><h3>混合时序 A · 连续错峰叠加 · 5 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>640×1440</b><b>921,600 px</b><b>中位 2.9°/s</b><b>P99 665.0°/s</b></div>
@@ -539,9 +513,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="5">
+    <article id="recipe_09_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="5">
       <header>
         <div><span class="case-id">recipe_09_b</span><h3>混合时序 B · 连续错峰叠加 · 5 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1344×672</b><b>903,168 px</b><b>中位 25.5°/s</b><b>P99 255.0°/s</b></div>
@@ -565,16 +538,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="6">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_10</h2></div>
+            <h2>recipe_10</h2>
             <p>下摇 + 小幅 Zoom In + 顺时针滚转 + 上摇 + 逆时针滚转 + 右摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="6">
+    <article id="recipe_10_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="6">
       <header>
         <div><span class="case-id">recipe_10_a</span><h3>混合时序 A · 连续错峰叠加 · 6 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1072×856</b><b>917,632 px</b><b>中位 4.8°/s</b><b>P99 603.5°/s</b></div>
@@ -598,9 +570,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="6">
+    <article id="recipe_10_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="6">
       <header>
         <div><span class="case-id">recipe_10_b</span><h3>混合时序 B · 连续错峰叠加 · 6 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>856×1072</b><b>917,632 px</b><b>中位 6.6°/s</b><b>P99 179.0°/s</b></div>
@@ -624,16 +595,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="2">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_11</h2></div>
+            <h2>recipe_11</h2>
             <p>顺时针滚转 + 下摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="2">
+    <article id="recipe_11_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="2">
       <header>
         <div><span class="case-id">recipe_11_a</span><h3>混合时序 A · 连续错峰叠加 · 2 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1280×720</b><b>921,600 px</b><b>中位 28.0°/s</b><b>P99 110.8°/s</b></div>
@@ -657,9 +627,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="2">
+    <article id="recipe_11_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="2">
       <header>
         <div><span class="case-id">recipe_11_b</span><h3>混合时序 B · 连续错峰叠加 · 2 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>720×1280</b><b>921,600 px</b><b>中位 47.8°/s</b><b>P99 103.3°/s</b></div>
@@ -683,16 +652,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="3">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_12</h2></div>
+            <h2>recipe_12</h2>
             <p>左摇 + 下摇 + 小幅 Zoom In</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="3">
+    <article id="recipe_12_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="3">
       <header>
         <div><span class="case-id">recipe_12_a</span><h3>混合时序 A · 连续错峰叠加 · 3 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>960×960</b><b>921,600 px</b><b>中位 5.5°/s</b><b>P99 65.4°/s</b></div>
@@ -716,9 +684,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="3">
+    <article id="recipe_12_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="3">
       <header>
         <div><span class="case-id">recipe_12_b</span><h3>混合时序 B · 连续错峰叠加 · 3 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1104×832</b><b>918,528 px</b><b>中位 3.5°/s</b><b>P99 34.8°/s</b></div>
@@ -742,16 +709,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="4">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_13</h2></div>
+            <h2>recipe_13</h2>
             <p>右摇 + 小幅 Zoom Out + 逆时针滚转 + 左摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="4">
+    <article id="recipe_13_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="4">
       <header>
         <div><span class="case-id">recipe_13_a</span><h3>混合时序 A · 连续错峰叠加 · 4 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>832×1104</b><b>918,528 px</b><b>中位 8.1°/s</b><b>P99 849.8°/s</b></div>
@@ -775,9 +741,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="4">
+    <article id="recipe_13_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="4">
       <header>
         <div><span class="case-id">recipe_13_b</span><h3>混合时序 B · 连续错峰叠加 · 4 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1440×640</b><b>921,600 px</b><b>中位 26.2°/s</b><b>P99 166.1°/s</b></div>
@@ -801,16 +766,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="5">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_14</h2></div>
+            <h2>recipe_14</h2>
             <p>右摇 + 上摇 + 小幅 Zoom In + 下摇 + 左摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="5">
+    <article id="recipe_14_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="5">
       <header>
         <div><span class="case-id">recipe_14_a</span><h3>混合时序 A · 连续错峰叠加 · 5 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>640×1440</b><b>921,600 px</b><b>中位 5.3°/s</b><b>P99 176.5°/s</b></div>
@@ -834,9 +798,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="5">
+    <article id="recipe_14_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="5">
       <header>
         <div><span class="case-id">recipe_14_b</span><h3>混合时序 B · 连续错峰叠加 · 5 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1344×672</b><b>903,168 px</b><b>中位 3.6°/s</b><b>P99 181.1°/s</b></div>
@@ -860,16 +823,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="6">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_15</h2></div>
+            <h2>recipe_15</h2>
             <p>顺时针滚转 + 上摇 + 逆时针滚转 + 小幅 Zoom In + 下摇 + 左摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="6">
+    <article id="recipe_15_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="6">
       <header>
         <div><span class="case-id">recipe_15_a</span><h3>混合时序 A · 连续错峰叠加 · 6 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1072×856</b><b>917,632 px</b><b>中位 25.3°/s</b><b>P99 295.5°/s</b></div>
@@ -893,9 +855,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="6">
+    <article id="recipe_15_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="6">
       <header>
         <div><span class="case-id">recipe_15_b</span><h3>混合时序 B · 连续错峰叠加 · 6 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>856×1072</b><b>917,632 px</b><b>中位 10.4°/s</b><b>P99 198.0°/s</b></div>
@@ -919,16 +880,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="2">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_16</h2></div>
+            <h2>recipe_16</h2>
             <p>顺时针滚转 + 上摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="2">
+    <article id="recipe_16_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="2">
       <header>
         <div><span class="case-id">recipe_16_a</span><h3>混合时序 A · 连续错峰叠加 · 2 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1280×720</b><b>921,600 px</b><b>中位 41.3°/s</b><b>P99 130.6°/s</b></div>
@@ -952,9 +912,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="2">
+    <article id="recipe_16_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="2">
       <header>
         <div><span class="case-id">recipe_16_b</span><h3>混合时序 B · 连续错峰叠加 · 2 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>720×1280</b><b>921,600 px</b><b>中位 42.3°/s</b><b>P99 87.3°/s</b></div>
@@ -978,16 +937,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="3">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_17</h2></div>
+            <h2>recipe_17</h2>
             <p>左摇 + 下摇 + 右摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="3">
+    <article id="recipe_17_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="3">
       <header>
         <div><span class="case-id">recipe_17_a</span><h3>混合时序 A · 连续错峰叠加 · 3 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>960×960</b><b>921,600 px</b><b>中位 6.1°/s</b><b>P99 147.5°/s</b></div>
@@ -1011,9 +969,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="3">
+    <article id="recipe_17_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="3">
       <header>
         <div><span class="case-id">recipe_17_b</span><h3>混合时序 B · 连续错峰叠加 · 3 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1104×832</b><b>918,528 px</b><b>中位 6.0°/s</b><b>P99 115.5°/s</b></div>
@@ -1037,16 +994,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="4">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_18</h2></div>
+            <h2>recipe_18</h2>
             <p>左摇 + 小幅 Zoom In + 右摇 + 下摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="4">
+    <article id="recipe_18_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="4">
       <header>
         <div><span class="case-id">recipe_18_a</span><h3>混合时序 A · 连续错峰叠加 · 4 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>832×1104</b><b>918,528 px</b><b>中位 4.4°/s</b><b>P99 216.7°/s</b></div>
@@ -1070,9 +1026,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="4">
+    <article id="recipe_18_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="4">
       <header>
         <div><span class="case-id">recipe_18_b</span><h3>混合时序 B · 连续错峰叠加 · 4 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1440×640</b><b>921,600 px</b><b>中位 7.3°/s</b><b>P99 429.3°/s</b></div>
@@ -1096,16 +1051,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="5">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_19</h2></div>
+            <h2>recipe_19</h2>
             <p>逆时针滚转 + 小幅 Zoom Out + 小幅 Zoom In + 左摇 + 上摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="5">
+    <article id="recipe_19_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="5">
       <header>
         <div><span class="case-id">recipe_19_a</span><h3>混合时序 A · 连续错峰叠加 · 5 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>640×1440</b><b>921,600 px</b><b>中位 16.0°/s</b><b>P99 169.6°/s</b></div>
@@ -1129,9 +1083,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="5">
+    <article id="recipe_19_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="5">
       <header>
         <div><span class="case-id">recipe_19_b</span><h3>混合时序 B · 连续错峰叠加 · 5 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1344×672</b><b>903,168 px</b><b>中位 40.2°/s</b><b>P99 134.6°/s</b></div>
@@ -1155,16 +1108,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="6">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_20</h2></div>
+            <h2>recipe_20</h2>
             <p>逆时针滚转 + 顺时针滚转 + 上摇 + 左摇 + 小幅 Zoom Out + 右摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="6">
+    <article id="recipe_20_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="6">
       <header>
         <div><span class="case-id">recipe_20_a</span><h3>混合时序 A · 连续错峰叠加 · 6 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1072×856</b><b>917,632 px</b><b>中位 41.0°/s</b><b>P99 404.7°/s</b></div>
@@ -1188,9 +1140,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="6">
+    <article id="recipe_20_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="6">
       <header>
         <div><span class="case-id">recipe_20_b</span><h3>混合时序 B · 连续错峰叠加 · 6 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>856×1072</b><b>917,632 px</b><b>中位 5.0°/s</b><b>P99 1225.8°/s</b></div>
@@ -1214,16 +1165,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="2">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_21</h2></div>
+            <h2>recipe_21</h2>
             <p>顺时针滚转 + 逆时针滚转</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="2">
+    <article id="recipe_21_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="2">
       <header>
         <div><span class="case-id">recipe_21_a</span><h3>混合时序 A · 连续错峰叠加 · 2 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1280×720</b><b>921,600 px</b><b>中位 44.5°/s</b><b>P99 219.0°/s</b></div>
@@ -1247,9 +1197,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="2">
+    <article id="recipe_21_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="2">
       <header>
         <div><span class="case-id">recipe_21_b</span><h3>混合时序 B · 连续错峰叠加 · 2 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>720×1280</b><b>921,600 px</b><b>中位 35.0°/s</b><b>P99 416.0°/s</b></div>
@@ -1273,16 +1222,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="3">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_22</h2></div>
+            <h2>recipe_22</h2>
             <p>左摇 + 小幅 Zoom In + 顺时针滚转</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="3">
+    <article id="recipe_22_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="3">
       <header>
         <div><span class="case-id">recipe_22_a</span><h3>混合时序 A · 连续错峰叠加 · 3 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>960×960</b><b>921,600 px</b><b>中位 4.9°/s</b><b>P99 215.0°/s</b></div>
@@ -1306,9 +1254,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="3">
+    <article id="recipe_22_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="3">
       <header>
         <div><span class="case-id">recipe_22_b</span><h3>混合时序 B · 连续错峰叠加 · 3 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1104×832</b><b>918,528 px</b><b>中位 7.5°/s</b><b>P99 78.0°/s</b></div>
@@ -1332,16 +1279,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="4">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_23</h2></div>
+            <h2>recipe_23</h2>
             <p>下摇 + 顺时针滚转 + 逆时针滚转 + 小幅 Zoom Out</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="4">
+    <article id="recipe_23_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="4">
       <header>
         <div><span class="case-id">recipe_23_a</span><h3>混合时序 A · 连续错峰叠加 · 4 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>832×1104</b><b>918,528 px</b><b>中位 2.6°/s</b><b>P99 413.5°/s</b></div>
@@ -1365,9 +1311,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="4">
+    <article id="recipe_23_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="4">
       <header>
         <div><span class="case-id">recipe_23_b</span><h3>混合时序 B · 连续错峰叠加 · 4 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1440×640</b><b>921,600 px</b><b>中位 25.6°/s</b><b>P99 200.1°/s</b></div>
@@ -1391,16 +1336,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="5">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_24</h2></div>
+            <h2>recipe_24</h2>
             <p>逆时针滚转 + 小幅 Zoom Out + 左摇 + 上摇 + 小幅 Zoom In</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="5">
+    <article id="recipe_24_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="5">
       <header>
         <div><span class="case-id">recipe_24_a</span><h3>混合时序 A · 连续错峰叠加 · 5 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>640×1440</b><b>921,600 px</b><b>中位 24.1°/s</b><b>P99 109.4°/s</b></div>
@@ -1424,9 +1368,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="5">
+    <article id="recipe_24_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="5">
       <header>
         <div><span class="case-id">recipe_24_b</span><h3>混合时序 B · 连续错峰叠加 · 5 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1344×672</b><b>903,168 px</b><b>中位 41.2°/s</b><b>P99 206.2°/s</b></div>
@@ -1450,16 +1393,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="6">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_25</h2></div>
+            <h2>recipe_25</h2>
             <p>下摇 + 逆时针滚转 + 小幅 Zoom Out + 小幅 Zoom In + 顺时针滚转 + 右摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="6">
+    <article id="recipe_25_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="6">
       <header>
         <div><span class="case-id">recipe_25_a</span><h3>混合时序 A · 连续错峰叠加 · 6 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1072×856</b><b>917,632 px</b><b>中位 2.8°/s</b><b>P99 498.7°/s</b></div>
@@ -1483,9 +1425,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="6">
+    <article id="recipe_25_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="6">
       <header>
         <div><span class="case-id">recipe_25_b</span><h3>混合时序 B · 连续错峰叠加 · 6 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>856×1072</b><b>917,632 px</b><b>中位 15.4°/s</b><b>P99 359.3°/s</b></div>
@@ -1509,16 +1450,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="2">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_26</h2></div>
+            <h2>recipe_26</h2>
             <p>逆时针滚转 + 小幅 Zoom In</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="2">
+    <article id="recipe_26_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="2">
       <header>
         <div><span class="case-id">recipe_26_a</span><h3>混合时序 A · 连续错峰叠加 · 2 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1280×720</b><b>921,600 px</b><b>中位 46.2°/s</b><b>P99 48.3°/s</b></div>
@@ -1542,9 +1482,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="2">
+    <article id="recipe_26_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="2">
       <header>
         <div><span class="case-id">recipe_26_b</span><h3>混合时序 B · 连续错峰叠加 · 2 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>720×1280</b><b>921,600 px</b><b>中位 46.4°/s</b><b>P99 61.3°/s</b></div>
@@ -1568,16 +1507,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="3">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_27</h2></div>
+            <h2>recipe_27</h2>
             <p>逆时针滚转 + 小幅 Zoom Out + 左摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="3">
+    <article id="recipe_27_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="3">
       <header>
         <div><span class="case-id">recipe_27_a</span><h3>混合时序 A · 连续错峰叠加 · 3 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>960×960</b><b>921,600 px</b><b>中位 13.6°/s</b><b>P99 191.6°/s</b></div>
@@ -1601,9 +1539,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="3">
+    <article id="recipe_27_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="3">
       <header>
         <div><span class="case-id">recipe_27_b</span><h3>混合时序 B · 连续错峰叠加 · 3 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1104×832</b><b>918,528 px</b><b>中位 7.1°/s</b><b>P99 393.2°/s</b></div>
@@ -1627,16 +1564,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="4">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_28</h2></div>
+            <h2>recipe_28</h2>
             <p>顺时针滚转 + 小幅 Zoom In + 左摇 + 右摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="4">
+    <article id="recipe_28_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="4">
       <header>
         <div><span class="case-id">recipe_28_a</span><h3>混合时序 A · 连续错峰叠加 · 4 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>832×1104</b><b>918,528 px</b><b>中位 27.8°/s</b><b>P99 99.1°/s</b></div>
@@ -1660,9 +1596,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="4">
+    <article id="recipe_28_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="4">
       <header>
         <div><span class="case-id">recipe_28_b</span><h3>混合时序 B · 连续错峰叠加 · 4 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1440×640</b><b>921,600 px</b><b>中位 8.2°/s</b><b>P99 153.2°/s</b></div>
@@ -1686,16 +1621,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="5">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_29</h2></div>
+            <h2>recipe_29</h2>
             <p>右摇 + 小幅 Zoom Out + 顺时针滚转 + 逆时针滚转 + 小幅 Zoom In</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="5">
+    <article id="recipe_29_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="5">
       <header>
         <div><span class="case-id">recipe_29_a</span><h3>混合时序 A · 连续错峰叠加 · 5 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>640×1440</b><b>921,600 px</b><b>中位 6.0°/s</b><b>P99 468.3°/s</b></div>
@@ -1719,9 +1653,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="5">
+    <article id="recipe_29_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="5">
       <header>
         <div><span class="case-id">recipe_29_b</span><h3>混合时序 B · 连续错峰叠加 · 5 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1344×672</b><b>903,168 px</b><b>中位 10.6°/s</b><b>P99 876.6°/s</b></div>
@@ -1745,16 +1678,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="6">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_30</h2></div>
+            <h2>recipe_30</h2>
             <p>逆时针滚转 + 左摇 + 小幅 Zoom Out + 小幅 Zoom In + 右摇 + 下摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="6">
+    <article id="recipe_30_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="6">
       <header>
         <div><span class="case-id">recipe_30_a</span><h3>混合时序 A · 连续错峰叠加 · 6 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1072×856</b><b>917,632 px</b><b>中位 28.1°/s</b><b>P99 205.3°/s</b></div>
@@ -1778,9 +1710,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="6">
+    <article id="recipe_30_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="6">
       <header>
         <div><span class="case-id">recipe_30_b</span><h3>混合时序 B · 连续错峰叠加 · 6 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>856×1072</b><b>917,632 px</b><b>中位 8.9°/s</b><b>P99 149.5°/s</b></div>
@@ -1804,16 +1735,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="2">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_31</h2></div>
+            <h2>recipe_31</h2>
             <p>逆时针滚转 + 下摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="2">
+    <article id="recipe_31_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="2">
       <header>
         <div><span class="case-id">recipe_31_a</span><h3>混合时序 A · 连续错峰叠加 · 2 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1280×720</b><b>921,600 px</b><b>中位 33.7°/s</b><b>P99 130.3°/s</b></div>
@@ -1837,9 +1767,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="2">
+    <article id="recipe_31_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="2">
       <header>
         <div><span class="case-id">recipe_31_b</span><h3>混合时序 B · 连续错峰叠加 · 2 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>720×1280</b><b>921,600 px</b><b>中位 39.0°/s</b><b>P99 93.4°/s</b></div>
@@ -1863,16 +1792,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="3">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_32</h2></div>
+            <h2>recipe_32</h2>
             <p>左摇 + 顺时针滚转 + 下摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="3">
+    <article id="recipe_32_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="3">
       <header>
         <div><span class="case-id">recipe_32_a</span><h3>混合时序 A · 连续错峰叠加 · 3 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>960×960</b><b>921,600 px</b><b>中位 6.2°/s</b><b>P99 255.1°/s</b></div>
@@ -1896,9 +1824,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="3">
+    <article id="recipe_32_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="3">
       <header>
         <div><span class="case-id">recipe_32_b</span><h3>混合时序 B · 连续错峰叠加 · 3 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1104×832</b><b>918,528 px</b><b>中位 29.8°/s</b><b>P99 108.9°/s</b></div>
@@ -1922,16 +1849,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="4">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_33</h2></div>
+            <h2>recipe_33</h2>
             <p>顺时针滚转 + 上摇 + 左摇 + 小幅 Zoom Out</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="4">
+    <article id="recipe_33_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="4">
       <header>
         <div><span class="case-id">recipe_33_a</span><h3>混合时序 A · 连续错峰叠加 · 4 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>832×1104</b><b>918,528 px</b><b>中位 8.9°/s</b><b>P99 165.1°/s</b></div>
@@ -1955,9 +1881,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="4">
+    <article id="recipe_33_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="4">
       <header>
         <div><span class="case-id">recipe_33_b</span><h3>混合时序 B · 连续错峰叠加 · 4 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1440×640</b><b>921,600 px</b><b>中位 16.0°/s</b><b>P99 136.8°/s</b></div>
@@ -1981,16 +1906,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="5">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_34</h2></div>
+            <h2>recipe_34</h2>
             <p>右摇 + 上摇 + 下摇 + 逆时针滚转 + 小幅 Zoom Out</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="5">
+    <article id="recipe_34_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="5">
       <header>
         <div><span class="case-id">recipe_34_a</span><h3>混合时序 A · 连续错峰叠加 · 5 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>640×1440</b><b>921,600 px</b><b>中位 4.9°/s</b><b>P99 211.9°/s</b></div>
@@ -2014,9 +1938,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="5">
+    <article id="recipe_34_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="5">
       <header>
         <div><span class="case-id">recipe_34_b</span><h3>混合时序 B · 连续错峰叠加 · 5 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1344×672</b><b>903,168 px</b><b>中位 4.8°/s</b><b>P99 967.9°/s</b></div>
@@ -2040,16 +1963,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="6">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_35</h2></div>
+            <h2>recipe_35</h2>
             <p>右摇 + 小幅 Zoom Out + 小幅 Zoom In + 左摇 + 逆时针滚转 + 上摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="6">
+    <article id="recipe_35_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="6">
       <header>
         <div><span class="case-id">recipe_35_a</span><h3>混合时序 A · 连续错峰叠加 · 6 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1072×856</b><b>917,632 px</b><b>中位 6.1°/s</b><b>P99 294.8°/s</b></div>
@@ -2073,9 +1995,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="6">
+    <article id="recipe_35_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="6">
       <header>
         <div><span class="case-id">recipe_35_b</span><h3>混合时序 B · 连续错峰叠加 · 6 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>856×1072</b><b>917,632 px</b><b>中位 30.5°/s</b><b>P99 109.7°/s</b></div>
@@ -2099,16 +2020,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="2">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_36</h2></div>
+            <h2>recipe_36</h2>
             <p>顺时针滚转 + 小幅 Zoom Out</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="2">
+    <article id="recipe_36_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="2">
       <header>
         <div><span class="case-id">recipe_36_a</span><h3>混合时序 A · 连续错峰叠加 · 2 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1280×720</b><b>921,600 px</b><b>中位 31.1°/s</b><b>P99 36.3°/s</b></div>
@@ -2132,9 +2052,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="2">
+    <article id="recipe_36_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="2">
       <header>
         <div><span class="case-id">recipe_36_b</span><h3>混合时序 B · 连续错峰叠加 · 2 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>720×1280</b><b>921,600 px</b><b>中位 27.6°/s</b><b>P99 28.5°/s</b></div>
@@ -2158,16 +2077,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="3">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_37</h2></div>
+            <h2>recipe_37</h2>
             <p>左摇 + 右摇 + 小幅 Zoom Out</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="3">
+    <article id="recipe_37_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="3">
       <header>
         <div><span class="case-id">recipe_37_a</span><h3>混合时序 A · 连续错峰叠加 · 3 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>960×960</b><b>921,600 px</b><b>中位 5.2°/s</b><b>P99 122.3°/s</b></div>
@@ -2191,9 +2109,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="3">
+    <article id="recipe_37_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="3">
       <header>
         <div><span class="case-id">recipe_37_b</span><h3>混合时序 B · 连续错峰叠加 · 3 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1104×832</b><b>918,528 px</b><b>中位 7.9°/s</b><b>P99 376.2°/s</b></div>
@@ -2217,16 +2134,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="4">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_38</h2></div>
+            <h2>recipe_38</h2>
             <p>左摇 + 下摇 + 小幅 Zoom Out + 小幅 Zoom In</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="4">
+    <article id="recipe_38_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="4">
       <header>
         <div><span class="case-id">recipe_38_a</span><h3>混合时序 A · 连续错峰叠加 · 4 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>832×1104</b><b>918,528 px</b><b>中位 4.0°/s</b><b>P99 105.9°/s</b></div>
@@ -2250,9 +2166,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="4">
+    <article id="recipe_38_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="4">
       <header>
         <div><span class="case-id">recipe_38_b</span><h3>混合时序 B · 连续错峰叠加 · 4 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1440×640</b><b>921,600 px</b><b>中位 3.5°/s</b><b>P99 159.2°/s</b></div>
@@ -2276,16 +2191,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="5">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_39</h2></div>
+            <h2>recipe_39</h2>
             <p>顺时针滚转 + 左摇 + 小幅 Zoom Out + 小幅 Zoom In + 逆时针滚转</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="5">
+    <article id="recipe_39_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="5">
       <header>
         <div><span class="case-id">recipe_39_a</span><h3>混合时序 A · 连续错峰叠加 · 5 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>640×1440</b><b>921,600 px</b><b>中位 33.5°/s</b><b>P99 194.6°/s</b></div>
@@ -2309,9 +2223,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="5">
+    <article id="recipe_39_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="5">
       <header>
         <div><span class="case-id">recipe_39_b</span><h3>混合时序 B · 连续错峰叠加 · 5 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1344×672</b><b>903,168 px</b><b>中位 30.8°/s</b><b>P99 450.3°/s</b></div>
@@ -2335,16 +2248,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="6">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_40</h2></div>
+            <h2>recipe_40</h2>
             <p>左摇 + 下摇 + 逆时针滚转 + 小幅 Zoom In + 小幅 Zoom Out + 上摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="6">
+    <article id="recipe_40_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="6">
       <header>
         <div><span class="case-id">recipe_40_a</span><h3>混合时序 A · 连续错峰叠加 · 6 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1072×856</b><b>917,632 px</b><b>中位 11.9°/s</b><b>P99 76.8°/s</b></div>
@@ -2368,9 +2280,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="6">
+    <article id="recipe_40_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="6">
       <header>
         <div><span class="case-id">recipe_40_b</span><h3>混合时序 B · 连续错峰叠加 · 6 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>856×1072</b><b>917,632 px</b><b>中位 4.9°/s</b><b>P99 347.7°/s</b></div>
@@ -2394,16 +2305,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="2">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_41</h2></div>
+            <h2>recipe_41</h2>
             <p>顺时针滚转 + 小幅 Zoom Out</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="2">
+    <article id="recipe_41_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="2">
       <header>
         <div><span class="case-id">recipe_41_a</span><h3>混合时序 A · 连续错峰叠加 · 2 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1280×720</b><b>921,600 px</b><b>中位 24.8°/s</b><b>P99 50.2°/s</b></div>
@@ -2427,9 +2337,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="2">
+    <article id="recipe_41_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="2">
       <header>
         <div><span class="case-id">recipe_41_b</span><h3>混合时序 B · 连续错峰叠加 · 2 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>720×1280</b><b>921,600 px</b><b>中位 44.4°/s</b><b>P99 45.6°/s</b></div>
@@ -2453,16 +2362,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="3">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_42</h2></div>
+            <h2>recipe_42</h2>
             <p>顺时针滚转 + 小幅 Zoom In + 左摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="3">
+    <article id="recipe_42_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="3">
       <header>
         <div><span class="case-id">recipe_42_a</span><h3>混合时序 A · 连续错峰叠加 · 3 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>960×960</b><b>921,600 px</b><b>中位 44.1°/s</b><b>P99 245.5°/s</b></div>
@@ -2486,9 +2394,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="3">
+    <article id="recipe_42_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="3">
       <header>
         <div><span class="case-id">recipe_42_b</span><h3>混合时序 B · 连续错峰叠加 · 3 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1104×832</b><b>918,528 px</b><b>中位 25.1°/s</b><b>P99 264.3°/s</b></div>
@@ -2512,16 +2419,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="4">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_43</h2></div>
+            <h2>recipe_43</h2>
             <p>顺时针滚转 + 右摇 + 上摇 + 下摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="4">
+    <article id="recipe_43_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="4">
       <header>
         <div><span class="case-id">recipe_43_a</span><h3>混合时序 A · 连续错峰叠加 · 4 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>832×1104</b><b>918,528 px</b><b>中位 27.1°/s</b><b>P99 96.3°/s</b></div>
@@ -2545,9 +2451,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="4">
+    <article id="recipe_43_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="4">
       <header>
         <div><span class="case-id">recipe_43_b</span><h3>混合时序 B · 连续错峰叠加 · 4 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1440×640</b><b>921,600 px</b><b>中位 3.3°/s</b><b>P99 714.6°/s</b></div>
@@ -2571,16 +2476,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="5">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_44</h2></div>
+            <h2>recipe_44</h2>
             <p>上摇 + 右摇 + 顺时针滚转 + 小幅 Zoom Out + 逆时针滚转</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="5">
+    <article id="recipe_44_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="5">
       <header>
         <div><span class="case-id">recipe_44_a</span><h3>混合时序 A · 连续错峰叠加 · 5 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>640×1440</b><b>921,600 px</b><b>中位 2.3°/s</b><b>P99 1126.7°/s</b></div>
@@ -2604,9 +2508,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="5">
+    <article id="recipe_44_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="5">
       <header>
         <div><span class="case-id">recipe_44_b</span><h3>混合时序 B · 连续错峰叠加 · 5 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1344×672</b><b>903,168 px</b><b>中位 32.0°/s</b><b>P99 921.5°/s</b></div>
@@ -2630,16 +2533,15 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
         <section class="recipe" data-recipe data-action-count="6">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>recipe_45</h2></div>
+            <h2>recipe_45</h2>
             <p>右摇 + 逆时针滚转 + 顺时针滚转 + 小幅 Zoom Out + 左摇 + 上摇</p>
           </div>
           
-    <article class="case-card hybrid_a" data-mode="hybrid_a" data-actions="6">
+    <article id="recipe_45_a" class="case-card hybrid_a" data-mode="hybrid_a" data-actions="6">
       <header>
         <div><span class="case-id">recipe_45_a</span><h3>混合时序 A · 连续错峰叠加 · 6 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>1072×856</b><b>917,632 px</b><b>中位 6.8°/s</b><b>P99 904.9°/s</b></div>
@@ -2663,9 +2565,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card hybrid_b" data-mode="hybrid_b" data-actions="6">
+    <article id="recipe_45_b" class="case-card hybrid_b" data-mode="hybrid_b" data-actions="6">
       <header>
         <div><span class="case-id">recipe_45_b</span><h3>混合时序 B · 连续错峰叠加 · 6 动作</h3></div>
         <div class="badges"><b>15.00s</b><b>856×1072</b><b>917,632 px</b><b>中位 25.2°/s</b><b>P99 531.9°/s</b></div>
@@ -2689,15 +2590,13 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
         </section>
   
       <section class="special-section" id="specials">
-        <div class="section-title"><span>ANIMATED SPECIAL PROJECTIONS</span><h2>小行星 5 条 + 兔子洞 5 条</h2>
-        <p>每条都叠加持续顺/逆时针滚转与轻微呼吸 Zoom，不再静态展示投影。</p></div>
+        <div class="section-title"><h2>特殊投影</h2></div>
         
-    <article class="case-card special" data-mode="special_motion" data-actions="2">
+    <article id="tiny_planet_01" class="case-card special" data-mode="special_motion" data-actions="2">
       <header>
         <div><span class="case-id">tiny_planet_01</span><h3>小行星 + 持续滚转/轻微 Zoom</h3></div>
         <div class="badges"><b>15.00s</b><b>1280×720</b><b>921,600 px</b><b>滚转 27.8°/s</b></div>
@@ -2721,9 +2620,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card special" data-mode="special_motion" data-actions="2">
+    <article id="tiny_planet_02" class="case-card special" data-mode="special_motion" data-actions="2">
       <header>
         <div><span class="case-id">tiny_planet_02</span><h3>小行星 + 持续滚转/轻微 Zoom</h3></div>
         <div class="badges"><b>15.00s</b><b>720×1280</b><b>921,600 px</b><b>滚转 16.6°/s</b></div>
@@ -2747,9 +2645,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card special" data-mode="special_motion" data-actions="2">
+    <article id="tiny_planet_03" class="case-card special" data-mode="special_motion" data-actions="2">
       <header>
         <div><span class="case-id">tiny_planet_03</span><h3>小行星 + 持续滚转/轻微 Zoom</h3></div>
         <div class="badges"><b>15.00s</b><b>960×960</b><b>921,600 px</b><b>滚转 28.5°/s</b></div>
@@ -2773,9 +2670,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card special" data-mode="special_motion" data-actions="2">
+    <article id="tiny_planet_04" class="case-card special" data-mode="special_motion" data-actions="2">
       <header>
         <div><span class="case-id">tiny_planet_04</span><h3>小行星 + 持续滚转/轻微 Zoom</h3></div>
         <div class="badges"><b>15.00s</b><b>1104×832</b><b>918,528 px</b><b>滚转 31.5°/s</b></div>
@@ -2799,9 +2695,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card special" data-mode="special_motion" data-actions="2">
+    <article id="tiny_planet_05" class="case-card special" data-mode="special_motion" data-actions="2">
       <header>
         <div><span class="case-id">tiny_planet_05</span><h3>小行星 + 持续滚转/轻微 Zoom</h3></div>
         <div class="badges"><b>15.00s</b><b>832×1104</b><b>918,528 px</b><b>滚转 30.0°/s</b></div>
@@ -2825,9 +2720,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card special" data-mode="special_motion" data-actions="2">
+    <article id="rabbit_hole_01" class="case-card special" data-mode="special_motion" data-actions="2">
       <header>
         <div><span class="case-id">rabbit_hole_01</span><h3>兔子洞 + 持续滚转/轻微 Zoom</h3></div>
         <div class="badges"><b>15.00s</b><b>1440×640</b><b>921,600 px</b><b>滚转 16.3°/s</b></div>
@@ -2851,9 +2745,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card special" data-mode="special_motion" data-actions="2">
+    <article id="rabbit_hole_02" class="case-card special" data-mode="special_motion" data-actions="2">
       <header>
         <div><span class="case-id">rabbit_hole_02</span><h3>兔子洞 + 持续滚转/轻微 Zoom</h3></div>
         <div class="badges"><b>15.00s</b><b>640×1440</b><b>921,600 px</b><b>滚转 21.2°/s</b></div>
@@ -2877,9 +2770,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card special" data-mode="special_motion" data-actions="2">
+    <article id="rabbit_hole_03" class="case-card special" data-mode="special_motion" data-actions="2">
       <header>
         <div><span class="case-id">rabbit_hole_03</span><h3>兔子洞 + 持续滚转/轻微 Zoom</h3></div>
         <div class="badges"><b>15.00s</b><b>1344×672</b><b>903,168 px</b><b>滚转 21.5°/s</b></div>
@@ -2903,9 +2795,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card special" data-mode="special_motion" data-actions="2">
+    <article id="rabbit_hole_04" class="case-card special" data-mode="special_motion" data-actions="2">
       <header>
         <div><span class="case-id">rabbit_hole_04</span><h3>兔子洞 + 持续滚转/轻微 Zoom</h3></div>
         <div class="badges"><b>15.00s</b><b>1072×856</b><b>917,632 px</b><b>滚转 35.8°/s</b></div>
@@ -2929,9 +2820,8 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
-    <article class="case-card special" data-mode="special_motion" data-actions="2">
+    <article id="rabbit_hole_05" class="case-card special" data-mode="special_motion" data-actions="2">
       <header>
         <div><span class="case-id">rabbit_hole_05</span><h3>兔子洞 + 持续滚转/轻微 Zoom</h3></div>
         <div class="badges"><b>15.00s</b><b>856×1072</b><b>917,632 px</b><b>滚转 22.9°/s</b></div>
@@ -2955,11 +2845,9 @@
         </div>
       </figure>
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>
       </section>
 </main>
-<footer>代码、两份说明文档、逐 case 可调参数与验证报告均随公开仓库发布。网页不展示素材筛选表；完整筛选台账仍保留在仓库供生产审计。网页直接播放生产 MP4，不使用 GIF，也不做浏览器端二次压缩。</footer>
 <script>
   // 默认展示全部内容；过滤只在用户主动点击后生效，不会偷偷隐藏任何 ref/target。
   document.querySelectorAll('[data-filter]').forEach(button => button.addEventListener('click', () => {

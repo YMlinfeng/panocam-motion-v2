@@ -99,6 +99,16 @@ trajectory:
   special_zoom_percent: [0.025, 0.070]
   special_zoom_cycles: [1.0, 2.5]
 
+# 人工复核发现以下三个示例的源内容带有额外运动。这里只替换对应的一路素材，
+# 动作、轨迹、分辨率和另一侧保持不变；from_case 指向已经人工确认同步正常的窗口。
+case_source_overrides:
+  recipe_02_a:
+    ref: {from_case: recipe_01_a, reason: 原 REF 后段近景人物进入，干扰运镜判断}
+  recipe_04_a:
+    target: {from_case: recipe_03_b, reason: 原 TARGET 天球动画含独立大面积运动}
+  recipe_05_b:
+    target: {from_case: recipe_12_a, reason: 原 TARGET 天球动画在十秒后含独立大面积运动}
+
 source_roots:
   # 公开仓库克隆到其他位置后，可在命令行用 --source-root-360x / --source-root-commons 覆盖。
   360x: ../panocam/data/dataset_showcase/360x/hr_samples

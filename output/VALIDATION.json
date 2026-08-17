@@ -18,7 +18,7 @@
   },
   "case_count": 100,
   "video_count": 200,
-  "total_video_bytes": 785052922,
+  "total_video_bytes": 784848941,
   "max_pixels": 921600,
   "rules": {
     "duration_seconds_each": 15.0,
@@ -109,8 +109,8 @@
       "pixels": 921600,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 4695126,
-      "sha256": "ab151f04e1625a68991f354544eecfaf42e0eeb0cf9c97bbc68ec2e9e9dbebcd",
+      "bytes": 4731313,
+      "sha256": "c2356b357a74716796e32d4b25ff41b37046692c257befaa5c26d30a0e3b752e",
       "poster": "site/media/cases/recipe_02_a/ref.jpg"
     },
     {
@@ -213,8 +213,8 @@
       "pixels": 921600,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 4717641,
-      "sha256": "4dbf698b9c3aca3751f9d421239547e2abed457434186175853247926e85aed4",
+      "bytes": 4717597,
+      "sha256": "355c3afc50249a1a1bb73af0afac7d3e7e07557aa693332668b98f032c0903c5",
       "poster": "site/media/cases/recipe_04_a/ref.jpg"
     },
     {
@@ -226,8 +226,8 @@
       "pixels": 921600,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 2606399,
-      "sha256": "ff53c78afaae0b6ec88a46339243a740a0f38dacfbf4ec5a15d8c6408688fad7",
+      "bytes": 1947506,
+      "sha256": "16c8d54d856aa70e933a5cd4a2a2db31754dcf7c8a758f9cf8239c5f32f1b60d",
       "poster": "site/media/cases/recipe_04_a/target.jpg"
     },
     {
@@ -291,8 +291,8 @@
       "pixels": 917632,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 4716108,
-      "sha256": "a35f3c703fd43717b8fb0aef4e8d49d2f746b36ee5c3c744da5a301d86baefde",
+      "bytes": 4707980,
+      "sha256": "2384dd048dda01333ca595be7733a2dac3d3714e314eb3d96df146e6b55cb2fd",
       "poster": "site/media/cases/recipe_05_b/ref.jpg"
     },
     {
@@ -304,8 +304,8 @@
       "pixels": 917632,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 2688964,
-      "sha256": "d9cf32208ae219da6235fb81d50b173f0575a39829cebc3e93488ffee3f24172",
+      "bytes": 3115861,
+      "sha256": "7f4de645c6a8918b5764d6a944cedfb6443d603aac3b61e22a98fc6a3fec9289",
       "poster": "site/media/cases/recipe_05_b/target.jpg"
     },
     {

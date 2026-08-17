@@ -123,18 +123,18 @@
     },
     "target": {
       "dataset": "commons",
-      "file": "An_Introduction_to_the_Equatorial_Coordinate_System_360VR.webm",
-      "start_seconds": 64.595,
-      "dynamic_score": 0.096817,
-      "global_flow_px": 0.414312,
-      "coherent_shift_px": 0.044064,
-      "license": "CC BY 3.0",
-      "source_url": "https://commons.wikimedia.org/wiki/File:An_Introduction_to_the_Equatorial_Coordinate_System_(360VR).webm",
+      "file": "Worlds_First_Live_360_Rocket_Launch-_Orbital_ATK_CRS-7.webm",
+      "start_seconds": 111.276,
+      "dynamic_score": 0.000645,
+      "global_flow_px": 0.008672,
+      "coherent_shift_px": 0.012782,
+      "license": "Public domain (NASA)",
+      "source_url": "https://commons.wikimedia.org/wiki/File:World%27s_First_Live_360_Rocket_Launch-_Orbital_ATK_CRS-7.webm",
       "allowed_sides": [
         "target"
       ],
       "privacy_face_blurred": false,
-      "scene_policy": "dynamic_fixed_camera_window"
+      "scene_policy": "static_scene_fixed_camera_window"
     },
     "trajectory_report": {
       "frame_count": 300,
@@ -218,6 +218,12 @@
           "nominal_speed_deg_per_second": 261.671
         }
       ]
+    },
+    "source_overrides": {
+      "target": {
+        "from_case": "recipe_03_b",
+        "reason": "原 TARGET 天球动画含独立大面积运动"
+      }
     }
   },
   "rendered": {
@@ -230,8 +236,8 @@
       "pixels": 921600,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 4717641,
-      "sha256": "4dbf698b9c3aca3751f9d421239547e2abed457434186175853247926e85aed4",
+      "bytes": 4717597,
+      "sha256": "355c3afc50249a1a1bb73af0afac7d3e7e07557aa693332668b98f032c0903c5",
       "poster": "site/media/cases/recipe_04_a/ref.jpg"
     },
     "target": {
@@ -243,8 +249,8 @@
       "pixels": 921600,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 2606399,
-      "sha256": "ff53c78afaae0b6ec88a46339243a740a0f38dacfbf4ec5a15d8c6408688fad7",
+      "bytes": 1947506,
+      "sha256": "16c8d54d856aa70e933a5cd4a2a2db31754dcf7c8a758f9cf8239c5f32f1b60d",
       "poster": "site/media/cases/recipe_04_a/target.jpg"
     },
     "codec": {

@@ -788,6 +788,55 @@ class BalancedWindowAllocator:
         }
 
 
+def apply_case_source_overrides(
+    cases: list[dict[str, Any]],
+    overrides: dict[str, Any],
+) -> None:
+    """只替换人工复核确认有额外源运动的单侧窗口。
+
+    ``from_case`` 必须指向当前确定性计划中已经人工确认正常的 case。复制的是完整
+    公开源记录，不改变被替换 case 的动作、轨迹、分辨率或另一侧素材。
+    """
+
+    by_id = {case["id"]: case for case in cases}
+    for case_id, side_rules in overrides.items():
+        if case_id not in by_id:
+            raise ValueError(f"素材覆盖目标不存在：{case_id}")
+        target_case = by_id[case_id]
+        for side, rule in side_rules.items():
+            if side not in {"ref", "target"}:
+                raise ValueError(f"素材覆盖 side 非法：{case_id}/{side}")
+            donor_id = str(rule["from_case"])
+            if donor_id not in by_id:
+                raise ValueError(f"素材覆盖 donor 不存在：{donor_id}")
+            target_case[side] = dict(by_id[donor_id][side])
+            target_case.setdefault("source_overrides", {})[side] = {
+                "from_case": donor_id,
+                "reason": str(rule.get("reason", "人工复核替换")),
+            }
+
+
+def allocation_report_from_cases(cases: list[dict[str, Any]], side: str) -> dict[str, Any]:
+    """从应用人工覆盖后的最终 case 重新统计真实素材复用情况。"""
+
+    by_file: dict[str, int] = {}
+    by_window: dict[str, int] = {}
+    for case in cases:
+        source = case[side]
+        file_key = f"{source['dataset']}/{source['file']}"
+        window_key = f"{file_key}@{float(source['start_seconds']):.3f}"
+        by_file[file_key] = by_file.get(file_key, 0) + 1
+        by_window[window_key] = by_window.get(window_key, 0) + 1
+    return {
+        "side": side,
+        "source_file_count": len(by_file),
+        "source_window_count": len(by_window),
+        "maximum_exact_window_reuse": max(by_window.values(), default=0),
+        "by_file": by_file,
+        "by_window": by_window,
+    }
+
+
 def action_axis(action: str) -> str:
     if action.startswith("pan_"):
         return "yaw"
@@ -1121,6 +1170,8 @@ def command_plan(args: argparse.Namespace, config: dict[str, Any]) -> None:
             }
             cases.append(case)
 
+    apply_case_source_overrides(cases, config.get("case_source_overrides", {}))
+
     # 网页按 recipe 相邻展示两个独立混合时序变体；特殊投影放在最后。
     payload = {
         "schema_version": 3,
@@ -1140,8 +1191,8 @@ def command_plan(args: argparse.Namespace, config: dict[str, Any]) -> None:
             "continuous_motion_required": True,
         },
         "source_allocation": {
-            "ref": ref_allocator.report(),
-            "target": target_allocator.report(),
+            "ref": allocation_report_from_cases(cases, "ref"),
+            "target": allocation_report_from_cases(cases, "target"),
         },
         "recipes": recipes,
         "cases": cases,

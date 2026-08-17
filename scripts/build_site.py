@@ -82,7 +82,7 @@ def case_card(case: dict[str, Any]) -> str:
         kind_class = "special"
         speed_badge = f"<b>滚转 {float(case['trajectory_report']['roll_speed_deg_per_second']):.1f}°/s</b>"
     return f"""
-    <article class="case-card {kind_class}" data-mode="{escape(case['mode'])}" data-actions="{case['action_count']}">
+    <article id="{escape(case['id'])}" class="case-card {kind_class}" data-mode="{escape(case['mode'])}" data-actions="{case['action_count']}">
       <header>
         <div><span class="case-id">{escape(case['id'])}</span><h3>{title}</h3></div>
         <div class="badges"><b>15.00s</b><b>{width}×{height}</b><b>{width * height:,} px</b>{speed_badge}</div>
@@ -92,7 +92,6 @@ def case_card(case: dict[str, Any]) -> str:
         {video_panel(case, 'ref')}
         {video_panel(case, 'target')}
       </div>
-      <p class="sync-note">左右使用同一逐帧轨迹；任意一路播放、暂停、拖动或调速，另一路会同步。</p>
     </article>"""
 
 
@@ -113,7 +112,7 @@ def build_html(plan: dict[str, Any], audit: dict[str, Any], validation: dict[str
         recipe_sections.append(f"""
         <section class="recipe" data-recipe data-action-count="{cases[0]['action_count']}">
           <div class="recipe-head">
-            <div><span>CONTINUOUS LAYERED FAMILY</span><h2>{escape(recipe_title)}</h2></div>
+            <h2>{escape(recipe_title)}</h2>
             <p>{escape(action_text)}</p>
           </div>
           {''.join(case_card(case) for case in cases)}
@@ -121,13 +120,10 @@ def build_html(plan: dict[str, Any], audit: dict[str, Any], validation: dict[str
 
     special_section = f"""
       <section class="special-section" id="specials">
-        <div class="section-title"><span>ANIMATED SPECIAL PROJECTIONS</span><h2>小行星 5 条 + 兔子洞 5 条</h2>
-        <p>每条都叠加持续顺/逆时针滚转与轻微呼吸 Zoom，不再静态展示投影。</p></div>
+        <div class="section-title"><h2>特殊投影</h2></div>
         {''.join(case_card(case) for case in specials)}
       </section>"""
 
-    valid_badge = "全量验证通过" if validation and validation.get("passed") else "等待全量验证"
-    total_bytes = int(validation.get("total_video_bytes", 0)) if validation else 0
     return f"""<!doctype html>
 <html lang="zh-CN">
 <head>
@@ -137,39 +133,28 @@ def build_html(plan: dict[str, Any], audit: dict[str, Any], validation: dict[str
   <style>
     :root{{--ink:#17211f;--muted:#62706b;--paper:#f4f1e9;--card:#fffefb;--line:#d8d5ca;--green:#1d684f;--blue:#2b5f8d;--orange:#a44e2e}}
     *{{box-sizing:border-box}} html{{scroll-behavior:smooth}} body{{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}
-    nav{{position:sticky;top:0;z-index:10;display:flex;gap:14px;align-items:center;padding:12px max(24px,calc((100vw - 1320px)/2));background:rgba(23,33,31,.96);color:white;overflow-x:auto;white-space:nowrap}}
-    nav b{{margin-right:auto}} nav a{{color:white;text-decoration:none;opacity:.85}} nav a:hover{{opacity:1}}
-    main{{max-width:1320px;margin:auto;padding:28px 24px 80px}} .hero{{padding:36px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(135deg,#fffefb,#e6eee7)}}
-    .eyebrow,.section-title>span,.recipe-head span{{font-size:12px;letter-spacing:.14em;font-weight:800;color:var(--green)}} h1{{font-size:clamp(36px,6vw,72px);line-height:1;margin:10px 0 18px}} h2,h3,p{{margin-top:0}}
-    .hero p{{max-width:950px;font-size:18px}} .stats{{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:24px}} .stat{{padding:16px;border-radius:14px;background:white;border:1px solid var(--line)}} .stat b{{display:block;font-size:25px}}
-    .rules{{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0 0;padding:0;list-style:none}} .rules li{{background:#17211f;color:white;border-radius:14px;padding:16px}}
-    .filters{{position:sticky;top:48px;z-index:8;display:flex;flex-wrap:wrap;gap:8px;margin:28px 0;padding:14px;border:1px solid var(--line);border-radius:16px;background:rgba(244,241,233,.95);backdrop-filter:blur(8px)}}
+    main{{max-width:1320px;margin:auto;padding:22px 24px 70px}} .hero{{padding:18px 22px;border:1px solid var(--line);border-radius:18px;background:var(--card)}}
+    h1{{font-size:clamp(24px,3vw,38px);line-height:1.2;margin:0}} h2,h3,p{{margin-top:0}}
+    .filters{{position:sticky;top:0;z-index:8;display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;padding:10px;border:1px solid var(--line);border-radius:14px;background:rgba(244,241,233,.96);backdrop-filter:blur(8px)}}
     button{{border:1px solid #b9c1bd;border-radius:999px;background:white;padding:8px 13px;cursor:pointer}} button.active{{background:var(--ink);color:white;border-color:var(--ink)}}
     .recipe,.special-section{{margin:28px 0;padding:22px;border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.55)}} .recipe[hidden]{{display:none}}
     .recipe-head{{display:flex;justify-content:space-between;gap:20px;align-items:end;border-bottom:1px solid var(--line);margin-bottom:16px}} .recipe-head h2{{font-size:25px;margin:4px 0 12px}} .recipe-head p{{max-width:65%;font-weight:650;text-align:right}}
     .case-card{{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--blue);border-radius:18px;padding:18px;margin:16px 0;box-shadow:0 8px 22px rgba(33,42,38,.05)}} .case-card.hybrid_b{{border-left-color:var(--orange)}} .case-card.special{{border-left-color:var(--green)}}
     .case-card>header{{display:flex;justify-content:space-between;gap:18px;align-items:start}} .case-card h3{{margin:2px 0 4px;font-size:21px}} .case-id{{font:700 12px ui-monospace,monospace;color:var(--muted)}} .badges{{display:flex;gap:7px;flex-wrap:wrap;justify-content:end}} .badges b{{font-size:12px;background:#e8ede9;border-radius:999px;padding:5px 9px}} .actions{{font-weight:650;color:#34453f}}
     .video-pair{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;min-width:0}} .video-panel{{margin:0;min-width:0;background:#101312;border-radius:13px;overflow:hidden}} .video-panel figcaption{{display:flex;justify-content:space-between;padding:9px 11px;color:white}} .video-panel video{{display:block;width:100%;aspect-ratio:16/9;background:#000;object-fit:contain}} .source-line{{color:#d2d9d5;padding:8px 11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px}}
-    .sync-note{{margin:10px 0 0;color:var(--muted);font-size:12px}} .section-title{{margin-bottom:20px}} .section-title h2{{font-size:32px;margin:5px 0}}
-    footer{{max-width:1320px;margin:auto;padding:0 24px 50px;color:var(--muted)}}
-    @media(max-width:800px){{main{{padding:16px 10px 60px}}.hero{{padding:22px}}.stats{{grid-template-columns:repeat(2,1fr)}}.rules{{grid-template-columns:1fr}}.recipe,.special-section{{padding:10px}}.case-card{{padding:10px}}.video-pair{{min-width:720px}}.case-card{{overflow-x:auto}}.recipe-head{{display:block}}.recipe-head p{{max-width:none;text-align:left}}}}
+    .section-title{{margin-bottom:14px}} .section-title h2{{font-size:28px;margin:0}}
+    @media(max-width:800px){{main{{padding:12px 10px 50px}}.hero{{padding:14px}}.recipe,.special-section{{padding:10px}}.case-card{{padding:10px}}.video-pair{{min-width:720px}}.case-card{{overflow-x:auto}}.recipe-head{{display:block}}.recipe-head p{{max-width:none;text-align:left}}}}
   </style>
 </head>
 <body>
-<nav><b>Panocam Motion V2</b><a href="#overview">总览</a><a href="#combinations">90 个连续组合</a><a href="#specials">10 个动态特殊投影</a></nav>
 <main>
   <section class="hero" id="overview">
-    <span class="eyebrow">PANORAMIC VIRTUAL CAMERA · VERSION 2</span>
-    <h1>100 个 15 秒<br>Cross-Pair 高清示例</h1>
-    <p>每条组合都是“持续 backbone + 多个错峰时间窗”的混合时序：动作长短、起止、速度和幅度均不统一，以快速、大范围运镜为主，并加入甩镜、360°滚转环绕和不规则回摆。ref 与 target 的轨迹、时长、分辨率逐帧一致。</p>
-    <div class="stats"><div class="stat"><b>100</b>cases</div><div class="stat"><b>200</b>左右 MP4</div><div class="stat"><b>15.00s</b>每条</div><div class="stat"><b>≤ 960²</b>max pixels</div><div class="stat"><b>{valid_badge}</b>{total_bytes/1024**2:.1f} MiB</div></div>
-    <ul class="rules"><li><b>零停顿</b><br>每条都有覆盖完整 15 秒的持续动作，逐帧速度验证</li><li><b>快速/大幅偏置</b><br>错峰叠加、甩镜、大范围甩镜、360°滚转环绕</li><li><b>特殊投影</b><br>小行星 5 + 兔子洞 5；持续滚转 + 轻微 Zoom</li></ul>
+    <h1>100 个 15 秒全景运镜 Cross-Pair Demo</h1>
   </section>
-  <div class="filters" id="combinations"><b>显示动作数：</b><button class="active" data-filter="all">全部 45 个配方</button>{''.join(f'<button data-filter="{n}">{n} 动作</button>' for n in range(2,7))}</div>
+  <div class="filters" id="combinations"><button class="active" data-filter="all">全部</button>{''.join(f'<button data-filter="{n}">{n} 动作</button>' for n in range(2,7))}</div>
   {''.join(recipe_sections)}
   {special_section}
 </main>
-<footer>代码、两份说明文档、逐 case 可调参数与验证报告均随公开仓库发布。网页不展示素材筛选表；完整筛选台账仍保留在仓库供生产审计。网页直接播放生产 MP4，不使用 GIF，也不做浏览器端二次压缩。</footer>
 <script>
   // 默认展示全部内容；过滤只在用户主动点击后生效，不会偷偷隐藏任何 ref/target。
   document.querySelectorAll('[data-filter]').forEach(button => button.addEventListener('click', () => {{
