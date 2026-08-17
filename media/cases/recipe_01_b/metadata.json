@@ -69,22 +69,24 @@
         "ref"
       ],
       "privacy_face_blurred": true,
+      "synthetic_or_3d": false,
       "scene_policy": "dynamic_fixed_camera_window"
     },
     "target": {
       "dataset": "commons",
-      "file": "An_Introduction_to_the_Equatorial_Coordinate_System_360VR.webm",
-      "start_seconds": 26.438,
-      "dynamic_score": 0.086533,
-      "global_flow_px": 0.371679,
-      "coherent_shift_px": 0.02178,
-      "license": "CC BY 3.0",
-      "source_url": "https://commons.wikimedia.org/wiki/File:An_Introduction_to_the_Equatorial_Coordinate_System_(360VR).webm",
+      "file": "Worlds_First_Live_360_Rocket_Launch-_Orbital_ATK_CRS-7.webm",
+      "start_seconds": 221.552,
+      "dynamic_score": 0.000843,
+      "global_flow_px": 0.008663,
+      "coherent_shift_px": 0.016998,
+      "license": "Public domain (NASA)",
+      "source_url": "https://commons.wikimedia.org/wiki/File:World%27s_First_Live_360_Rocket_Launch-_Orbital_ATK_CRS-7.webm",
       "allowed_sides": [
         "target"
       ],
       "privacy_face_blurred": false,
-      "scene_policy": "dynamic_fixed_camera_window"
+      "synthetic_or_3d": false,
+      "scene_policy": "static_scene_fixed_camera_window"
     },
     "trajectory_report": {
       "frame_count": 300,
@@ -126,6 +128,12 @@
         "max_stationary_run_frames": 0,
         "continuous_motion": true
       },
+      "concurrency": {
+        "max_concurrent_actions": 2,
+        "fraction_at_least_2": 0.066667,
+        "fraction_at_least_3": 0.0,
+        "frames_at_least_3": 0
+      },
       "timeline": [
         {
           "type": "roll_ccw",
@@ -156,8 +164,8 @@
       "pixels": 921600,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 4740643,
-      "sha256": "b2fc8f8c4d92f8896259d97853e4c8e3559abf24458cb6ae120380dd789a1df6",
+      "bytes": 4739490,
+      "sha256": "c8dc99714c74c3dca5be24737c7f8792ba7693a5d35d9e63fe70e9f7740ae45c",
       "poster": "site/media/cases/recipe_01_b/ref.jpg"
     },
     "target": {
@@ -169,8 +177,8 @@
       "pixels": 921600,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 2186915,
-      "sha256": "f925a06d3241a04e36d7adcedc99db41635ebfd265e375a206c04cef5c7f44cf",
+      "bytes": 2484495,
+      "sha256": "23d1a72d467182b143295c9f22b54a2f3bbd8e1bb83541d0bd27b40f815bad0b",
       "poster": "site/media/cases/recipe_01_b/target.jpg"
     },
     "codec": {
@@ -222,6 +230,12 @@
       "stationary_frame_fraction": 0.0,
       "max_stationary_run_frames": 0,
       "continuous_motion": true
+    },
+    "concurrency": {
+      "max_concurrent_actions": 2,
+      "fraction_at_least_2": 0.066667,
+      "fraction_at_least_3": 0.0,
+      "frames_at_least_3": 0
     },
     "timeline": [
       {

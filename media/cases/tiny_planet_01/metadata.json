@@ -7,22 +7,22 @@
     "action_count": 2,
     "actions": [
       {
-        "type": "roll_ccw",
-        "amplitude_deg": 417.422,
+        "type": "roll_cw",
+        "amplitude_deg": 314.436,
         "start_seconds": 0.0,
         "end_seconds": 15.0,
         "duration_seconds": 15.0,
         "profile": "linear",
-        "speed_multiplier": 1.16
+        "speed_multiplier": 0.873
       },
       {
         "type": "zoom_out",
-        "amplitude_percent": 0.05999,
+        "amplitude_percent": 0.04099,
         "start_seconds": 0.0,
         "end_seconds": 15.0,
         "duration_seconds": 15.0,
         "profile": "sine_breathing",
-        "speed_multiplier": 2.102
+        "speed_multiplier": 1.03
       }
     ],
     "showcase_tags": [
@@ -38,57 +38,59 @@
     "fps": 20,
     "ref": {
       "dataset": "360x",
-      "file": "03498a23-90d7-4428-bd12-45f88a323419.mp4",
-      "start_seconds": 91.476,
-      "dynamic_score": 0.023598,
-      "global_flow_px": 0.023507,
-      "coherent_shift_px": 0.06631,
+      "file": "0488c75c-b0a5-4e95-943f-17a909fc68a9.mp4",
+      "start_seconds": 136.223,
+      "dynamic_score": 0.090248,
+      "global_flow_px": 0.078795,
+      "coherent_shift_px": 0.039062,
       "license": "CC BY-NC-SA 4.0",
       "source_url": "https://x360dataset.github.io/",
       "allowed_sides": [
         "ref"
       ],
       "privacy_face_blurred": true,
+      "synthetic_or_3d": false,
       "scene_policy": "dynamic_fixed_camera_window"
     },
     "target": {
       "dataset": "commons",
-      "file": "An_Introduction_to_the_Equatorial_Coordinate_System_360VR.webm",
-      "start_seconds": 77.314,
-      "dynamic_score": 0.014343,
-      "global_flow_px": 0.003735,
-      "coherent_shift_px": 0.015472,
-      "license": "CC BY 3.0",
-      "source_url": "https://commons.wikimedia.org/wiki/File:An_Introduction_to_the_Equatorial_Coordinate_System_(360VR).webm",
+      "file": "Worlds_First_Live_360_Rocket_Launch-_Orbital_ATK_CRS-7.webm",
+      "start_seconds": 662.657,
+      "dynamic_score": 0.237,
+      "global_flow_px": 0.074375,
+      "coherent_shift_px": 0.037218,
+      "license": "Public domain (NASA)",
+      "source_url": "https://commons.wikimedia.org/wiki/File:World%27s_First_Live_360_Rocket_Launch-_Orbital_ATK_CRS-7.webm",
       "allowed_sides": [
         "target"
       ],
       "privacy_face_blurred": false,
+      "synthetic_or_3d": false,
       "scene_policy": "dynamic_fixed_camera_window"
     },
     "projection_parameters": {
       "stereographic_scale": 0.92,
       "seam_orientation_deg": -144.0,
-      "roll_direction": "roll_ccw",
-      "roll_total_deg": 417.422,
-      "zoom_percent": 0.05999,
-      "zoom_cycles": 2.102,
-      "zoom_phase_radians": 2.362176,
+      "roll_direction": "roll_cw",
+      "roll_total_deg": 314.436,
+      "zoom_percent": 0.04099,
+      "zoom_cycles": 1.03,
+      "zoom_phase_radians": 2.224899,
       "note": "特殊投影使用完整 360°，并叠加持续滚转与轻微呼吸 Zoom"
     },
     "trajectory_report": {
       "frame_count": 300,
       "seam_safe": null,
-      "roll_total_deg": 417.422,
-      "roll_speed_deg_per_second": 27.828133,
+      "roll_total_deg": 314.436,
+      "roll_speed_deg_per_second": 20.9624,
       "zoom_scale_range": [
-        0.94001,
-        1.05999
+        0.95901,
+        1.04099
       ],
       "speed": {
         "continuous_motion": true,
         "max_stationary_run_frames": 0,
-        "median_deg_per_second": 27.828133
+        "median_deg_per_second": 20.9624
       },
       "note": "全 360° 特殊投影无法像普通透视视角一样完全排除 ERP 接缝"
     }
@@ -103,8 +105,8 @@
       "pixels": 921600,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 4744237,
-      "sha256": "9265361e99e0db990d907e6a9d3bc1422bde60230f46d91602a5b21c45a06d20",
+      "bytes": 4742062,
+      "sha256": "2d53f0c31f50414384eec5b6e8dc681e1bf3263657e37ae5390ad074a317547b",
       "poster": "site/media/cases/tiny_planet_01/ref.jpg"
     },
     "target": {
@@ -116,8 +118,8 @@
       "pixels": 921600,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 4734379,
-      "sha256": "c516b48231787a225b23f7110dc94944ba66b3351a2aee19c8340a5d893af34e",
+      "bytes": 4718226,
+      "sha256": "d7222b54eaf3b3fc2df106459693a4fcdd17b1e785ba235d0813208a0a008b80",
       "poster": "site/media/cases/tiny_planet_01/target.jpg"
     },
     "codec": {
@@ -133,16 +135,16 @@
   "trajectory_report": {
     "frame_count": 300,
     "seam_safe": null,
-    "roll_total_deg": 417.422,
-    "roll_speed_deg_per_second": 27.828133,
+    "roll_total_deg": 314.436,
+    "roll_speed_deg_per_second": 20.9624,
     "zoom_scale_range": [
-      0.94001,
-      1.05999
+      0.95901,
+      1.04099
     ],
     "speed": {
       "continuous_motion": true,
       "max_stationary_run_frames": 0,
-      "median_deg_per_second": 27.828133
+      "median_deg_per_second": 20.9624
     },
     "note": "全 360° 特殊投影无法像普通透视视角一样完全排除 ERP 接缝"
   }

@@ -8,21 +8,21 @@
     "actions": [
       {
         "type": "roll_ccw",
-        "amplitude_deg": 322.972,
+        "amplitude_deg": 416.088,
         "start_seconds": 0.0,
         "end_seconds": 15.0,
         "duration_seconds": 15.0,
         "profile": "linear",
-        "speed_multiplier": 0.897
+        "speed_multiplier": 1.156
       },
       {
         "type": "zoom_out",
-        "amplitude_percent": 0.04697,
+        "amplitude_percent": 0.06914,
         "start_seconds": 0.0,
         "end_seconds": 15.0,
         "duration_seconds": 15.0,
         "profile": "sine_breathing",
-        "speed_multiplier": 1.056
+        "speed_multiplier": 1.506
       }
     ],
     "showcase_tags": [
@@ -37,58 +37,60 @@
     "duration_seconds": 15.0,
     "fps": 20,
     "ref": {
-      "dataset": "360x",
-      "file": "03498a23-90d7-4428-bd12-45f88a323419.mp4",
-      "start_seconds": 46.238,
-      "dynamic_score": 0.053207,
-      "global_flow_px": 0.038023,
-      "coherent_shift_px": 0.123277,
-      "license": "CC BY-NC-SA 4.0",
-      "source_url": "https://x360dataset.github.io/",
+      "dataset": "commons",
+      "file": "An_Introduction_to_the_Equatorial_Coordinate_System_360VR.webm",
+      "start_seconds": 13.719,
+      "dynamic_score": 0.096588,
+      "global_flow_px": 0.467318,
+      "coherent_shift_px": 0.087864,
+      "license": "CC BY 3.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:An_Introduction_to_the_Equatorial_Coordinate_System_(360VR).webm",
       "allowed_sides": [
         "ref"
       ],
-      "privacy_face_blurred": true,
+      "privacy_face_blurred": false,
+      "synthetic_or_3d": true,
       "scene_policy": "dynamic_fixed_camera_window"
     },
     "target": {
       "dataset": "commons",
-      "file": "360_Video_of_LCS-15_Christening_and_Launch.webm",
-      "start_seconds": 24.12,
-      "dynamic_score": 0.048649,
-      "global_flow_px": 0.061093,
-      "coherent_shift_px": 0.043792,
-      "license": "CC BY 3.0",
-      "source_url": "https://commons.wikimedia.org/wiki/File:360_Video_of_LCS-15_Christening_and_Launch.webm",
+      "file": "Worlds_First_Live_360_Rocket_Launch-_Orbital_ATK_CRS-7.webm",
+      "start_seconds": 442.105,
+      "dynamic_score": 0.000919,
+      "global_flow_px": 0.00841,
+      "coherent_shift_px": 0.012827,
+      "license": "Public domain (NASA)",
+      "source_url": "https://commons.wikimedia.org/wiki/File:World%27s_First_Live_360_Rocket_Launch-_Orbital_ATK_CRS-7.webm",
       "allowed_sides": [
         "target"
       ],
       "privacy_face_blurred": false,
-      "scene_policy": "dynamic_fixed_camera_window"
+      "synthetic_or_3d": false,
+      "scene_policy": "static_scene_fixed_camera_window"
     },
     "projection_parameters": {
       "stereographic_scale": 1.0,
       "seam_orientation_deg": 0.0,
       "roll_direction": "roll_ccw",
-      "roll_total_deg": 322.972,
-      "zoom_percent": 0.04697,
-      "zoom_cycles": 1.056,
-      "zoom_phase_radians": 4.550895,
+      "roll_total_deg": 416.088,
+      "zoom_percent": 0.06914,
+      "zoom_cycles": 1.506,
+      "zoom_phase_radians": 3.239314,
       "note": "特殊投影使用完整 360°，并叠加持续滚转与轻微呼吸 Zoom"
     },
     "trajectory_report": {
       "frame_count": 300,
       "seam_safe": null,
-      "roll_total_deg": 322.972,
-      "roll_speed_deg_per_second": 21.531467,
+      "roll_total_deg": 416.088,
+      "roll_speed_deg_per_second": 27.7392,
       "zoom_scale_range": [
-        0.95303,
-        1.04697
+        0.93086,
+        1.06914
       ],
       "speed": {
         "continuous_motion": true,
         "max_stationary_run_frames": 0,
-        "median_deg_per_second": 21.531467
+        "median_deg_per_second": 27.7392
       },
       "note": "全 360° 特殊投影无法像普通透视视角一样完全排除 ERP 接缝"
     }
@@ -103,8 +105,8 @@
       "pixels": 903168,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 4725381,
-      "sha256": "91283b9ecb758d13c7e0c03a519083b71570dc11b74b29143db029237dbbb196",
+      "bytes": 4737126,
+      "sha256": "bffd9d35c9b188432571ce76c11133ee8a3957477e4fbcf9ff6d38df5f24ffc3",
       "poster": "site/media/cases/rabbit_hole_03/ref.jpg"
     },
     "target": {
@@ -116,8 +118,8 @@
       "pixels": 903168,
       "fps": 20.0,
       "duration_seconds": 15.0,
-      "bytes": 4390465,
-      "sha256": "142ac2b6f537b18f37576272f21f0a1f72b36e2ee1e60d2b5ce4254b6f8ad95b",
+      "bytes": 4737908,
+      "sha256": "df3ca1af4bd2bddf0222a18da02e32ef23b56fff3fc6eab3ba5f24cb9b2d9eef",
       "poster": "site/media/cases/rabbit_hole_03/target.jpg"
     },
     "codec": {
@@ -133,16 +135,16 @@
   "trajectory_report": {
     "frame_count": 300,
     "seam_safe": null,
-    "roll_total_deg": 322.972,
-    "roll_speed_deg_per_second": 21.531467,
+    "roll_total_deg": 416.088,
+    "roll_speed_deg_per_second": 27.7392,
     "zoom_scale_range": [
-      0.95303,
-      1.04697
+      0.93086,
+      1.06914
     ],
     "speed": {
       "continuous_motion": true,
       "max_stationary_run_frames": 0,
-      "median_deg_per_second": 21.531467
+      "median_deg_per_second": 27.7392
     },
     "note": "全 360° 特殊投影无法像普通透视视角一样完全排除 ERP 接缝"
   }
