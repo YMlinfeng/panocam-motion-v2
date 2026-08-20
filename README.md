@@ -48,9 +48,3 @@ local/.venv/bin/python scripts/build_site.py
 - 旧版历史材料：`/Users/bytedance/Downloads/GitHubProjects/panocam`
 
 两者是彼此独立的 Git 仓库。新版不会读取旧版代码或旧 demo；本机只读引用旧目录中的 360+x 5K 数据，Commons/NASA 视频位于 `local/sources/commons`，真实静态全景位于 `local/sources/commons_still`。公开仓库配置提供了改成本地其他路径的方法。
-
-## 许可
-
-- 代码与文档：MIT。
-- 360+x 来源及其派生 demo：CC BY-NC-SA 4.0，版权与署名归原数据集及原作者。
-- Wikimedia Commons 来源及其派生 demo：按逐条 `SOURCE_AUDIT.json` 中记录的原始许可执行。
