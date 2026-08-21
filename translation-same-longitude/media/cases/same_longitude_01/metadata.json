@@ -10,6 +10,8 @@
     "ref_start_seconds": 0.0,
     "target_start_seconds": 0.0,
     "duration_seconds": 10.0,
+    "source_span_seconds": 5.0,
+    "source_speed_factor": 0.5,
     "fps": 20,
     "resolution": [
       1280,
@@ -27,31 +29,126 @@
       "roll_deg": 0.0
     },
     "off_axis_layout": {
-      "master_principal_y_ratio": -0.15,
-      "crop_gap_ratio": 0.32,
+      "master_principal_y_ratio": -0.022726,
+      "upper_origin_y_ratio": 0.111397,
+      "crop_gap_ratio": 0.24215,
+      "upper_side": "ref",
       "ref_crop": "upper",
       "target_crop": "lower"
     },
     "virtual_rotation": null
   },
   "trajectory_report": {
-    "master_hfov_deg": 40.0,
-    "master_focal_px": 1758.385548,
-    "master_principal_y_px": -108.0,
-    "crop_gap_px": 230.4,
-    "effective_center_pitch_deg": {
-      "ref": -14.903949,
-      "target": -38.89135
+    "master_hfov_deg": 80.0,
+    "master_focal_px": 762.722299,
+    "master_principal_y_px": -16.36272,
+    "crop_gap_px": 174.348,
+    "upper_side": "ref",
+    "crop_role": {
+      "ref": "upper",
+      "target": "lower"
     },
-    "vertical_nonoverlap_margin_deg": 5.85458,
+    "crop_origin_y_px": {
+      "ref": 80.20584,
+      "target": 974.55384
+    },
+    "effective_center_pitch_deg": {
+      "ref": -30.904905,
+      "target": -60.551094
+    },
+    "vertical_nonoverlap_margin_deg": 5.49274,
     "same_yaw": true,
     "same_master_extrinsics": true,
     "max_abs_sampled_longitude_deg": {
-      "ref": 89.985603,
-      "target": 89.985603
+      "ref": 109.977943,
+      "target": 109.977943
     },
     "seam_safe": true,
-    "same_relative_rotation_sha256": "a0ee989ed2a0a2e3626520afa4032e06144865c8c8f6357293c9f4cd2069eaf2"
+    "same_relative_rotation_sha256": "a0ee989ed2a0a2e3626520afa4032e06144865c8c8f6357293c9f4cd2069eaf2",
+    "source_speed_factor": 0.5,
+    "rotation_speed_multiplier": 0.0,
+    "estimated_horizontal_source_pixels": 853.333,
+    "estimated_horizontal_upscale_ratio": 1.5
+  },
+  "erp_ranges": {
+    "ref": {
+      "crop_role": "upper",
+      "initial_frame": {
+        "erp_x_longitude_pixels": [
+          746,
+          1600
+        ],
+        "longitude_degrees": [
+          -109.978,
+          -30.022
+        ],
+        "erp_y_latitude_pixels": [
+          1019,
+          1461
+        ],
+        "latitude_degrees": [
+          -46.935,
+          -5.57
+        ]
+      },
+      "full_trajectory_union": {
+        "erp_x_longitude_pixels": [
+          746,
+          1600
+        ],
+        "longitude_degrees": [
+          -109.978,
+          -30.022
+        ],
+        "erp_y_latitude_pixels": [
+          1019,
+          1461
+        ],
+        "latitude_degrees": [
+          -46.935,
+          -5.57
+        ]
+      }
+    },
+    "target": {
+      "crop_role": "lower",
+      "initial_frame": {
+        "erp_x_longitude_pixels": [
+          746,
+          1600
+        ],
+        "longitude_degrees": [
+          -109.978,
+          -30.022
+        ],
+        "erp_y_latitude_pixels": [
+          1438,
+          1664
+        ],
+        "latitude_degrees": [
+          -65.967,
+          -44.887
+        ]
+      },
+      "full_trajectory_union": {
+        "erp_x_longitude_pixels": [
+          746,
+          1600
+        ],
+        "longitude_degrees": [
+          -109.978,
+          -30.022
+        ],
+        "erp_y_latitude_pixels": [
+          1438,
+          1664
+        ],
+        "latitude_degrees": [
+          -65.967,
+          -44.887
+        ]
+      }
+    }
   },
   "synchronization": {
     "single_shared_source_reader": true,
@@ -64,13 +161,13 @@
   "rendered": {
     "ref": {
       "path": "site/translation-same-longitude/media/cases/same_longitude_01/ref.mp4",
-      "bytes": 5402000,
-      "sha256": "0ec6567a2e7ee24936c8d9cc0397faf1ae5238acb734ef112b83669bc1c6efbc"
+      "bytes": 8083157,
+      "sha256": "5b0a8206c15baecb4e228d32efdd9fca72added5f01b186bed685e63a45e90f7"
     },
     "target": {
       "path": "site/translation-same-longitude/media/cases/same_longitude_01/target.mp4",
-      "bytes": 5399871,
-      "sha256": "685599f25310c8829e1e879607387e31dfbb67e43ad84b7e3593cb3304da00f4"
+      "bytes": 6330567,
+      "sha256": "127424ff4f8ae73d7cda9b6c58af9bf3fb64cda8ee9f150d65d82ab8fe4e884f"
     }
   }
 }

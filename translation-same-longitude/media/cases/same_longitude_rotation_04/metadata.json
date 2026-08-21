@@ -6,14 +6,16 @@
       "dataset": "user_mobile_panorama",
       "file": "NSC.mp4"
     },
-    "start_seconds": 40.051,
-    "ref_start_seconds": 40.051,
-    "target_start_seconds": 40.051,
+    "start_seconds": 43.897,
+    "ref_start_seconds": 43.897,
+    "target_start_seconds": 43.897,
     "duration_seconds": 10.0,
+    "source_span_seconds": 5.0,
+    "source_speed_factor": 0.5,
     "fps": 20,
     "resolution": [
-      1104,
-      832
+      1536,
+      600
     ],
     "shared_yaw_deg": -20.0,
     "ref_view": {
@@ -27,56 +29,152 @@
       "roll_deg": 0.0
     },
     "off_axis_layout": {
-      "master_principal_y_ratio": -0.15,
-      "crop_gap_ratio": 0.32,
-      "ref_crop": "upper",
-      "target_crop": "lower"
+      "master_principal_y_ratio": 0.000712,
+      "upper_origin_y_ratio": 0.126225,
+      "crop_gap_ratio": 0.168536,
+      "upper_side": "target",
+      "ref_crop": "lower",
+      "target_crop": "upper"
     },
     "virtual_rotation": {
       "name": "快速左甩",
       "pattern": "whip_reverse",
       "yaw_amplitude_deg": 24.0,
       "pitch_amplitude_deg": 6.0,
-      "roll_amplitude_deg": 0.0
+      "roll_amplitude_deg": 0.0,
+      "speed_multiplier": 1.223
     }
   },
   "trajectory_report": {
-    "master_hfov_deg": 40.0,
-    "master_focal_px": 1516.607536,
-    "master_principal_y_px": -124.8,
-    "crop_gap_px": 266.24,
-    "effective_center_pitch_deg": {
-      "ref": -19.625489,
-      "target": -47.221841
+    "master_hfov_deg": 80.0,
+    "master_focal_px": 915.266759,
+    "master_principal_y_px": 0.4272,
+    "crop_gap_px": 101.1216,
+    "upper_side": "target",
+    "crop_role": {
+      "ref": "lower",
+      "target": "upper"
     },
-    "vertical_nonoverlap_margin_deg": 6.661675,
+    "crop_origin_y_px": {
+      "ref": 776.8566,
+      "target": 75.735
+    },
+    "effective_center_pitch_deg": {
+      "ref": -49.62614,
+      "target": -22.296224
+    },
+    "vertical_nonoverlap_margin_deg": 3.925846,
     "same_yaw": true,
     "same_master_extrinsics": true,
     "max_abs_sampled_longitude_deg": {
-      "ref": 52.437836,
-      "target": 53.401199
+      "ref": 78.13623,
+      "target": 75.970604
     },
     "seam_safe": true,
-    "same_relative_rotation_sha256": "b2f8a2e4979f764a28ae88553001e3c20cb9ee3426a6c03521ca1e54737e292b"
+    "same_relative_rotation_sha256": "45ba13b94d16daea1ac1ad3e7921629e45ee7a37958b75a1840b08ca5d6c7b2c",
+    "source_speed_factor": 0.5,
+    "rotation_speed_multiplier": 1.223,
+    "estimated_horizontal_source_pixels": 853.333,
+    "estimated_horizontal_upscale_ratio": 1.8
+  },
+  "erp_ranges": {
+    "ref": {
+      "crop_role": "lower",
+      "initial_frame": {
+        "erp_x_longitude_pixels": [
+          1436,
+          2290
+        ],
+        "longitude_degrees": [
+          -45.306,
+          34.658
+        ],
+        "erp_y_latitude_pixels": [
+          1312,
+          1562
+        ],
+        "latitude_degrees": [
+          -56.368,
+          -33.041
+        ]
+      },
+      "full_trajectory_union": {
+        "erp_x_longitude_pixels": [
+          1086,
+          2327
+        ],
+        "longitude_degrees": [
+          -78.146,
+          38.146
+        ],
+        "erp_y_latitude_pixels": [
+          1312,
+          1640
+        ],
+        "latitude_degrees": [
+          -63.706,
+          -33.041
+        ]
+      }
+    },
+    "target": {
+      "crop_role": "upper",
+      "initial_frame": {
+        "erp_x_longitude_pixels": [
+          1436,
+          2290
+        ],
+        "longitude_degrees": [
+          -45.306,
+          34.658
+        ],
+        "erp_y_latitude_pixels": [
+          998,
+          1349
+        ],
+        "latitude_degrees": [
+          -36.401,
+          -3.631
+        ]
+      },
+      "full_trajectory_union": {
+        "erp_x_longitude_pixels": [
+          1109,
+          2304
+        ],
+        "longitude_degrees": [
+          -75.971,
+          35.971
+        ],
+        "erp_y_latitude_pixels": [
+          998,
+          1427
+        ],
+        "latitude_degrees": [
+          -43.738,
+          -3.631
+        ]
+      }
+    }
   },
   "synchronization": {
     "single_shared_source_reader": true,
-    "same_source_start_seconds": 40.051,
+    "same_source_start_seconds": 43.897,
     "same_source_frame_sequence": true,
     "same_yaw_deg": -20.0,
-    "ref_rotation_sha256": "b2f8a2e4979f764a28ae88553001e3c20cb9ee3426a6c03521ca1e54737e292b",
-    "target_rotation_sha256": "b2f8a2e4979f764a28ae88553001e3c20cb9ee3426a6c03521ca1e54737e292b"
+    "ref_rotation_sha256": "45ba13b94d16daea1ac1ad3e7921629e45ee7a37958b75a1840b08ca5d6c7b2c",
+    "target_rotation_sha256": "45ba13b94d16daea1ac1ad3e7921629e45ee7a37958b75a1840b08ca5d6c7b2c"
   },
   "rendered": {
     "ref": {
       "path": "site/translation-same-longitude/media/cases/same_longitude_rotation_04/ref.mp4",
-      "bytes": 5382662,
-      "sha256": "ba02b1ac6756a29fd7a8822fb31786fc8f23688aa8354484df270085e9bfa7ac"
+      "bytes": 7603068,
+      "sha256": "0f481514e5f6efc0da87ecb38319bf84f1c565bfae50b827a02b1587283e016c"
     },
     "target": {
       "path": "site/translation-same-longitude/media/cases/same_longitude_rotation_04/target.mp4",
-      "bytes": 5382808,
-      "sha256": "256830828d633c5c9d714a78d754d67f02f4eb851b6c59998ab2de28ee3ae557"
+      "bytes": 8079297,
+      "sha256": "caad203391f2f00d79654e5e820c741b2e0a929b85d13fc4d366b06f6dc73a7e"
     }
   }
 }

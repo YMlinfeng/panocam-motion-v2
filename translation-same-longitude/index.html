@@ -4,7 +4,7 @@
 :root{--ink:#17211f;--paper:#f4f1e9;--card:#fffefb;--line:#d8d5ca;--blue:#2b5f8d;--green:#1d684f}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:1320px;margin:auto;padding:22px 24px 70px}
 .hero,.diagram{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:18px}h1{font-size:clamp(25px,3vw,39px);line-height:1.2;margin:0}h2,h3,p{margin-top:0}.diagram svg{display:block;width:100%;height:auto}.note{font-weight:650;margin:10px 0 0}
 .section-title{font-size:28px;margin:30px 0 12px}.case-card{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--blue);border-radius:18px;padding:18px;margin:16px 0}.case-card.combined{border-left-color:var(--green)}.case-card>header{display:flex;justify-content:space-between;gap:16px}.case-id{font:700 12px ui-monospace,monospace;color:#65716d}.case-card h3{margin:2px 0 5px;font-size:21px}.badges{display:flex;gap:7px;flex-wrap:wrap}.badges b{font-size:12px;background:#e7ece8;border-radius:999px;padding:5px 9px}.actions{font-weight:650}
-.video-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.video-panel{margin:0;background:#101312;border-radius:13px;overflow:hidden}.video-panel figcaption{display:flex;justify-content:space-between;color:white;padding:9px 11px}.video-panel video{display:block;width:100%;background:#000;object-fit:contain}.source-line{color:#d2d9d5;padding:8px 11px;font-size:12px}
+.video-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.video-panel{margin:0;background:#101312;border-radius:13px;overflow:hidden}.video-panel figcaption{display:flex;justify-content:space-between;color:white;padding:9px 11px}.video-panel video{display:block;width:100%;background:#000;object-fit:contain}.source-line{color:#d2d9d5;padding:8px 11px;font-size:12px}.source-line b,.source-line span{display:block;margin:2px 0}
 @media(max-width:800px){main{padding:12px 10px 50px}.case-card{overflow-x:auto;padding:10px}.video-pair{min-width:720px}.case-card>header{display:block}}
 </style></head><body><main>
 <section class="hero"><h1>20 个 10 秒同经度上下双视角 Cross-Pair</h1></section>
@@ -15,329 +15,409 @@
 <line x1="80" y1="60" x2="80" y2="380" stroke="#a44e2e" stroke-width="5" stroke-dasharray="10 8"/><line x1="840" y1="60" x2="840" y2="380" stroke="#a44e2e" stroke-width="5" stroke-dasharray="10 8"/>
 <line x1="80" y1="220" x2="840" y2="220" stroke="#8a9691" stroke-width="3"/><text x="92" y="48" font-size="18">天空 / ERP 顶部</text><text x="92" y="410" font-size="18">地面 / ERP 底部</text><text x="350" y="245" font-size="17">赤道</text>
 <rect x="390" y="225" width="170" height="60" rx="8" fill="#d7e6f2" stroke="#2b5f8d" stroke-width="5"/><rect x="390" y="305" width="170" height="60" rx="8" fill="#dcece4" stroke="#1d684f" stroke-width="5"/>
-<line x1="475" y1="180" x2="475" y2="375" stroke="#17211f" stroke-width="3" stroke-dasharray="8 7"/><circle cx="475" cy="190" r="7" fill="#a44e2e"/><text x="570" y="262" font-size="20">REF · 上方偏轴裁框</text><text x="570" y="342" font-size="20">TARGET · 下方偏轴裁框</text><text x="870" y="120" font-size="18">共同母平面主点</text><text x="870" y="150" font-size="18">两个裁框都在主点下方</text>
+<line x1="475" y1="180" x2="475" y2="375" stroke="#17211f" stroke-width="3" stroke-dasharray="8 7"/><circle cx="475" cy="190" r="7" fill="#a44e2e"/><text x="570" y="262" font-size="20">上方偏轴裁框 · 角色随机</text><text x="570" y="342" font-size="20">下方偏轴裁框 · 角色随机</text><text x="870" y="120" font-size="18">共同母平面主点</text><text x="870" y="150" font-size="18">两个裁框都在主点下方</text>
 <line x1="430" y1="278" x2="430" y2="245" stroke="#1d684f" stroke-width="6" marker-end="url(#arrow)"/><line x1="430" y1="358" x2="430" y2="325" stroke="#1d684f" stroke-width="6" marker-end="url(#arrow)"/><line x1="470" y1="262" x2="515" y2="262" stroke="#1d684f" stroke-width="6" marker-end="url(#arrow)"/><line x1="470" y1="342" x2="515" y2="342" stroke="#1d684f" stroke-width="6" marker-end="url(#arrow)"/>
-</svg><p class="note">同一个 yaw、同一个源时间、同一张 ERP 帧、同一个透视母平面外参；只改变偏轴裁框位置。页面不做镜像、稳定化或路径转移。</p></section>
+</svg><p class="note">同一个 yaw、同一个源时间、同一张 ERP 帧、同一个透视母平面外参；每个 case 随机上下位置和 REF/TARGET 角色（上框偏向 TARGET），源移动统一降为 0.50×。页面不做镜像、稳定化或路径转移。</p></section>
 <h2 class="section-title">10 个原生移动相机案例</h2>
     <article class="case-card pure" id="same_longitude_01">
       <header><div><span class="case-id">same_longitude_01</span><h3>同经度上下双视角 · 原生移动</h3></div>
-      <div class="badges"><b>10.00s</b><b>1280×720</b><b>同源同帧</b><b>同 yaw -70°</b></div></header>
-      <p class="actions">共享同一透视母平面外参 · 上下两个偏轴裁框互不重叠 · 不叠加额外旋转</p>
+      <div class="badges"><b>10.00s</b><b>1280×720</b><b>源移动 0.50×</b><b>上框=REF</b><b>同 yaw -70°</b></div></header>
+      <p class="actions">随机纵向裁框 · 共享同一透视母平面外参 · 上下窗口互不重叠 · 不叠加额外旋转</p>
       <div class="video-pair" data-sync-pair>
       <figure class="video-panel">
         <figcaption><b>REF · 上方取景框</b><span>NSC.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_01/ref.mp4" poster="media/cases/same_longitude_01/ref.jpg" style="aspect-ratio:1280/720"></video>
-        <div class="source-line">同一源起点 0.00s · yaw -70° · 有效中心 pitch -14.9°</div>
+        <div class="source-line"><b>同一源起点 0.00s · yaw -70° · 有效中心 pitch -30.9°</b>
+        <span>全程经度（ERP 横向 x）746–1600 px · -110.0°–-30.0°</span>
+        <span>全程纬度（ERP 纵向 y）1019–1461 px · -46.9°–-5.6°</span></div>
       </figure>
       <figure class="video-panel">
         <figcaption><b>TARGET · 下方取景框</b><span>NSC.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_01/target.mp4" poster="media/cases/same_longitude_01/target.jpg" style="aspect-ratio:1280/720"></video>
-        <div class="source-line">同一源起点 0.00s · yaw -70° · 有效中心 pitch -38.9°</div>
+        <div class="source-line"><b>同一源起点 0.00s · yaw -70° · 有效中心 pitch -60.6°</b>
+        <span>全程经度（ERP 横向 x）746–1600 px · -110.0°–-30.0°</span>
+        <span>全程纬度（ERP 纵向 y）1438–1664 px · -66.0°–-44.9°</span></div>
       </figure></div>
     </article>
     <article class="case-card pure" id="same_longitude_02">
       <header><div><span class="case-id">same_longitude_02</span><h3>同经度上下双视角 · 原生移动</h3></div>
-      <div class="badges"><b>10.00s</b><b>1440×640</b><b>同源同帧</b><b>同 yaw -55°</b></div></header>
-      <p class="actions">共享同一透视母平面外参 · 上下两个偏轴裁框互不重叠 · 不叠加额外旋转</p>
+      <div class="badges"><b>10.00s</b><b>1440×640</b><b>源移动 0.50×</b><b>上框=TARGET</b><b>同 yaw -55°</b></div></header>
+      <p class="actions">随机纵向裁框 · 共享同一透视母平面外参 · 上下窗口互不重叠 · 不叠加额外旋转</p>
       <div class="video-pair" data-sync-pair>
       <figure class="video-panel">
-        <figcaption><b>REF · 上方取景框</b><span>NSC.mp4</span></figcaption>
+        <figcaption><b>REF · 下方取景框</b><span>NSC.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_02/ref.mp4" poster="media/cases/same_longitude_02/ref.jpg" style="aspect-ratio:1440/640"></video>
-        <div class="source-line">同一源起点 4.00s · yaw -55° · 有效中心 pitch -11.9°</div>
+        <div class="source-line"><b>同一源起点 4.39s · yaw -55° · 有效中心 pitch -56.6°</b>
+        <span>全程经度（ERP 横向 x）906–1760 px · -95.0°–-15.0°</span>
+        <span>全程纬度（ERP 纵向 y）1400–1623 px · -62.1°–-41.3°</span></div>
       </figure>
       <figure class="video-panel">
-        <figcaption><b>TARGET · 下方取景框</b><span>NSC.mp4</span></figcaption>
+        <figcaption><b>TARGET · 上方取景框</b><span>NSC.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_02/target.mp4" poster="media/cases/same_longitude_02/target.jpg" style="aspect-ratio:1440/640"></video>
-        <div class="source-line">同一源起点 4.00s · yaw -55° · 有效中心 pitch -32.5°</div>
+        <div class="source-line"><b>同一源起点 4.39s · yaw -55° · 有效中心 pitch -29.7°</b>
+        <span>全程经度（ERP 横向 x）906–1760 px · -95.0°–-15.0°</span>
+        <span>全程纬度（ERP 纵向 y）1051–1422 px · -43.3°–-8.6°</span></div>
       </figure></div>
     </article>
     <article class="case-card pure" id="same_longitude_03">
       <header><div><span class="case-id">same_longitude_03</span><h3>同经度上下双视角 · 原生移动</h3></div>
-      <div class="badges"><b>10.00s</b><b>1344×672</b><b>同源同帧</b><b>同 yaw -40°</b></div></header>
-      <p class="actions">共享同一透视母平面外参 · 上下两个偏轴裁框互不重叠 · 不叠加额外旋转</p>
+      <div class="badges"><b>10.00s</b><b>1344×672</b><b>源移动 0.50×</b><b>上框=TARGET</b><b>同 yaw -40°</b></div></header>
+      <p class="actions">随机纵向裁框 · 共享同一透视母平面外参 · 上下窗口互不重叠 · 不叠加额外旋转</p>
       <div class="video-pair" data-sync-pair>
       <figure class="video-panel">
-        <figcaption><b>REF · 上方取景框</b><span>NSC.mp4</span></figcaption>
+        <figcaption><b>REF · 下方取景框</b><span>NSC.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_03/ref.mp4" poster="media/cases/same_longitude_03/ref.jpg" style="aspect-ratio:1344/672"></video>
-        <div class="source-line">同一源起点 8.01s · yaw -40° · 有效中心 pitch -13.3°</div>
+        <div class="source-line"><b>同一源起点 8.78s · yaw -40° · 有效中心 pitch -57.4°</b>
+        <span>全程经度（ERP 横向 x）1066–1920 px · -80.0°–-0.0°</span>
+        <span>全程纬度（ERP 纵向 y）1400–1635 px · -63.3°–-41.3°</span></div>
       </figure>
       <figure class="video-panel">
-        <figcaption><b>TARGET · 下方取景框</b><span>NSC.mp4</span></figcaption>
+        <figcaption><b>TARGET · 上方取景框</b><span>NSC.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_03/target.mp4" poster="media/cases/same_longitude_03/target.jpg" style="aspect-ratio:1344/672"></video>
-        <div class="source-line">同一源起点 8.01s · yaw -40° · 有效中心 pitch -35.6°</div>
+        <div class="source-line"><b>同一源起点 8.78s · yaw -40° · 有效中心 pitch -26.2°</b>
+        <span>全程经度（ERP 横向 x）1066–1920 px · -80.0°–-0.0°</span>
+        <span>全程纬度（ERP 纵向 y）993–1412 px · -42.3°–-3.2°</span></div>
       </figure></div>
     </article>
     <article class="case-card pure" id="same_longitude_04">
       <header><div><span class="case-id">same_longitude_04</span><h3>同经度上下双视角 · 原生移动</h3></div>
-      <div class="badges"><b>10.00s</b><b>1104×832</b><b>同源同帧</b><b>同 yaw -25°</b></div></header>
-      <p class="actions">共享同一透视母平面外参 · 上下两个偏轴裁框互不重叠 · 不叠加额外旋转</p>
+      <div class="badges"><b>10.00s</b><b>1536×600</b><b>源移动 0.50×</b><b>上框=TARGET</b><b>同 yaw -25°</b></div></header>
+      <p class="actions">随机纵向裁框 · 共享同一透视母平面外参 · 上下窗口互不重叠 · 不叠加额外旋转</p>
       <div class="video-pair" data-sync-pair>
       <figure class="video-panel">
-        <figcaption><b>REF · 上方取景框</b><span>NSC.mp4</span></figcaption>
-        <video controls playsinline preload="metadata" src="media/cases/same_longitude_04/ref.mp4" poster="media/cases/same_longitude_04/ref.jpg" style="aspect-ratio:1104/832"></video>
-        <div class="source-line">同一源起点 12.02s · yaw -25° · 有效中心 pitch -19.6°</div>
+        <figcaption><b>REF · 下方取景框</b><span>NSC.mp4</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/same_longitude_04/ref.mp4" poster="media/cases/same_longitude_04/ref.jpg" style="aspect-ratio:1536/600"></video>
+        <div class="source-line"><b>同一源起点 13.17s · yaw -25° · 有效中心 pitch -48.6°</b>
+        <span>全程经度（ERP 横向 x）1226–2080 px · -65.0°–15.0°</span>
+        <span>全程纬度（ERP 纵向 y）1297–1553 px · -55.6°–-31.7°</span></div>
       </figure>
       <figure class="video-panel">
-        <figcaption><b>TARGET · 下方取景框</b><span>NSC.mp4</span></figcaption>
-        <video controls playsinline preload="metadata" src="media/cases/same_longitude_04/target.mp4" poster="media/cases/same_longitude_04/target.jpg" style="aspect-ratio:1104/832"></video>
-        <div class="source-line">同一源起点 12.02s · yaw -25° · 有效中心 pitch -47.2°</div>
+        <figcaption><b>TARGET · 上方取景框</b><span>NSC.mp4</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/same_longitude_04/target.mp4" poster="media/cases/same_longitude_04/target.jpg" style="aspect-ratio:1536/600"></video>
+        <div class="source-line"><b>同一源起点 13.17s · yaw -25° · 有效中心 pitch -20.6°</b>
+        <span>全程经度（ERP 横向 x）1226–2080 px · -65.0°–15.0°</span>
+        <span>全程纬度（ERP 纵向 y）982–1335 px · -35.1°–-2.1°</span></div>
       </figure></div>
     </article>
     <article class="case-card pure" id="same_longitude_05">
       <header><div><span class="case-id">same_longitude_05</span><h3>同经度上下双视角 · 原生移动</h3></div>
-      <div class="badges"><b>10.00s</b><b>1072×856</b><b>同源同帧</b><b>同 yaw -10°</b></div></header>
-      <p class="actions">共享同一透视母平面外参 · 上下两个偏轴裁框互不重叠 · 不叠加额外旋转</p>
+      <div class="badges"><b>10.00s</b><b>1600×576</b><b>源移动 0.50×</b><b>上框=REF</b><b>同 yaw -10°</b></div></header>
+      <p class="actions">随机纵向裁框 · 共享同一透视母平面外参 · 上下窗口互不重叠 · 不叠加额外旋转</p>
       <div class="video-pair" data-sync-pair>
       <figure class="video-panel">
         <figcaption><b>REF · 上方取景框</b><span>NSC.mp4</span></figcaption>
-        <video controls playsinline preload="metadata" src="media/cases/same_longitude_05/ref.mp4" poster="media/cases/same_longitude_05/ref.jpg" style="aspect-ratio:1072/856"></video>
-        <div class="source-line">同一源起点 16.02s · yaw -10° · 有效中心 pitch -20.7°</div>
+        <video controls playsinline preload="metadata" src="media/cases/same_longitude_05/ref.mp4" poster="media/cases/same_longitude_05/ref.jpg" style="aspect-ratio:1600/576"></video>
+        <div class="source-line"><b>同一源起点 17.56s · yaw -10° · 有效中心 pitch -21.7°</b>
+        <span>全程经度（ERP 横向 x）1386–2240 px · -50.0°–30.0°</span>
+        <span>全程纬度（ERP 纵向 y）1004–1333 px · -34.9°–-4.2°</span></div>
       </figure>
       <figure class="video-panel">
         <figcaption><b>TARGET · 下方取景框</b><span>NSC.mp4</span></figcaption>
-        <video controls playsinline preload="metadata" src="media/cases/same_longitude_05/target.mp4" poster="media/cases/same_longitude_05/target.jpg" style="aspect-ratio:1072/856"></video>
-        <div class="source-line">同一源起点 16.02s · yaw -10° · 有效中心 pitch -48.9°</div>
+        <video controls playsinline preload="metadata" src="media/cases/same_longitude_05/target.mp4" poster="media/cases/same_longitude_05/target.jpg" style="aspect-ratio:1600/576"></video>
+        <div class="source-line"><b>同一源起点 17.56s · yaw -10° · 有效中心 pitch -47.9°</b>
+        <span>全程经度（ERP 横向 x）1386–2240 px · -50.0°–30.0°</span>
+        <span>全程纬度（ERP 纵向 y）1297–1543 px · -54.6°–-31.6°</span></div>
       </figure></div>
     </article>
     <article class="case-card pure" id="same_longitude_06">
       <header><div><span class="case-id">same_longitude_06</span><h3>同经度上下双视角 · 原生移动</h3></div>
-      <div class="badges"><b>10.00s</b><b>1280×720</b><b>同源同帧</b><b>同 yaw 10°</b></div></header>
-      <p class="actions">共享同一透视母平面外参 · 上下两个偏轴裁框互不重叠 · 不叠加额外旋转</p>
+      <div class="badges"><b>10.00s</b><b>1280×720</b><b>源移动 0.50×</b><b>上框=TARGET</b><b>同 yaw 10°</b></div></header>
+      <p class="actions">随机纵向裁框 · 共享同一透视母平面外参 · 上下窗口互不重叠 · 不叠加额外旋转</p>
       <div class="video-pair" data-sync-pair>
       <figure class="video-panel">
-        <figcaption><b>REF · 上方取景框</b><span>NSC.mp4</span></figcaption>
+        <figcaption><b>REF · 下方取景框</b><span>NSC.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_06/ref.mp4" poster="media/cases/same_longitude_06/ref.jpg" style="aspect-ratio:1280/720"></video>
-        <div class="source-line">同一源起点 20.03s · yaw 10° · 有效中心 pitch -14.9°</div>
+        <div class="source-line"><b>同一源起点 21.95s · yaw 10° · 有效中心 pitch -60.6°</b>
+        <span>全程经度（ERP 横向 x）1600–2454 px · -30.0°–50.0°</span>
+        <span>全程纬度（ERP 纵向 y）1439–1664 px · -66.0°–-44.9°</span></div>
       </figure>
       <figure class="video-panel">
-        <figcaption><b>TARGET · 下方取景框</b><span>NSC.mp4</span></figcaption>
+        <figcaption><b>TARGET · 上方取景框</b><span>NSC.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_06/target.mp4" poster="media/cases/same_longitude_06/target.jpg" style="aspect-ratio:1280/720"></video>
-        <div class="source-line">同一源起点 20.03s · yaw 10° · 有效中心 pitch -38.9°</div>
+        <div class="source-line"><b>同一源起点 21.95s · yaw 10° · 有效中心 pitch -29.3°</b>
+        <span>全程经度（ERP 横向 x）1600–2454 px · -30.0°–50.0°</span>
+        <span>全程纬度（ERP 纵向 y）1002–1450 px · -45.9°–-3.9°</span></div>
       </figure></div>
     </article>
     <article class="case-card pure" id="same_longitude_07">
       <header><div><span class="case-id">same_longitude_07</span><h3>同经度上下双视角 · 原生移动</h3></div>
-      <div class="badges"><b>10.00s</b><b>1440×640</b><b>同源同帧</b><b>同 yaw 25°</b></div></header>
-      <p class="actions">共享同一透视母平面外参 · 上下两个偏轴裁框互不重叠 · 不叠加额外旋转</p>
+      <div class="badges"><b>10.00s</b><b>1440×640</b><b>源移动 0.50×</b><b>上框=TARGET</b><b>同 yaw 25°</b></div></header>
+      <p class="actions">随机纵向裁框 · 共享同一透视母平面外参 · 上下窗口互不重叠 · 不叠加额外旋转</p>
       <div class="video-pair" data-sync-pair>
       <figure class="video-panel">
-        <figcaption><b>REF · 上方取景框</b><span>NSC.mp4</span></figcaption>
+        <figcaption><b>REF · 下方取景框</b><span>NSC.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_07/ref.mp4" poster="media/cases/same_longitude_07/ref.jpg" style="aspect-ratio:1440/640"></video>
-        <div class="source-line">同一源起点 24.03s · yaw 25° · 有效中心 pitch -11.9°</div>
+        <div class="source-line"><b>同一源起点 26.34s · yaw 25° · 有效中心 pitch -53.1°</b>
+        <span>全程经度（ERP 横向 x）1760–2614 px · -15.0°–65.0°</span>
+        <span>全程纬度（ERP 纵向 y）1347–1596 px · -59.6°–-36.3°</span></div>
       </figure>
       <figure class="video-panel">
-        <figcaption><b>TARGET · 下方取景框</b><span>NSC.mp4</span></figcaption>
+        <figcaption><b>TARGET · 上方取景框</b><span>NSC.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_07/target.mp4" poster="media/cases/same_longitude_07/target.jpg" style="aspect-ratio:1440/640"></video>
-        <div class="source-line">同一源起点 24.03s · yaw 25° · 有效中心 pitch -32.5°</div>
+        <div class="source-line"><b>同一源起点 26.34s · yaw 25° · 有效中心 pitch -25.2°</b>
+        <span>全程经度（ERP 横向 x）1760–2614 px · -15.0°–65.0°</span>
+        <span>全程纬度（ERP 纵向 y）1006–1389 px · -40.1°–-4.3°</span></div>
       </figure></div>
     </article>
     <article class="case-card pure" id="same_longitude_08">
       <header><div><span class="case-id">same_longitude_08</span><h3>同经度上下双视角 · 原生移动</h3></div>
-      <div class="badges"><b>10.00s</b><b>1344×672</b><b>同源同帧</b><b>同 yaw 40°</b></div></header>
-      <p class="actions">共享同一透视母平面外参 · 上下两个偏轴裁框互不重叠 · 不叠加额外旋转</p>
+      <div class="badges"><b>10.00s</b><b>1344×672</b><b>源移动 0.50×</b><b>上框=TARGET</b><b>同 yaw 40°</b></div></header>
+      <p class="actions">随机纵向裁框 · 共享同一透视母平面外参 · 上下窗口互不重叠 · 不叠加额外旋转</p>
       <div class="video-pair" data-sync-pair>
       <figure class="video-panel">
-        <figcaption><b>REF · 上方取景框</b><span>NSK.mp4</span></figcaption>
+        <figcaption><b>REF · 下方取景框</b><span>NSK.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_08/ref.mp4" poster="media/cases/same_longitude_08/ref.jpg" style="aspect-ratio:1344/672"></video>
-        <div class="source-line">同一源起点 0.00s · yaw 40° · 有效中心 pitch -13.3°</div>
+        <div class="source-line"><b>同一源起点 0.00s · yaw 40° · 有效中心 pitch -55.0°</b>
+        <span>全程经度（ERP 横向 x）1920–2774 px · 0.0°–80.0°</span>
+        <span>全程纬度（ERP 纵向 y）1361–1617 px · -61.5°–-37.6°</span></div>
       </figure>
       <figure class="video-panel">
-        <figcaption><b>TARGET · 下方取景框</b><span>NSK.mp4</span></figcaption>
+        <figcaption><b>TARGET · 上方取景框</b><span>NSK.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_08/target.mp4" poster="media/cases/same_longitude_08/target.jpg" style="aspect-ratio:1344/672"></video>
-        <div class="source-line">同一源起点 0.00s · yaw 40° · 有效中心 pitch -35.6°</div>
+        <div class="source-line"><b>同一源起点 0.00s · yaw 40° · 有效中心 pitch -24.6°</b>
+        <span>全程经度（ERP 横向 x）1920–2774 px · 0.0°–80.0°</span>
+        <span>全程纬度（ERP 纵向 y）978–1401 px · -41.3°–-1.7°</span></div>
       </figure></div>
     </article>
     <article class="case-card pure" id="same_longitude_09">
       <header><div><span class="case-id">same_longitude_09</span><h3>同经度上下双视角 · 原生移动</h3></div>
-      <div class="badges"><b>10.00s</b><b>1104×832</b><b>同源同帧</b><b>同 yaw 55°</b></div></header>
-      <p class="actions">共享同一透视母平面外参 · 上下两个偏轴裁框互不重叠 · 不叠加额外旋转</p>
+      <div class="badges"><b>10.00s</b><b>1536×600</b><b>源移动 0.50×</b><b>上框=TARGET</b><b>同 yaw 55°</b></div></header>
+      <p class="actions">随机纵向裁框 · 共享同一透视母平面外参 · 上下窗口互不重叠 · 不叠加额外旋转</p>
       <div class="video-pair" data-sync-pair>
       <figure class="video-panel">
-        <figcaption><b>REF · 上方取景框</b><span>NSK.mp4</span></figcaption>
-        <video controls playsinline preload="metadata" src="media/cases/same_longitude_09/ref.mp4" poster="media/cases/same_longitude_09/ref.jpg" style="aspect-ratio:1104/832"></video>
-        <div class="source-line">同一源起点 3.07s · yaw 55° · 有效中心 pitch -19.6°</div>
+        <figcaption><b>REF · 下方取景框</b><span>NSK.mp4</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/same_longitude_09/ref.mp4" poster="media/cases/same_longitude_09/ref.jpg" style="aspect-ratio:1536/600"></video>
+        <div class="source-line"><b>同一源起点 4.73s · yaw 55° · 有效中心 pitch -49.9°</b>
+        <span>全程经度（ERP 横向 x）2080–2934 px · 15.0°–95.0°</span>
+        <span>全程纬度（ERP 纵向 y）1316–1564 px · -56.6°–-33.5°</span></div>
       </figure>
       <figure class="video-panel">
-        <figcaption><b>TARGET · 下方取景框</b><span>NSK.mp4</span></figcaption>
-        <video controls playsinline preload="metadata" src="media/cases/same_longitude_09/target.mp4" poster="media/cases/same_longitude_09/target.jpg" style="aspect-ratio:1104/832"></video>
-        <div class="source-line">同一源起点 3.07s · yaw 55° · 有效中心 pitch -47.2°</div>
+        <figcaption><b>TARGET · 上方取景框</b><span>NSK.mp4</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/same_longitude_09/target.mp4" poster="media/cases/same_longitude_09/target.jpg" style="aspect-ratio:1536/600"></video>
+        <div class="source-line"><b>同一源起点 4.73s · yaw 55° · 有效中心 pitch -22.5°</b>
+        <span>全程经度（ERP 横向 x）2080–2934 px · 15.0°–95.0°</span>
+        <span>全程纬度（ERP 纵向 y）1000–1350 px · -36.5°–-3.8°</span></div>
       </figure></div>
     </article>
     <article class="case-card pure" id="same_longitude_10">
       <header><div><span class="case-id">same_longitude_10</span><h3>同经度上下双视角 · 原生移动</h3></div>
-      <div class="badges"><b>10.00s</b><b>1072×856</b><b>同源同帧</b><b>同 yaw 70°</b></div></header>
-      <p class="actions">共享同一透视母平面外参 · 上下两个偏轴裁框互不重叠 · 不叠加额外旋转</p>
+      <div class="badges"><b>10.00s</b><b>1600×576</b><b>源移动 0.50×</b><b>上框=REF</b><b>同 yaw 70°</b></div></header>
+      <p class="actions">随机纵向裁框 · 共享同一透视母平面外参 · 上下窗口互不重叠 · 不叠加额外旋转</p>
       <div class="video-pair" data-sync-pair>
       <figure class="video-panel">
         <figcaption><b>REF · 上方取景框</b><span>FTP.mp4</span></figcaption>
-        <video controls playsinline preload="metadata" src="media/cases/same_longitude_10/ref.mp4" poster="media/cases/same_longitude_10/ref.jpg" style="aspect-ratio:1072/856"></video>
-        <div class="source-line">同一源起点 0.00s · yaw 70° · 有效中心 pitch -20.7°</div>
+        <video controls playsinline preload="metadata" src="media/cases/same_longitude_10/ref.mp4" poster="media/cases/same_longitude_10/ref.jpg" style="aspect-ratio:1600/576"></video>
+        <div class="source-line"><b>同一源起点 0.00s · yaw 70° · 有效中心 pitch -21.2°</b>
+        <span>全程经度（ERP 横向 x）2240–3094 px · 30.0°–110.0°</span>
+        <span>全程纬度（ERP 纵向 y）1000–1330 px · -34.6°–-3.8°</span></div>
       </figure>
       <figure class="video-panel">
         <figcaption><b>TARGET · 下方取景框</b><span>FTP.mp4</span></figcaption>
-        <video controls playsinline preload="metadata" src="media/cases/same_longitude_10/target.mp4" poster="media/cases/same_longitude_10/target.jpg" style="aspect-ratio:1072/856"></video>
-        <div class="source-line">同一源起点 0.00s · yaw 70° · 有效中心 pitch -48.9°</div>
+        <video controls playsinline preload="metadata" src="media/cases/same_longitude_10/target.mp4" poster="media/cases/same_longitude_10/target.jpg" style="aspect-ratio:1600/576"></video>
+        <div class="source-line"><b>同一源起点 0.00s · yaw 70° · 有效中心 pitch -49.3°</b>
+        <span>全程经度（ERP 横向 x）2240–3094 px · 30.0°–110.0°</span>
+        <span>全程纬度（ERP 纵向 y）1316–1554 px · -55.7°–-33.4°</span></div>
       </figure></div>
     </article>
 <h2 class="section-title">10 个原生移动 + 同步旋转案例</h2>
     <article class="case-card combined" id="same_longitude_rotation_01">
       <header><div><span class="case-id">same_longitude_rotation_01</span><h3>同经度上下双视角 · 持续右摇+轻仰</h3></div>
-      <div class="badges"><b>10.00s</b><b>1280×720</b><b>同源同帧</b><b>同 yaw -65°</b></div></header>
-      <p class="actions">共享同一透视母平面外参 · 上下两个偏轴裁框互不重叠 · 两侧共享完全相同的逐帧 yaw / pitch / roll 增量</p>
+      <div class="badges"><b>10.00s</b><b>1280×720</b><b>源移动 0.50×</b><b>上框=TARGET</b><b>同 yaw -65°</b></div></header>
+      <p class="actions">随机纵向裁框 · 共享同一透视母平面外参 · 上下窗口互不重叠 · 两侧共享完全相同的逐帧 yaw / pitch / roll 增量 · 旋转速度倍率 1.00×</p>
       <div class="video-pair" data-sync-pair>
       <figure class="video-panel">
-        <figcaption><b>REF · 上方取景框</b><span>NSC.mp4</span></figcaption>
+        <figcaption><b>REF · 下方取景框</b><span>NSC.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_01/ref.mp4" poster="media/cases/same_longitude_rotation_01/ref.jpg" style="aspect-ratio:1280/720"></video>
-        <div class="source-line">同一源起点 28.04s · yaw -65° · 有效中心 pitch -14.9°</div>
+        <div class="source-line"><b>同一源起点 30.73s · yaw -65° · 有效中心 pitch -58.9°</b>
+        <span>全程经度（ERP 横向 x）656–1743 px · -118.5°–-16.6°</span>
+        <span>全程纬度（ERP 纵向 y）1386–1684 px · -67.9°–-40.0°</span></div>
       </figure>
       <figure class="video-panel">
-        <figcaption><b>TARGET · 下方取景框</b><span>NSC.mp4</span></figcaption>
+        <figcaption><b>TARGET · 上方取景框</b><span>NSC.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_01/target.mp4" poster="media/cases/same_longitude_rotation_01/target.jpg" style="aspect-ratio:1280/720"></video>
-        <div class="source-line">同一源起点 28.04s · yaw -65° · 有效中心 pitch -38.9°</div>
+        <div class="source-line"><b>同一源起点 30.73s · yaw -65° · 有效中心 pitch -27.8°</b>
+        <span>全程经度（ERP 横向 x）676–1760 px · -116.6°–-15.0°</span>
+        <span>全程纬度（ERP 纵向 y）961–1472 px · -48.0°–-0.1°</span></div>
       </figure></div>
     </article>
     <article class="case-card combined" id="same_longitude_rotation_02">
       <header><div><span class="case-id">same_longitude_rotation_02</span><h3>同经度上下双视角 · 持续左摇+轻俯</h3></div>
-      <div class="badges"><b>10.00s</b><b>1440×640</b><b>同源同帧</b><b>同 yaw -50°</b></div></header>
-      <p class="actions">共享同一透视母平面外参 · 上下两个偏轴裁框互不重叠 · 两侧共享完全相同的逐帧 yaw / pitch / roll 增量</p>
+      <div class="badges"><b>10.00s</b><b>1440×640</b><b>源移动 0.50×</b><b>上框=TARGET</b><b>同 yaw -50°</b></div></header>
+      <p class="actions">随机纵向裁框 · 共享同一透视母平面外参 · 上下窗口互不重叠 · 两侧共享完全相同的逐帧 yaw / pitch / roll 增量 · 旋转速度倍率 1.35×</p>
       <div class="video-pair" data-sync-pair>
       <figure class="video-panel">
-        <figcaption><b>REF · 上方取景框</b><span>NSC.mp4</span></figcaption>
+        <figcaption><b>REF · 下方取景框</b><span>NSC.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_02/ref.mp4" poster="media/cases/same_longitude_rotation_02/ref.jpg" style="aspect-ratio:1440/640"></video>
-        <div class="source-line">同一源起点 32.04s · yaw -50° · 有效中心 pitch -11.9°</div>
+        <div class="source-line"><b>同一源起点 35.12s · yaw -50° · 有效中心 pitch -53.2°</b>
+        <span>全程经度（ERP 横向 x）754–1950 px · -109.3°–2.8°</span>
+        <span>全程纬度（ERP 纵向 y）1309–1647 px · -64.4°–-32.8°</span></div>
       </figure>
       <figure class="video-panel">
-        <figcaption><b>TARGET · 下方取景框</b><span>NSC.mp4</span></figcaption>
+        <figcaption><b>TARGET · 上方取景框</b><span>NSC.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_02/target.mp4" poster="media/cases/same_longitude_rotation_02/target.jpg" style="aspect-ratio:1440/640"></video>
-        <div class="source-line">同一源起点 32.04s · yaw -50° · 有效中心 pitch -32.5°</div>
+        <div class="source-line"><b>同一源起点 35.12s · yaw -50° · 有效中心 pitch -26.3°</b>
+        <span>全程经度（ERP 横向 x）778–1970 px · -107.0°–4.7°</span>
+        <span>全程纬度（ERP 纵向 y）978–1447 px · -45.6°–-1.7°</span></div>
       </figure></div>
     </article>
     <article class="case-card combined" id="same_longitude_rotation_03">
       <header><div><span class="case-id">same_longitude_rotation_03</span><h3>同经度上下双视角 · 快速右甩</h3></div>
-      <div class="badges"><b>10.00s</b><b>1344×672</b><b>同源同帧</b><b>同 yaw -35°</b></div></header>
-      <p class="actions">共享同一透视母平面外参 · 上下两个偏轴裁框互不重叠 · 两侧共享完全相同的逐帧 yaw / pitch / roll 增量</p>
+      <div class="badges"><b>10.00s</b><b>1344×672</b><b>源移动 0.50×</b><b>上框=TARGET</b><b>同 yaw -35°</b></div></header>
+      <p class="actions">随机纵向裁框 · 共享同一透视母平面外参 · 上下窗口互不重叠 · 两侧共享完全相同的逐帧 yaw / pitch / roll 增量 · 旋转速度倍率 0.69×</p>
       <div class="video-pair" data-sync-pair>
       <figure class="video-panel">
-        <figcaption><b>REF · 上方取景框</b><span>NSC.mp4</span></figcaption>
+        <figcaption><b>REF · 下方取景框</b><span>NSC.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_03/ref.mp4" poster="media/cases/same_longitude_rotation_03/ref.jpg" style="aspect-ratio:1344/672"></video>
-        <div class="source-line">同一源起点 36.05s · yaw -35° · 有效中心 pitch -13.3°</div>
+        <div class="source-line"><b>同一源起点 39.51s · yaw -35° · 有效中心 pitch -59.2°</b>
+        <span>全程经度（ERP 横向 x）1031–2062 px · -83.3°–13.3°</span>
+        <span>全程纬度（ERP 纵向 y）1400–1649 px · -64.5°–-41.3°</span></div>
       </figure>
       <figure class="video-panel">
-        <figcaption><b>TARGET · 下方取景框</b><span>NSC.mp4</span></figcaption>
+        <figcaption><b>TARGET · 上方取景框</b><span>NSC.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_03/target.mp4" poster="media/cases/same_longitude_rotation_03/target.jpg" style="aspect-ratio:1344/672"></video>
-        <div class="source-line">同一源起点 36.05s · yaw -35° · 有效中心 pitch -35.6°</div>
+        <div class="source-line"><b>同一源起点 39.51s · yaw -35° · 有效中心 pitch -31.0°</b>
+        <span>全程经度（ERP 横向 x）1031–2062 px · -83.3°–13.3°</span>
+        <span>全程纬度（ERP 纵向 y）1016–1447 px · -45.6°–-5.3°</span></div>
       </figure></div>
     </article>
     <article class="case-card combined" id="same_longitude_rotation_04">
       <header><div><span class="case-id">same_longitude_rotation_04</span><h3>同经度上下双视角 · 快速左甩</h3></div>
-      <div class="badges"><b>10.00s</b><b>1104×832</b><b>同源同帧</b><b>同 yaw -20°</b></div></header>
-      <p class="actions">共享同一透视母平面外参 · 上下两个偏轴裁框互不重叠 · 两侧共享完全相同的逐帧 yaw / pitch / roll 增量</p>
+      <div class="badges"><b>10.00s</b><b>1536×600</b><b>源移动 0.50×</b><b>上框=TARGET</b><b>同 yaw -20°</b></div></header>
+      <p class="actions">随机纵向裁框 · 共享同一透视母平面外参 · 上下窗口互不重叠 · 两侧共享完全相同的逐帧 yaw / pitch / roll 增量 · 旋转速度倍率 1.22×</p>
       <div class="video-pair" data-sync-pair>
       <figure class="video-panel">
-        <figcaption><b>REF · 上方取景框</b><span>NSC.mp4</span></figcaption>
-        <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_04/ref.mp4" poster="media/cases/same_longitude_rotation_04/ref.jpg" style="aspect-ratio:1104/832"></video>
-        <div class="source-line">同一源起点 40.05s · yaw -20° · 有效中心 pitch -19.6°</div>
+        <figcaption><b>REF · 下方取景框</b><span>NSC.mp4</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_04/ref.mp4" poster="media/cases/same_longitude_rotation_04/ref.jpg" style="aspect-ratio:1536/600"></video>
+        <div class="source-line"><b>同一源起点 43.90s · yaw -20° · 有效中心 pitch -49.6°</b>
+        <span>全程经度（ERP 横向 x）1086–2327 px · -78.1°–38.1°</span>
+        <span>全程纬度（ERP 纵向 y）1312–1640 px · -63.7°–-33.0°</span></div>
       </figure>
       <figure class="video-panel">
-        <figcaption><b>TARGET · 下方取景框</b><span>NSC.mp4</span></figcaption>
-        <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_04/target.mp4" poster="media/cases/same_longitude_rotation_04/target.jpg" style="aspect-ratio:1104/832"></video>
-        <div class="source-line">同一源起点 40.05s · yaw -20° · 有效中心 pitch -47.2°</div>
+        <figcaption><b>TARGET · 上方取景框</b><span>NSC.mp4</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_04/target.mp4" poster="media/cases/same_longitude_rotation_04/target.jpg" style="aspect-ratio:1536/600"></video>
+        <div class="source-line"><b>同一源起点 43.90s · yaw -20° · 有效中心 pitch -22.3°</b>
+        <span>全程经度（ERP 横向 x）1109–2304 px · -76.0°–36.0°</span>
+        <span>全程纬度（ERP 纵向 y）998–1427 px · -43.7°–-3.6°</span></div>
       </figure></div>
     </article>
     <article class="case-card combined" id="same_longitude_rotation_05">
       <header><div><span class="case-id">same_longitude_rotation_05</span><h3>同经度上下双视角 · 蛇形摇摄</h3></div>
-      <div class="badges"><b>10.00s</b><b>1072×856</b><b>同源同帧</b><b>同 yaw -5°</b></div></header>
-      <p class="actions">共享同一透视母平面外参 · 上下两个偏轴裁框互不重叠 · 两侧共享完全相同的逐帧 yaw / pitch / roll 增量</p>
+      <div class="badges"><b>10.00s</b><b>1600×576</b><b>源移动 0.50×</b><b>上框=REF</b><b>同 yaw -5°</b></div></header>
+      <p class="actions">随机纵向裁框 · 共享同一透视母平面外参 · 上下窗口互不重叠 · 两侧共享完全相同的逐帧 yaw / pitch / roll 增量 · 旋转速度倍率 1.35×</p>
       <div class="video-pair" data-sync-pair>
       <figure class="video-panel">
         <figcaption><b>REF · 上方取景框</b><span>NSC.mp4</span></figcaption>
-        <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_05/ref.mp4" poster="media/cases/same_longitude_rotation_05/ref.jpg" style="aspect-ratio:1072/856"></video>
-        <div class="source-line">同一源起点 44.06s · yaw -5° · 有效中心 pitch -20.7°</div>
+        <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_05/ref.mp4" poster="media/cases/same_longitude_rotation_05/ref.jpg" style="aspect-ratio:1600/576"></video>
+        <div class="source-line"><b>同一源起点 48.29s · yaw -5° · 有效中心 pitch -19.3°</b>
+        <span>全程经度（ERP 横向 x）1291–2443 px · -58.9°–48.9°</span>
+        <span>全程纬度（ERP 纵向 y）932–1371 px · -38.5°–2.6°</span></div>
       </figure>
       <figure class="video-panel">
         <figcaption><b>TARGET · 下方取景框</b><span>NSC.mp4</span></figcaption>
-        <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_05/target.mp4" poster="media/cases/same_longitude_rotation_05/target.jpg" style="aspect-ratio:1072/856"></video>
-        <div class="source-line">同一源起点 44.06s · yaw -5° · 有效中心 pitch -48.9°</div>
+        <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_05/target.mp4" poster="media/cases/same_longitude_rotation_05/target.jpg" style="aspect-ratio:1600/576"></video>
+        <div class="source-line"><b>同一源起点 48.29s · yaw -5° · 有效中心 pitch -46.8°</b>
+        <span>全程经度（ERP 横向 x）1277–2457 px · -60.3°–50.3°</span>
+        <span>全程纬度（ERP 纵向 y）1238–1592 px · -59.2°–-26.1°</span></div>
       </figure></div>
     </article>
     <article class="case-card combined" id="same_longitude_rotation_06">
       <header><div><span class="case-id">same_longitude_rotation_06</span><h3>同经度上下双视角 · 对角移动</h3></div>
-      <div class="badges"><b>10.00s</b><b>1280×720</b><b>同源同帧</b><b>同 yaw 5°</b></div></header>
-      <p class="actions">共享同一透视母平面外参 · 上下两个偏轴裁框互不重叠 · 两侧共享完全相同的逐帧 yaw / pitch / roll 增量</p>
+      <div class="badges"><b>10.00s</b><b>1280×720</b><b>源移动 0.50×</b><b>上框=TARGET</b><b>同 yaw 5°</b></div></header>
+      <p class="actions">随机纵向裁框 · 共享同一透视母平面外参 · 上下窗口互不重叠 · 两侧共享完全相同的逐帧 yaw / pitch / roll 增量 · 旋转速度倍率 1.24×</p>
       <div class="video-pair" data-sync-pair>
       <figure class="video-panel">
-        <figcaption><b>REF · 上方取景框</b><span>NSC.mp4</span></figcaption>
+        <figcaption><b>REF · 下方取景框</b><span>NSC.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_06/ref.mp4" poster="media/cases/same_longitude_rotation_06/ref.jpg" style="aspect-ratio:1280/720"></video>
-        <div class="source-line">同一源起点 48.06s · yaw 5° · 有效中心 pitch -14.9°</div>
+        <div class="source-line"><b>同一源起点 52.68s · yaw 5° · 有效中心 pitch -59.5°</b>
+        <span>全程经度（ERP 横向 x）1462–2603 px · -42.9°–64.0°</span>
+        <span>全程纬度（ERP 纵向 y）1368–1723 px · -71.4°–-38.3°</span></div>
       </figure>
       <figure class="video-panel">
-        <figcaption><b>TARGET · 下方取景框</b><span>NSC.mp4</span></figcaption>
+        <figcaption><b>TARGET · 上方取景框</b><span>NSC.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_06/target.mp4" poster="media/cases/same_longitude_rotation_06/target.jpg" style="aspect-ratio:1280/720"></video>
-        <div class="source-line">同一源起点 48.06s · yaw 5° · 有效中心 pitch -38.9°</div>
+        <div class="source-line"><b>同一源起点 52.68s · yaw 5° · 有效中心 pitch -31.6°</b>
+        <span>全程经度（ERP 横向 x）1430–2560 px · -45.9°–59.9°</span>
+        <span>全程纬度（ERP 纵向 y）976–1532 px · -53.6°–-1.5°</span></div>
       </figure></div>
     </article>
     <article class="case-card combined" id="same_longitude_rotation_07">
       <header><div><span class="case-id">same_longitude_rotation_07</span><h3>同经度上下双视角 · 轻螺旋</h3></div>
-      <div class="badges"><b>10.00s</b><b>1440×640</b><b>同源同帧</b><b>同 yaw 20°</b></div></header>
-      <p class="actions">共享同一透视母平面外参 · 上下两个偏轴裁框互不重叠 · 两侧共享完全相同的逐帧 yaw / pitch / roll 增量</p>
+      <div class="badges"><b>10.00s</b><b>1440×640</b><b>源移动 0.50×</b><b>上框=REF</b><b>同 yaw 20°</b></div></header>
+      <p class="actions">随机纵向裁框 · 共享同一透视母平面外参 · 上下窗口互不重叠 · 两侧共享完全相同的逐帧 yaw / pitch / roll 增量 · 旋转速度倍率 0.79×</p>
       <div class="video-pair" data-sync-pair>
       <figure class="video-panel">
         <figcaption><b>REF · 上方取景框</b><span>NSC.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_07/ref.mp4" poster="media/cases/same_longitude_rotation_07/ref.jpg" style="aspect-ratio:1440/640"></video>
-        <div class="source-line">同一源起点 52.07s · yaw 20° · 有效中心 pitch -11.9°</div>
+        <div class="source-line"><b>同一源起点 57.07s · yaw 20° · 有效中心 pitch -24.0°</b>
+        <span>全程经度（ERP 横向 x）1636–2631 px · -26.6°–66.6°</span>
+        <span>全程纬度（ERP 纵向 y）941–1410 px · -42.2°–1.7°</span></div>
       </figure>
       <figure class="video-panel">
         <figcaption><b>TARGET · 下方取景框</b><span>NSC.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_07/target.mp4" poster="media/cases/same_longitude_rotation_07/target.jpg" style="aspect-ratio:1440/640"></video>
-        <div class="source-line">同一源起点 52.07s · yaw 20° · 有效中心 pitch -32.5°</div>
+        <div class="source-line"><b>同一源起点 57.07s · yaw 20° · 有效中心 pitch -54.2°</b>
+        <span>全程经度（ERP 横向 x）1681–2592 px · -22.4°–63.0°</span>
+        <span>全程纬度（ERP 纵向 y）1311–1635 px · -63.2°–-32.9°</span></div>
       </figure></div>
     </article>
     <article class="case-card combined" id="same_longitude_rotation_08">
       <header><div><span class="case-id">same_longitude_rotation_08</span><h3>同经度上下双视角 · 摆动+滚转</h3></div>
-      <div class="badges"><b>10.00s</b><b>1344×672</b><b>同源同帧</b><b>同 yaw 35°</b></div></header>
-      <p class="actions">共享同一透视母平面外参 · 上下两个偏轴裁框互不重叠 · 两侧共享完全相同的逐帧 yaw / pitch / roll 增量</p>
+      <div class="badges"><b>10.00s</b><b>1344×672</b><b>源移动 0.50×</b><b>上框=TARGET</b><b>同 yaw 35°</b></div></header>
+      <p class="actions">随机纵向裁框 · 共享同一透视母平面外参 · 上下窗口互不重叠 · 两侧共享完全相同的逐帧 yaw / pitch / roll 增量 · 旋转速度倍率 1.12×</p>
       <div class="video-pair" data-sync-pair>
       <figure class="video-panel">
-        <figcaption><b>REF · 上方取景框</b><span>NSK.mp4</span></figcaption>
+        <figcaption><b>REF · 下方取景框</b><span>NSK.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_08/ref.mp4" poster="media/cases/same_longitude_rotation_08/ref.jpg" style="aspect-ratio:1344/672"></video>
-        <div class="source-line">同一源起点 6.13s · yaw 35° · 有效中心 pitch -13.3°</div>
+        <div class="source-line"><b>同一源起点 9.47s · yaw 35° · 有效中心 pitch -57.7°</b>
+        <span>全程经度（ERP 横向 x）1714–2873 px · -19.3°–89.3°</span>
+        <span>全程纬度（ERP 纵向 y）1311–1685 px · -67.9°–-32.9°</span></div>
       </figure>
       <figure class="video-panel">
-        <figcaption><b>TARGET · 下方取景框</b><span>NSK.mp4</span></figcaption>
+        <figcaption><b>TARGET · 上方取景框</b><span>NSK.mp4</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_08/target.mp4" poster="media/cases/same_longitude_rotation_08/target.jpg" style="aspect-ratio:1344/672"></video>
-        <div class="source-line">同一源起点 6.13s · yaw 35° · 有效中心 pitch -35.6°</div>
+        <div class="source-line"><b>同一源起点 9.47s · yaw 35° · 有效中心 pitch -27.0°</b>
+        <span>全程经度（ERP 横向 x）1730–2857 px · -17.8°–87.8°</span>
+        <span>全程纬度（ERP 纵向 y）911–1466 px · -47.4°–4.6°</span></div>
       </figure></div>
     </article>
     <article class="case-card combined" id="same_longitude_rotation_09">
       <header><div><span class="case-id">same_longitude_rotation_09</span><h3>同经度上下双视角 · 俯仰+轻滚</h3></div>
-      <div class="badges"><b>10.00s</b><b>1104×832</b><b>同源同帧</b><b>同 yaw 50°</b></div></header>
-      <p class="actions">共享同一透视母平面外参 · 上下两个偏轴裁框互不重叠 · 两侧共享完全相同的逐帧 yaw / pitch / roll 增量</p>
+      <div class="badges"><b>10.00s</b><b>1536×600</b><b>源移动 0.50×</b><b>上框=TARGET</b><b>同 yaw 50°</b></div></header>
+      <p class="actions">随机纵向裁框 · 共享同一透视母平面外参 · 上下窗口互不重叠 · 两侧共享完全相同的逐帧 yaw / pitch / roll 增量 · 旋转速度倍率 1.00×</p>
       <div class="video-pair" data-sync-pair>
       <figure class="video-panel">
-        <figcaption><b>REF · 上方取景框</b><span>NSK.mp4</span></figcaption>
-        <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_09/ref.mp4" poster="media/cases/same_longitude_rotation_09/ref.jpg" style="aspect-ratio:1104/832"></video>
-        <div class="source-line">同一源起点 9.20s · yaw 50° · 有效中心 pitch -19.6°</div>
+        <figcaption><b>REF · 下方取景框</b><span>NSK.mp4</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_09/ref.mp4" poster="media/cases/same_longitude_rotation_09/ref.jpg" style="aspect-ratio:1536/600"></video>
+        <div class="source-line"><b>同一源起点 14.20s · yaw 50° · 有效中心 pitch -51.8°</b>
+        <span>全程经度（ERP 横向 x）1969–2938 px · 4.6°–95.4°</span>
+        <span>全程纬度（ERP 纵向 y）1259–1643 px · -63.9°–-28.1°</span></div>
       </figure>
       <figure class="video-panel">
-        <figcaption><b>TARGET · 下方取景框</b><span>NSK.mp4</span></figcaption>
-        <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_09/target.mp4" poster="media/cases/same_longitude_rotation_09/target.jpg" style="aspect-ratio:1104/832"></video>
-        <div class="source-line">同一源起点 9.20s · yaw 50° · 有效中心 pitch -47.2°</div>
+        <figcaption><b>TARGET · 上方取景框</b><span>NSK.mp4</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_09/target.mp4" poster="media/cases/same_longitude_rotation_09/target.jpg" style="aspect-ratio:1536/600"></video>
+        <div class="source-line"><b>同一源起点 14.20s · yaw 50° · 有效中心 pitch -22.6°</b>
+        <span>全程经度（ERP 横向 x）1962–2951 px · 4.0°–96.6°</span>
+        <span>全程纬度（ERP 纵向 y）920–1416 px · -42.7°–3.7°</span></div>
       </figure></div>
     </article>
     <article class="case-card combined" id="same_longitude_rotation_10">
       <header><div><span class="case-id">same_longitude_rotation_10</span><h3>同经度上下双视角 · 双脉冲甩镜</h3></div>
-      <div class="badges"><b>10.00s</b><b>1072×856</b><b>同源同帧</b><b>同 yaw 65°</b></div></header>
-      <p class="actions">共享同一透视母平面外参 · 上下两个偏轴裁框互不重叠 · 两侧共享完全相同的逐帧 yaw / pitch / roll 增量</p>
+      <div class="badges"><b>10.00s</b><b>1600×576</b><b>源移动 0.50×</b><b>上框=TARGET</b><b>同 yaw 65°</b></div></header>
+      <p class="actions">随机纵向裁框 · 共享同一透视母平面外参 · 上下窗口互不重叠 · 两侧共享完全相同的逐帧 yaw / pitch / roll 增量 · 旋转速度倍率 0.93×</p>
       <div class="video-pair" data-sync-pair>
       <figure class="video-panel">
-        <figcaption><b>REF · 上方取景框</b><span>FTP.mp4</span></figcaption>
-        <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_10/ref.mp4" poster="media/cases/same_longitude_rotation_10/ref.jpg" style="aspect-ratio:1072/856"></video>
-        <div class="source-line">同一源起点 1.80s · yaw 65° · 有效中心 pitch -20.7°</div>
+        <figcaption><b>REF · 下方取景框</b><span>FTP.mp4</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_10/ref.mp4" poster="media/cases/same_longitude_rotation_10/ref.jpg" style="aspect-ratio:1600/576"></video>
+        <div class="source-line"><b>同一源起点 6.80s · yaw 65° · 有效中心 pitch -50.3°</b>
+        <span>全程经度（ERP 横向 x）2170–3165 px · 23.5°–116.7°</span>
+        <span>全程纬度（ERP 纵向 y）1302–1597 px · -59.6°–-32.1°</span></div>
       </figure>
       <figure class="video-panel">
-        <figcaption><b>TARGET · 下方取景框</b><span>FTP.mp4</span></figcaption>
-        <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_10/target.mp4" poster="media/cases/same_longitude_rotation_10/target.jpg" style="aspect-ratio:1072/856"></video>
-        <div class="source-line">同一源起点 1.80s · yaw 65° · 有效中心 pitch -48.9°</div>
+        <figcaption><b>TARGET · 上方取景框</b><span>FTP.mp4</span></figcaption>
+        <video controls playsinline preload="metadata" src="media/cases/same_longitude_rotation_10/target.mp4" poster="media/cases/same_longitude_rotation_10/target.jpg" style="aspect-ratio:1600/576"></video>
+        <div class="source-line"><b>同一源起点 6.80s · yaw 65° · 有效中心 pitch -22.8°</b>
+        <span>全程经度（ERP 横向 x）2180–3155 px · 24.4°–115.8°</span>
+        <span>全程纬度（ERP 纵向 y）988–1377 px · -39.0°–-2.7°</span></div>
       </figure></div>
     </article>
 </main><script>
