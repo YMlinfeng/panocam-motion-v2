@@ -1,0 +1,70 @@
+{
+  "case": {
+    "id": "translation_rotation_03",
+    "kind": "translation_rotation",
+    "display_name": "真实位移 + 同步可控旋转",
+    "source": {
+      "dataset": "user_mobile_panorama",
+      "file": "NSC.mp4"
+    },
+    "ref_start_seconds": 6.923,
+    "target_start_seconds": 48.99,
+    "temporal_gap_seconds": 42.067,
+    "source_span_seconds": 10.0,
+    "duration_seconds": 10.0,
+    "fps": 20,
+    "resolution": [
+      720,
+      1280
+    ],
+    "fixed_view": null,
+    "virtual_rotation": {
+      "name": "变速右甩+俯仰波",
+      "pattern": "whip_right",
+      "yaw_deg": 118.0,
+      "pitch_deg": 26.0,
+      "roll_deg": 0.0
+    }
+  },
+  "trajectory_report": {
+    "yaw_range_deg": [
+      -59.0,
+      59.0
+    ],
+    "pitch_range_deg": [
+      -0.0,
+      25.9992
+    ],
+    "roll_range_deg": [
+      0.0,
+      0.0
+    ],
+    "hfov_deg": 63.0883,
+    "max_abs_sampled_longitude_deg": 102.7002,
+    "seam_limit_deg": 162.0,
+    "seam_safe": true,
+    "virtual_rotation_median_deg_per_second": 8.1526,
+    "virtual_rotation_p99_deg_per_second": 46.2121
+  },
+  "rendered": {
+    "ref": {
+      "path": "site/translation/media/cases/translation_rotation_03/ref.mp4",
+      "bytes": 5381752,
+      "sha256": "aee7ac0845d22b8ecb69804d9dad4c58982bc11f31e8a907a0e40a32a520f41b"
+    },
+    "target": {
+      "path": "site/translation/media/cases/translation_rotation_03/target.mp4",
+      "bytes": 5356775,
+      "sha256": "8481549ecc9d87d10f4f8b00677ce5a3c7c3e36fb7a2b6336ee88d546159585c"
+    },
+    "codec": {
+      "codec": "libx264",
+      "crf": 20,
+      "preset": "fast",
+      "maxrate": "4000k",
+      "bufsize": "8000k",
+      "pixel_format": "yuv420p",
+      "ffmpeg_threads": 2
+    }
+  }
+}

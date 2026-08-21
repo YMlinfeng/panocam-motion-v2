@@ -15,8 +15,22 @@ Panocam Motion V2 是一个从零重写的全景视频虚拟运镜项目。当�
 
 - 公开 GitHub 仓库：<https://github.com/YMlinfeng/panocam-motion-v2>
 - 100-case 高清网页：<https://ymlinfeng.github.io/panocam-motion-v2/>
+- 20-case 真实位移实验：<https://ymlinfeng.github.io/panocam-motion-v2/translation/>
 
 网页发布分支为 `gh-pages`，主分支 `main` 保存完整代码、两份文档、生产清单、验证台账和同一份网页资源。
+
+## 真实位移补充实验
+
+`scripts/translation_pairs.py` 使用移动全景相机视频本身提供真实空间位移：每个
+ref/target 都来自同一源视频中尽量远的两个时间窗口。独立演示页包含 10 个原生
+位移 case 和 10 个“真实位移 + 两侧同步虚拟旋转”case，每侧原速 10 秒、20fps，
+像素数不超过 960×960。该方法适合静态或近静态环境；若场景内有显著动态物体，
+两个时间窗口不会保持逐帧语义同步，需要在全量生产前单独筛查。
+
+```bash
+local/.venv/bin/python scripts/translation_pairs.py all \
+  --source-dir /Users/bytedance/Downloads/数据集 --workers 2
+```
 
 ## 一键开始
 
