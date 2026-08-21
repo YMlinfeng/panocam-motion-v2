@@ -34,7 +34,9 @@ local/.venv/bin/python scripts/translation_pairs.py all \
 
 `scripts/translation_same_longitude_demo.py` 是进一步独立的纯二维实验：每个 pair
 共享同一源帧、同一 yaw 和同一个透视母平面，只在母平面主点同侧截取上下两个
-不重叠偏轴窗口；其中 10 组保留原生移动，另 10 组叠加完全相同的旋转增量。
+不重叠偏轴窗口；原生移动统一为 0.50×，上下 REF/TARGET 角色和裁框高度随机，
+上框以 75% 概率分配给 TARGET。10 组保留原生移动，另 10 组叠加随机速度但两侧
+完全相同的旋转增量；网页逐路展示 ERP 经纬度与像素覆盖范围。
 
 ## 一键开始
 

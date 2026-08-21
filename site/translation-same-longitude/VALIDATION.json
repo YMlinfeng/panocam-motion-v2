@@ -8,6 +8,22 @@
     "translation_only": 10,
     "translation_rotation": 10
   },
+  "upper_window_assignment": {
+    "target": 15,
+    "ref": 5
+  },
+  "rotation_speed_multipliers": [
+    1.005,
+    1.351,
+    0.691,
+    1.223,
+    1.351,
+    1.244,
+    0.79,
+    1.123,
+    1.001,
+    0.927
+  ],
   "rules": {
     "two_dimensional_erp_projection_only": true,
     "same_source_time_and_frame_sequence": true,
@@ -17,6 +33,11 @@
     "no_mirror": true,
     "no_stabilization_or_motion_transfer": true,
     "same_added_rotation_delta_within_pair": true,
+    "baseline_source_speed_factor": 0.5,
+    "rotation_speed_randomized_per_combined_case": true,
+    "upper_window_assignment": "random with 75% TARGET bias",
+    "crop_vertical_position_randomized_per_case": true,
+    "output_hfov_deg": 80.0,
     "forward_backward_projection_may_differ": true,
     "duration_seconds": 10.0,
     "fps": 20,
@@ -31,8 +52,8 @@
       "height": 720,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5402000,
-      "sha256": "0ec6567a2e7ee24936c8d9cc0397faf1ae5238acb734ef112b83669bc1c6efbc"
+      "bytes": 8083157,
+      "sha256": "5b0a8206c15baecb4e228d32efdd9fca72added5f01b186bed685e63a45e90f7"
     },
     {
       "case_id": "same_longitude_01",
@@ -42,8 +63,8 @@
       "height": 720,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5399871,
-      "sha256": "685599f25310c8829e1e879607387e31dfbb67e43ad84b7e3593cb3304da00f4"
+      "bytes": 6330567,
+      "sha256": "127424ff4f8ae73d7cda9b6c58af9bf3fb64cda8ee9f150d65d82ab8fe4e884f"
     },
     {
       "case_id": "same_longitude_02",
@@ -53,8 +74,8 @@
       "height": 640,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5395775,
-      "sha256": "f9c0ba99d1770be6ee6cd63d3b711375838976c80c81020a8807056e82571ed0"
+      "bytes": 6213438,
+      "sha256": "1106659d15a3ca855886d894f941fa9a8d70c3d5622208e30ddfa421d77f611e"
     },
     {
       "case_id": "same_longitude_02",
@@ -64,8 +85,8 @@
       "height": 640,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5389932,
-      "sha256": "69b28171b6af5162f44cccb11893bc433a486058dc7d06a9d80aec8006db6dcb"
+      "bytes": 8055818,
+      "sha256": "349eec19f4b53040cd0ad4d4442bd2c3acae459b5ce853409307329c7b5c6cfc"
     },
     {
       "case_id": "same_longitude_03",
@@ -75,8 +96,8 @@
       "height": 672,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5376708,
-      "sha256": "3266ebacf899c8ac0d35eb4866972c1921d7b6677f1f2264e6f1b3d9c59c4f7c"
+      "bytes": 6644073,
+      "sha256": "438ad4cf2224f67f195af370132189fb615564ad9ba6c6f23a5dbb5225a5dd3c"
     },
     {
       "case_id": "same_longitude_03",
@@ -86,52 +107,52 @@
       "height": 672,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5384703,
-      "sha256": "5d253e25f5ae52669e4232689a50f9f626dbafe18c0c038faa50d4b786ec8196"
+      "bytes": 8089053,
+      "sha256": "f802b75b8558bcb624510127f5c8fd377ca03e47c4615c79e079d000d22bdf5e"
     },
     {
       "case_id": "same_longitude_04",
       "side": "ref",
       "path": "site/translation-same-longitude/media/cases/same_longitude_04/ref.mp4",
-      "width": 1104,
-      "height": 832,
+      "width": 1536,
+      "height": 600,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5387357,
-      "sha256": "4bb57ab0107e8b5c25b511a1765f307a681077d26e09314ddccf2472eb1afeb2"
+      "bytes": 7363669,
+      "sha256": "8ac87eff5aa56ff2d7b1a55630a03a7cac0db729df71d3a205f6aac8807e6cef"
     },
     {
       "case_id": "same_longitude_04",
       "side": "target",
       "path": "site/translation-same-longitude/media/cases/same_longitude_04/target.mp4",
-      "width": 1104,
-      "height": 832,
+      "width": 1536,
+      "height": 600,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5371074,
-      "sha256": "9372e780b53d6288ed7750de4365de094a995991eba40b758295e3b6a9ae6ba3"
+      "bytes": 8059116,
+      "sha256": "4f473996f967cdfe9c92cc469300ab50ae8bb8f9143a4afac987efb7d09ba14e"
     },
     {
       "case_id": "same_longitude_05",
       "side": "ref",
       "path": "site/translation-same-longitude/media/cases/same_longitude_05/ref.mp4",
-      "width": 1072,
-      "height": 856,
+      "width": 1600,
+      "height": 576,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5376070,
-      "sha256": "38cd1ac220f7a2baf982b8f937379cf5a4b3ec775778fd6b650748ef3b56fa1d"
+      "bytes": 8058302,
+      "sha256": "33e3733f8965412f0ef2706728665e3dd0b7fb86495e45155805a46213f86318"
     },
     {
       "case_id": "same_longitude_05",
       "side": "target",
       "path": "site/translation-same-longitude/media/cases/same_longitude_05/target.mp4",
-      "width": 1072,
-      "height": 856,
+      "width": 1600,
+      "height": 576,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5399092,
-      "sha256": "ab4da252b3f65045d1e6a34203251ad158a1077d6e468fd7166ab28a3ef16a23"
+      "bytes": 7411971,
+      "sha256": "024cfb8270661a27eddf4b62d49c4cafda87c92150725fba9818411968f8732e"
     },
     {
       "case_id": "same_longitude_06",
@@ -141,8 +162,8 @@
       "height": 720,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5399372,
-      "sha256": "db72fd6188f53673e2c355aee3351a6d548330c2747f0aa5f4adeb92b647eb39"
+      "bytes": 6952893,
+      "sha256": "2b360b921bf62b90608d9f18dbac3af721041ea02421fb81291515136c418a46"
     },
     {
       "case_id": "same_longitude_06",
@@ -152,8 +173,8 @@
       "height": 720,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5402577,
-      "sha256": "9200c1b2b658d01efb057dcc9d17f0350c5171989a962ba161bf6611849057fd"
+      "bytes": 8091147,
+      "sha256": "0437e0a78ffec81a6d54958cd42beeb230bd049a61f3c188b2bb8f6008cfba70"
     },
     {
       "case_id": "same_longitude_07",
@@ -163,8 +184,8 @@
       "height": 640,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5381602,
-      "sha256": "ed0a92c354ba732e643a1d185bb9550c22f651e11882dc5e5b1e4fb2c7d6f9a3"
+      "bytes": 7937229,
+      "sha256": "6ed0f6f42652143e71725365b6c1578e95f0ad265115046d5086d73c0ad26b00"
     },
     {
       "case_id": "same_longitude_07",
@@ -174,8 +195,8 @@
       "height": 640,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5390181,
-      "sha256": "61a4c2832c1d4ef41e31ef418b84ca64a5ce683a5518d438b4133ceb5070f638"
+      "bytes": 8051880,
+      "sha256": "18057eb701a648a1afcbcb4d3510d384a3d05d9d5adcced20511434d35b0b212"
     },
     {
       "case_id": "same_longitude_08",
@@ -185,8 +206,8 @@
       "height": 672,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5356098,
-      "sha256": "65b7f72d922796313c37fc49ba424c9e780ad118164f40ca712761df20c39ccd"
+      "bytes": 7903228,
+      "sha256": "13c2a8e804d899468ca1e6fefa4c4d6b466bca24e47f95a1389815f1d83f4bce"
     },
     {
       "case_id": "same_longitude_08",
@@ -196,52 +217,52 @@
       "height": 672,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5376791,
-      "sha256": "d2fe94a716639a79d2cbfa4512808006670296ac68329919e66a174c30b2e343"
+      "bytes": 8057364,
+      "sha256": "23b8a21fbea7502520ecf285542f8c8ca57a55ca03e734b5ff1b9338893e89c5"
     },
     {
       "case_id": "same_longitude_09",
       "side": "ref",
       "path": "site/translation-same-longitude/media/cases/same_longitude_09/ref.mp4",
-      "width": 1104,
-      "height": 832,
+      "width": 1536,
+      "height": 600,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5386768,
-      "sha256": "1cdc7336802fa3b7d634e86090d6ef7bd4fcbe291985a21bc269657e9afaa728"
+      "bytes": 6910344,
+      "sha256": "92754ab5082f8eb7dba76d4c622f88ca116ac928cc404052b258f34cd24f9015"
     },
     {
       "case_id": "same_longitude_09",
       "side": "target",
       "path": "site/translation-same-longitude/media/cases/same_longitude_09/target.mp4",
-      "width": 1104,
-      "height": 832,
+      "width": 1536,
+      "height": 600,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5395586,
-      "sha256": "cd9b3854bb2e75a654178af748a6edd9dde3ed51c9bb809a5f4b0e6afc537675"
+      "bytes": 8099021,
+      "sha256": "8e686cc0437242d68c582a2c447366cdf7c5fb1f64bcfe36a6f9dbba8b4c66da"
     },
     {
       "case_id": "same_longitude_10",
       "side": "ref",
       "path": "site/translation-same-longitude/media/cases/same_longitude_10/ref.mp4",
-      "width": 1072,
-      "height": 856,
+      "width": 1600,
+      "height": 576,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5404462,
-      "sha256": "44bc8a1d6ce9f8052523f63eecd867e4a2108ecc356d167f5438aa185dbb536a"
+      "bytes": 8124962,
+      "sha256": "2f69e5c156cdf1d606a6ca3760e7fecc80baa5241a603ed7367105b86d297a0f"
     },
     {
       "case_id": "same_longitude_10",
       "side": "target",
       "path": "site/translation-same-longitude/media/cases/same_longitude_10/target.mp4",
-      "width": 1072,
-      "height": 856,
+      "width": 1600,
+      "height": 576,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5388200,
-      "sha256": "167c6df5b1ddb9ed6b941aed305f2006086f6312ae982f5ec916576f70c7f6da"
+      "bytes": 8118540,
+      "sha256": "c1dca176eabcef236c401f9b44cb12a1c9efb3994c954493885501e35a30127a"
     },
     {
       "case_id": "same_longitude_rotation_01",
@@ -251,8 +272,8 @@
       "height": 720,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5384939,
-      "sha256": "01da1abce298472bf34b7d775ffcae7969465758e91b994a3f439a4b46567fdb"
+      "bytes": 7223958,
+      "sha256": "192f406c7f1735ed503b3bbfe868354d44a72837df9b799e3b32ebe688cd3406"
     },
     {
       "case_id": "same_longitude_rotation_01",
@@ -262,8 +283,8 @@
       "height": 720,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5399442,
-      "sha256": "f639ac1d2e1b9a927d83f66f8d3b59dd483e7ddb663668d1e64ccf1013802a7e"
+      "bytes": 8033146,
+      "sha256": "992bf2c4ecd7f9a556340b36e500e0cb06c85d2d4415a42dc387ca26869dce50"
     },
     {
       "case_id": "same_longitude_rotation_02",
@@ -273,8 +294,8 @@
       "height": 640,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5382674,
-      "sha256": "76bab9b812320ac76d1e4aa24ca2ee9a88e51360ddf951455af39b011729bfd0"
+      "bytes": 7110749,
+      "sha256": "29e9322d52f42463fe778e7862c86a8088a3d5d7b30cbdbff008c4e6aee27959"
     },
     {
       "case_id": "same_longitude_rotation_02",
@@ -284,8 +305,8 @@
       "height": 640,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5388965,
-      "sha256": "c2d7b7821c64637c82751d684245bc27aacb582831eb5b9d8688feae6318be48"
+      "bytes": 8078719,
+      "sha256": "e5615ea7c6a1be40923b621520065a2a7fa0424d3acce0ce0288d45234985625"
     },
     {
       "case_id": "same_longitude_rotation_03",
@@ -295,8 +316,8 @@
       "height": 672,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5394987,
-      "sha256": "a81bc2c4a11a387048a4c9ee4504d0ca227c5e2c5d633912ba82a0d947a60aea"
+      "bytes": 7466047,
+      "sha256": "0055cb8ed92f9b091d1c3c1fb3c3285c9424fc2fded713ab72ce635ca9a84380"
     },
     {
       "case_id": "same_longitude_rotation_03",
@@ -306,52 +327,52 @@
       "height": 672,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5392408,
-      "sha256": "d06078d1dce7cb73d25a9d6ce9e156ccfc47dd4fc88627b3fff850d1170d0b4e"
+      "bytes": 8089298,
+      "sha256": "e247547414035d3553f61a9e06bda02c4be012da70bfaeff907108f1492c4094"
     },
     {
       "case_id": "same_longitude_rotation_04",
       "side": "ref",
       "path": "site/translation-same-longitude/media/cases/same_longitude_rotation_04/ref.mp4",
-      "width": 1104,
-      "height": 832,
+      "width": 1536,
+      "height": 600,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5382662,
-      "sha256": "ba02b1ac6756a29fd7a8822fb31786fc8f23688aa8354484df270085e9bfa7ac"
+      "bytes": 7603068,
+      "sha256": "0f481514e5f6efc0da87ecb38319bf84f1c565bfae50b827a02b1587283e016c"
     },
     {
       "case_id": "same_longitude_rotation_04",
       "side": "target",
       "path": "site/translation-same-longitude/media/cases/same_longitude_rotation_04/target.mp4",
-      "width": 1104,
-      "height": 832,
+      "width": 1536,
+      "height": 600,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5382808,
-      "sha256": "256830828d633c5c9d714a78d754d67f02f4eb851b6c59998ab2de28ee3ae557"
+      "bytes": 8079297,
+      "sha256": "caad203391f2f00d79654e5e820c741b2e0a929b85d13fc4d366b06f6dc73a7e"
     },
     {
       "case_id": "same_longitude_rotation_05",
       "side": "ref",
       "path": "site/translation-same-longitude/media/cases/same_longitude_rotation_05/ref.mp4",
-      "width": 1072,
-      "height": 856,
+      "width": 1600,
+      "height": 576,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5371231,
-      "sha256": "305a32607f10afa52088b11f6b957e9d409b07e3ee2a9497cd7d6cfa3e99b77d"
+      "bytes": 8099660,
+      "sha256": "1e9960750dbdd3eed0bd92c739dbd1174a9a2768f0dc4fa08132fe96e3bcd1f9"
     },
     {
       "case_id": "same_longitude_rotation_05",
       "side": "target",
       "path": "site/translation-same-longitude/media/cases/same_longitude_rotation_05/target.mp4",
-      "width": 1072,
-      "height": 856,
+      "width": 1600,
+      "height": 576,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5379268,
-      "sha256": "af3663efc8621029b74892a6178b83eb38d69bd31dcf24e7f25ba4719e271887"
+      "bytes": 8105920,
+      "sha256": "88d4ce94a39313447d203ea68b4ed6017b6fbda8341ab1e7194f16e38dae4f44"
     },
     {
       "case_id": "same_longitude_rotation_06",
@@ -361,8 +382,8 @@
       "height": 720,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5381198,
-      "sha256": "f80f6e5d6db7fec9fafce0f93869cefb15edd6582425fedf6abccdcabeaf444a"
+      "bytes": 8053824,
+      "sha256": "7ebe739b0373fc6da18d0507b9e8379f3e69e7a527b9c496298cf0c6d1a4aeb1"
     },
     {
       "case_id": "same_longitude_rotation_06",
@@ -372,8 +393,8 @@
       "height": 720,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5354396,
-      "sha256": "7dc5151cd649ffc68e8f2f85018c7264c0f3af322e43f690c5ae6080b196cd5c"
+      "bytes": 8042178,
+      "sha256": "194eedaee549aba3fff447debfd8e8963f3651a1dae2f02b237b45a19da8ce28"
     },
     {
       "case_id": "same_longitude_rotation_07",
@@ -383,8 +404,8 @@
       "height": 640,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5388142,
-      "sha256": "573492bf1fb07e7b7d2826bb024ffac5569574a1fc8139c90a5b709945b152fe"
+      "bytes": 8043966,
+      "sha256": "b05c9f13e3d6b3facab68d4ae2c1b8aeef9baf7dd2ee4bcb137ac9c00c1ca808"
     },
     {
       "case_id": "same_longitude_rotation_07",
@@ -394,8 +415,8 @@
       "height": 640,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5397625,
-      "sha256": "4ed9700e06ebe0729175f5676c001ad401323526d5e7476be64654496bd41f92"
+      "bytes": 7426604,
+      "sha256": "bb2b9bc186c470791162b068dc118bddb5eb79259d2f8c740702adfdac10164f"
     },
     {
       "case_id": "same_longitude_rotation_08",
@@ -405,8 +426,8 @@
       "height": 672,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5399282,
-      "sha256": "1b0ae7053a4cf37a2cf8b42dfd9584ddd0adda2518e52fb4acf76c01482afebc"
+      "bytes": 8048004,
+      "sha256": "967128fc57e2bf03c75a05512da898479a8022399a01e12a9f81ed466fa85ab0"
     },
     {
       "case_id": "same_longitude_rotation_08",
@@ -416,52 +437,52 @@
       "height": 672,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5381213,
-      "sha256": "62bafc90913a5b84efc5e1937625b45c157d5d78719bc07d3800b060552f038d"
+      "bytes": 8116757,
+      "sha256": "a75511ae3dbeebb9915d429867ec0368e3d172da268e5092913d0961219fd3bc"
     },
     {
       "case_id": "same_longitude_rotation_09",
       "side": "ref",
       "path": "site/translation-same-longitude/media/cases/same_longitude_rotation_09/ref.mp4",
-      "width": 1104,
-      "height": 832,
+      "width": 1536,
+      "height": 600,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5401091,
-      "sha256": "28ef67bb51e146776416bbd7e968b33f98ed4f7cab05e76495ec78835292f175"
+      "bytes": 8067425,
+      "sha256": "3a19608fde59b849de64cc97a165dc4b765ca89cf24a4f9e7cb18bc5a039f89b"
     },
     {
       "case_id": "same_longitude_rotation_09",
       "side": "target",
       "path": "site/translation-same-longitude/media/cases/same_longitude_rotation_09/target.mp4",
-      "width": 1104,
-      "height": 832,
+      "width": 1536,
+      "height": 600,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5398070,
-      "sha256": "076f13a6c7e9995fa7b93a3f090dad9242130edd332b0ca65d816155675d5851"
+      "bytes": 8070586,
+      "sha256": "967fe6695ca47f0021c462a2ee0ce8f47f3b3cf680cfa5ed0a99ae18f458fdb4"
     },
     {
       "case_id": "same_longitude_rotation_10",
       "side": "ref",
       "path": "site/translation-same-longitude/media/cases/same_longitude_rotation_10/ref.mp4",
-      "width": 1072,
-      "height": 856,
+      "width": 1600,
+      "height": 576,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5413475,
-      "sha256": "c6d014058b2b5fea669877e68f883d569d5de09d70291162c19e198e25005614"
+      "bytes": 8087211,
+      "sha256": "3cd20e184fcf8fc56d710263feae97f8b4ad920ba55aa969e199930e27b85579"
     },
     {
       "case_id": "same_longitude_rotation_10",
       "side": "target",
       "path": "site/translation-same-longitude/media/cases/same_longitude_rotation_10/target.mp4",
-      "width": 1072,
-      "height": 856,
+      "width": 1600,
+      "height": 576,
       "fps": 20.0,
       "duration_seconds": 10.0,
-      "bytes": 5393485,
-      "sha256": "be66e2354440c052e513bee7cd746eb47d7e69ad12ab4bb32bdc0f95fd7d83a4"
+      "bytes": 8061120,
+      "sha256": "b3f3cde65c9d13c7c92319418d06adfb464aab5f9869064709adf3704abaf635"
     }
   ]
 }

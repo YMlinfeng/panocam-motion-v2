@@ -25,6 +25,7 @@ from html import escape
 import json
 import math
 from pathlib import Path
+import random
 import sys
 from typing import Any
 
@@ -58,16 +59,19 @@ DURATION_SECONDS = 10.0
 FPS = 20
 FRAME_COUNT = int(DURATION_SECONDS * FPS)
 MAX_PIXELS = 960 * 960
-OUTPUT_HFOV_DEG = 40.0
+SOURCE_SPEED_FACTOR = 0.5
+SOURCE_SPAN_SECONDS = DURATION_SECONDS * SOURCE_SPEED_FACTOR
+OUTPUT_HFOV_DEG = 80.0
 MASTER_PRINCIPAL_Y_RATIO = -0.15
 CROP_GAP_RATIO = 0.32
+RANDOM_SEED = 20260822
 
 RESOLUTIONS = [
     [1280, 720],
     [1440, 640],
     [1344, 672],
-    [1104, 832],
-    [1072, 856],
+    [1536, 600],
+    [1600, 576],
 ] * 4
 
 PURE_YAWS = [-70.0, -55.0, -40.0, -25.0, -10.0, 10.0, 25.0, 40.0, 55.0, 70.0]
@@ -78,10 +82,10 @@ def load_render_config() -> dict[str, Any]:
     config = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8"))
     config["render"] = {
         **config["render"],
-        "crf": 20,
+        "crf": 18,
         "preset": "fast",
-        "maxrate": "4000k",
-        "bufsize": "8000k",
+        "maxrate": "6000k",
+        "bufsize": "12000k",
     }
     return config
 
@@ -89,7 +93,7 @@ def load_render_config() -> dict[str, Any]:
 class SharedClipReader:
     """pair 内唯一的源 reader，确保两侧永远使用同一个源帧索引。"""
 
-    def __init__(self, path: Path, start_seconds: float) -> None:
+    def __init__(self, path: Path, start_seconds: float, speed_factor: float) -> None:
         self.path = path
         self.capture = cv2.VideoCapture(str(path))
         if not self.capture.isOpened():
@@ -98,6 +102,7 @@ class SharedClipReader:
         if self.source_fps <= 0:
             raise RuntimeError(f"源 fps 无效：{path}")
         self.start_frame = int(round(start_seconds * self.source_fps))
+        self.speed_factor = float(speed_factor)
         self.capture.set(cv2.CAP_PROP_POS_FRAMES, self.start_frame)
         self.current_source_index = self.start_frame - 1
         self.current_frame: np.ndarray | None = None
@@ -105,7 +110,9 @@ class SharedClipReader:
         self.height = int(self.capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
     def frame(self, output_index: int) -> np.ndarray:
-        desired = self.start_frame + int(round(output_index * self.source_fps / FPS))
+        desired = self.start_frame + int(
+            round(output_index * self.source_fps / FPS * self.speed_factor)
+        )
         while self.current_source_index < desired:
             ok, frame = self.capture.read()
             if not ok:
@@ -121,13 +128,13 @@ class SharedClipReader:
 
 
 def evenly_spaced_starts(duration: float, count: int) -> list[float]:
-    latest = duration - DURATION_SECONDS
+    latest = duration - SOURCE_SPAN_SECONDS
     if latest < -0.03:
-        raise ValueError(f"源视频不足 10 秒：{duration:.3f}s")
+        raise ValueError(f"源视频不足 {SOURCE_SPAN_SECONDS:.1f} 秒：{duration:.3f}s")
     return [round(float(value), 3) for value in np.linspace(0.0, max(0.0, latest), count)]
 
 
-def rotation_spec(index: int) -> dict[str, Any]:
+def rotation_spec(index: int, rng: random.Random) -> dict[str, Any]:
     specs = [
         ("持续右摇+轻仰", "linear", 20.0, 6.0, 0.0),
         ("持续左摇+轻俯", "linear_reverse", 22.0, 7.0, 0.0),
@@ -141,17 +148,20 @@ def rotation_spec(index: int) -> dict[str, Any]:
         ("双脉冲甩镜", "double_whip", 22.0, 7.0, 0.0),
     ]
     name, pattern, yaw, pitch, roll = specs[index]
+    speed_multiplier = round(rng.uniform(0.55, 1.45), 3)
     return {
         "name": name,
         "pattern": pattern,
         "yaw_amplitude_deg": yaw,
         "pitch_amplitude_deg": pitch,
         "roll_amplitude_deg": roll,
+        "speed_multiplier": speed_multiplier,
     }
 
 
 def build_plan(source_dir: Path) -> dict[str, Any]:
     source_dir = source_dir.expanduser().resolve()
+    rng = random.Random(RANDOM_SEED)
     source_rules = {"NSC.mp4": 14, "NSK.mp4": 4, "FTP.mp4": 2}
     pools: dict[str, list[float]] = {}
     sources: list[dict[str, Any]] = []
@@ -179,6 +189,11 @@ def build_plan(source_dir: Path) -> dict[str, Any]:
     pure_sources = ["NSC.mp4"] * 7 + ["NSK.mp4"] * 2 + ["FTP.mp4"]
     combined_sources = ["NSC.mp4"] * 7 + ["NSK.mp4"] * 2 + ["FTP.mp4"]
     used = {name: 0 for name in pools}
+    pure_upper_roles = ["target"] * 7 + ["ref"] * 3
+    combined_upper_roles = ["target"] * 8 + ["ref"] * 2
+    rng.shuffle(pure_upper_roles)
+    rng.shuffle(combined_upper_roles)
+    upper_roles = pure_upper_roles + combined_upper_roles
     cases: list[dict[str, Any]] = []
     for combined, sequence in ((False, pure_sources), (True, combined_sources)):
         for index, filename in enumerate(sequence):
@@ -190,6 +205,34 @@ def build_plan(source_dir: Path) -> dict[str, Any]:
                 else f"same_longitude_{index + 1:02d}"
             )
             yaw = COMBINED_YAWS[index] if combined else PURE_YAWS[index]
+            width, height = RESOLUTIONS[len(cases)]
+            # 每个 case 独立随机上下位置。两个等尺寸窗口在共同母平面内严格不重叠，
+            # 同时限制最下缘视角，避免逼近 ERP 南极造成极端拉伸。
+            for _ in range(100):
+                principal_ratio = rng.uniform(-0.10, 0.02)
+                upper_origin_ratio = rng.uniform(0.02, 0.18)
+                gap_ratio = rng.uniform(0.12, 0.30)
+                focal = width / (2.0 * math.tan(math.radians(OUTPUT_HFOV_DEG) / 2.0))
+                principal_y = height * principal_ratio
+                upper_origin = height * upper_origin_ratio
+                lower_origin = upper_origin + height * (1.0 + gap_ratio)
+                upper_bottom = math.degrees(
+                    math.atan2(upper_origin + height - 0.5 - principal_y, focal)
+                )
+                lower_top = math.degrees(
+                    math.atan2(lower_origin + 0.5 - principal_y, focal)
+                )
+                lower_bottom = math.degrees(
+                    math.atan2(lower_origin + height - 0.5 - principal_y, focal)
+                )
+                upper_top = math.degrees(
+                    math.atan2(upper_origin + 0.5 - principal_y, focal)
+                )
+                if lower_top - upper_bottom > 3.0 and lower_bottom < 72.0 and upper_top > 0.0:
+                    break
+            else:
+                raise RuntimeError(f"无法为 {case_id} 采样安全上下窗口")
+            upper_side = upper_roles[len(cases)]
             cases.append(
                 {
                     "id": case_id,
@@ -199,18 +242,22 @@ def build_plan(source_dir: Path) -> dict[str, Any]:
                     "ref_start_seconds": start,
                     "target_start_seconds": start,
                     "duration_seconds": DURATION_SECONDS,
+                    "source_span_seconds": SOURCE_SPAN_SECONDS,
+                    "source_speed_factor": SOURCE_SPEED_FACTOR,
                     "fps": FPS,
-                    "resolution": RESOLUTIONS[len(cases)],
+                    "resolution": [width, height],
                     "shared_yaw_deg": yaw,
                     "ref_view": {"yaw_deg": yaw, "pitch_deg": 0.0, "roll_deg": 0.0},
                     "target_view": {"yaw_deg": yaw, "pitch_deg": 0.0, "roll_deg": 0.0},
                     "off_axis_layout": {
-                        "master_principal_y_ratio": MASTER_PRINCIPAL_Y_RATIO,
-                        "crop_gap_ratio": CROP_GAP_RATIO,
-                        "ref_crop": "upper",
-                        "target_crop": "lower",
+                        "master_principal_y_ratio": round(principal_ratio, 6),
+                        "upper_origin_y_ratio": round(upper_origin_ratio, 6),
+                        "crop_gap_ratio": round(gap_ratio, 6),
+                        "upper_side": upper_side,
+                        "ref_crop": "upper" if upper_side == "ref" else "lower",
+                        "target_crop": "upper" if upper_side == "target" else "lower",
                     },
-                    "virtual_rotation": rotation_spec(index) if combined else None,
+                    "virtual_rotation": rotation_spec(index, rng) if combined else None,
                 }
             )
 
@@ -226,6 +273,11 @@ def build_plan(source_dir: Path) -> dict[str, Any]:
             "no_mirror": True,
             "no_stabilization_or_motion_transfer": True,
             "same_added_rotation_delta_within_pair": True,
+            "baseline_source_speed_factor": SOURCE_SPEED_FACTOR,
+            "rotation_speed_randomized_per_combined_case": True,
+            "upper_window_assignment": "random with 75% TARGET bias",
+            "crop_vertical_position_randomized_per_case": True,
+            "output_hfov_deg": OUTPUT_HFOV_DEG,
             "forward_backward_projection_may_differ": True,
             "duration_seconds": DURATION_SECONDS,
             "fps": FPS,
@@ -259,9 +311,11 @@ def common_rotation(case: dict[str, Any]) -> dict[str, Any]:
         roll = np.zeros(FRAME_COUNT, np.float32)
     else:
         spec = case["virtual_rotation"]
-        ya = float(spec["yaw_amplitude_deg"])
-        pa = float(spec["pitch_amplitude_deg"])
-        ra = float(spec["roll_amplitude_deg"])
+        speed = float(spec["speed_multiplier"])
+        # 固定 10 秒内通过缩放总角位移改变平均角速度；两侧仍共享同一数组。
+        ya = float(spec["yaw_amplitude_deg"]) * speed
+        pa = float(spec["pitch_amplitude_deg"]) * speed
+        ra = float(spec["roll_amplitude_deg"]) * speed
         pattern = spec["pattern"]
         if pattern == "linear":
             yaw, pitch, roll = ya * (p - 0.5), pa * (p - 0.5), np.zeros_like(p)
@@ -297,13 +351,22 @@ def common_rotation(case: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def off_axis_geometry(width: int, height: int) -> dict[str, Any]:
+def off_axis_geometry(width: int, height: int, case: dict[str, Any]) -> dict[str, Any]:
     """计算共同母平面和两个纵向偏轴裁框的内参位置。"""
 
     focal = width / (2.0 * math.tan(math.radians(OUTPUT_HFOV_DEG) / 2.0))
-    gap = height * CROP_GAP_RATIO
-    principal_y = height * MASTER_PRINCIPAL_Y_RATIO
-    origins = {"ref": 0.0, "target": height + gap}
+    layout = case["off_axis_layout"]
+    gap = height * float(layout.get("crop_gap_ratio", CROP_GAP_RATIO))
+    principal_y = height * float(
+        layout.get("master_principal_y_ratio", MASTER_PRINCIPAL_Y_RATIO)
+    )
+    upper_origin = height * float(layout.get("upper_origin_y_ratio", 0.0))
+    lower_origin = upper_origin + height + gap
+    upper_side = str(layout.get("upper_side", "ref"))
+    origins = {
+        upper_side: upper_origin,
+        "target" if upper_side == "ref" else "ref": lower_origin,
+    }
     rows: dict[str, Any] = {}
     for side, origin_y in origins.items():
         top_angle = math.degrees(math.atan2(origin_y + 0.5 - principal_y, focal))
@@ -315,25 +378,30 @@ def off_axis_geometry(width: int, height: int) -> dict[str, Any]:
         )
         rows[side] = {
             "origin_y": origin_y,
+            "crop_role": "upper" if side == upper_side else "lower",
             "top_down_angle_deg": top_angle,
             "bottom_down_angle_deg": bottom_angle,
             "effective_center_pitch_deg": -center_angle,
         }
-    margin = rows["target"]["top_down_angle_deg"] - rows["ref"]["bottom_down_angle_deg"]
+    upper_row = rows[upper_side]
+    lower_side = "target" if upper_side == "ref" else "ref"
+    lower_row = rows[lower_side]
+    margin = lower_row["top_down_angle_deg"] - upper_row["bottom_down_angle_deg"]
     return {
         "focal_px": focal,
         "principal_x": width / 2.0,
         "principal_y": principal_y,
         "gap_px": gap,
+        "upper_side": upper_side,
         "sides": rows,
         "vertical_nonoverlap_margin_deg": margin,
     }
 
 
-def off_axis_rays(width: int, height: int, side: str) -> np.ndarray:
+def off_axis_rays(width: int, height: int, side: str, case: dict[str, Any]) -> np.ndarray:
     """生成共享外参、不同纵向主点位置的偏轴透视射线。"""
 
-    geometry = off_axis_geometry(width, height)
+    geometry = off_axis_geometry(width, height, case)
     origin_y = float(geometry["sides"][side]["origin_y"])
     xs = (
         np.arange(width, dtype=np.float32)
@@ -356,11 +424,12 @@ def sampled_off_axis_longitudes(
     width: int,
     height: int,
     side: str,
+    case: dict[str, Any],
     yaw_deg: float,
     pitch_deg: float,
     roll_deg: float,
 ) -> np.ndarray:
-    geometry = off_axis_geometry(width, height)
+    geometry = off_axis_geometry(width, height, case)
     origin_y = float(geometry["sides"][side]["origin_y"])
     xs = np.linspace(0.5, width - 0.5, 5, dtype=np.float32)
     ys = np.linspace(0.5, height - 0.5, 5, dtype=np.float32)
@@ -376,7 +445,7 @@ def sampled_off_axis_longitudes(
 
 def trajectory_report(case: dict[str, Any], config: dict[str, Any]) -> dict[str, Any]:
     width, height = map(int, case["resolution"])
-    geometry = off_axis_geometry(width, height)
+    geometry = off_axis_geometry(width, height, case)
     common = common_rotation(case)
     max_longitudes: dict[str, float] = {}
     for side in ("ref", "target"):
@@ -387,6 +456,7 @@ def trajectory_report(case: dict[str, Any], config: dict[str, Any]) -> dict[str,
                 width,
                 height,
                 side,
+                case,
                 float(base["yaw_deg"]) + float(common["delta_yaw_deg"][index]),
                 float(base["pitch_deg"]) + float(common["delta_pitch_deg"][index]),
                 float(base["roll_deg"]) + float(common["delta_roll_deg"][index]),
@@ -398,6 +468,14 @@ def trajectory_report(case: dict[str, Any], config: dict[str, Any]) -> dict[str,
         "master_focal_px": round(float(geometry["focal_px"]), 6),
         "master_principal_y_px": round(float(geometry["principal_y"]), 6),
         "crop_gap_px": round(float(geometry["gap_px"]), 6),
+        "upper_side": geometry["upper_side"],
+        "crop_role": {
+            side: geometry["sides"][side]["crop_role"] for side in ("ref", "target")
+        },
+        "crop_origin_y_px": {
+            side: round(float(geometry["sides"][side]["origin_y"]), 6)
+            for side in ("ref", "target")
+        },
         "effective_center_pitch_deg": {
             side: round(float(geometry["sides"][side]["effective_center_pitch_deg"]), 6)
             for side in ("ref", "target")
@@ -408,6 +486,16 @@ def trajectory_report(case: dict[str, Any], config: dict[str, Any]) -> dict[str,
         "max_abs_sampled_longitude_deg": {key: round(value, 6) for key, value in max_longitudes.items()},
         "seam_safe": max(max_longitudes.values()) <= 162.0,
         "same_relative_rotation_sha256": common["sha256"],
+        "source_speed_factor": float(case["source_speed_factor"]),
+        "rotation_speed_multiplier": (
+            float(case["virtual_rotation"]["speed_multiplier"])
+            if case["virtual_rotation"]
+            else 0.0
+        ),
+        "estimated_horizontal_source_pixels": round(3840.0 * OUTPUT_HFOV_DEG / 360.0, 3),
+        "estimated_horizontal_upscale_ratio": round(
+            width / (3840.0 * OUTPUT_HFOV_DEG / 360.0), 3
+        ),
     }
 
 
@@ -436,22 +524,33 @@ def render_case(
         return {"id": case["id"], "status": "skipped_existing", "bytes": 0}
 
     source_path = source_dir / case["source"]["file"]
-    reader = SharedClipReader(source_path, float(case["start_seconds"]))
+    reader = SharedClipReader(
+        source_path,
+        float(case["start_seconds"]),
+        float(case["source_speed_factor"]),
+    )
     width, height = map(int, case["resolution"])
     report = trajectory_report(case, config)
-    if report["vertical_nonoverlap_margin_deg"] <= 5.0:
+    if report["vertical_nonoverlap_margin_deg"] <= 3.0:
         raise RuntimeError(f"{case['id']} 上下取景框间隔不足：{report}")
     if not report["seam_safe"]:
         raise RuntimeError(f"{case['id']} 触及 ERP 接缝：{report}")
     common = common_rotation(case)
     rays_by_side = {
-        side: off_axis_rays(width, height, side) for side in ("ref", "target")
+        side: off_axis_rays(width, height, side, case) for side in ("ref", "target")
     }
     writers = {
         side: RawFFmpegWriter(path, width, height, FPS, config)
         for side, path in outputs.items()
     }
     fixed_maps: dict[str, tuple[np.ndarray, np.ndarray]] = {}
+    range_stats = {
+        side: {
+            "full": {"x_min": float("inf"), "x_max": float("-inf"), "y_min": float("inf"), "y_max": float("-inf")},
+            "initial": None,
+        }
+        for side in ("ref", "target")
+    }
     try:
         for frame_index in range(FRAME_COUNT):
             source_frame = reader.frame(frame_index)
@@ -470,6 +569,23 @@ def render_case(
                     )
                     if case["kind"] == "translation_only":
                         fixed_maps[side] = maps
+                current_range = {
+                    "x_min": float(np.min(maps[0])),
+                    "x_max": float(np.max(maps[0])),
+                    "y_min": float(np.min(maps[1])),
+                    "y_max": float(np.max(maps[1])),
+                }
+                if frame_index == 0:
+                    range_stats[side]["initial"] = dict(current_range)
+                for key, value in current_range.items():
+                    if key.endswith("min"):
+                        range_stats[side]["full"][key] = min(
+                            range_stats[side]["full"][key], value
+                        )
+                    else:
+                        range_stats[side]["full"][key] = max(
+                            range_stats[side]["full"][key], value
+                        )
                 output = cv2.remap(
                     source_frame,
                     maps[0],
@@ -494,9 +610,39 @@ def render_case(
 
     for side, path in outputs.items():
         make_poster(path, case_dir / f"{side}.jpg")
+
+    def public_range(values: dict[str, float]) -> dict[str, Any]:
+        return {
+            "erp_x_longitude_pixels": [
+                int(math.floor(values["x_min"])),
+                int(math.ceil(values["x_max"])),
+            ],
+            "longitude_degrees": [
+                round((values["x_min"] / reader.width - 0.5) * 360.0, 3),
+                round((values["x_max"] / reader.width - 0.5) * 360.0, 3),
+            ],
+            "erp_y_latitude_pixels": [
+                int(math.floor(values["y_min"])),
+                int(math.ceil(values["y_max"])),
+            ],
+            "latitude_degrees": [
+                round(90.0 - values["y_max"] / reader.height * 180.0, 3),
+                round(90.0 - values["y_min"] / reader.height * 180.0, 3),
+            ],
+        }
+
+    erp_ranges = {
+        side: {
+            "crop_role": off_axis_geometry(width, height, case)["sides"][side]["crop_role"],
+            "initial_frame": public_range(range_stats[side]["initial"]),
+            "full_trajectory_union": public_range(range_stats[side]["full"]),
+        }
+        for side in ("ref", "target")
+    }
     metadata = {
         "case": case,
         "trajectory_report": report,
+        "erp_ranges": erp_ranges,
         "synchronization": {
             "single_shared_source_reader": True,
             "same_source_start_seconds": float(case["start_seconds"]),
@@ -546,6 +692,18 @@ def validate(plan: dict[str, Any]) -> dict[str, Any]:
     files: list[dict[str, Any]] = []
     if len(plan["cases"]) != 20:
         errors.append("case 数量不是 20")
+    upper_target_count = sum(
+        case["off_axis_layout"]["upper_side"] == "target" for case in plan["cases"]
+    )
+    if upper_target_count != 15:
+        errors.append(f"上框分配给 TARGET 的数量不是 15：{upper_target_count}")
+    rotation_speeds = [
+        float(case["virtual_rotation"]["speed_multiplier"])
+        for case in plan["cases"]
+        if case["virtual_rotation"]
+    ]
+    if len(set(rotation_speeds)) < 8:
+        errors.append("后十个旋转速度缺少随机差异")
     for case in plan["cases"]:
         if not (
             case["start_seconds"]
@@ -555,6 +713,8 @@ def validate(plan: dict[str, Any]) -> dict[str, Any]:
             errors.append(f"{case['id']} 两侧时间不一致")
         if float(case["ref_view"]["yaw_deg"]) != float(case["target_view"]["yaw_deg"]):
             errors.append(f"{case['id']} 两侧经度不一致")
+        if abs(float(case["source_speed_factor"]) - SOURCE_SPEED_FACTOR) > 1e-9:
+            errors.append(f"{case['id']} 源移动速度不是 0.50×")
         metadata_path = MEDIA_ROOT / case["id"] / "metadata.json"
         if not metadata_path.exists():
             errors.append(f"缺少 {metadata_path.relative_to(PROJECT_ROOT)}")
@@ -562,16 +722,29 @@ def validate(plan: dict[str, Any]) -> dict[str, Any]:
         metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
         report = metadata["trajectory_report"]
         sync = metadata["synchronization"]
+        erp_ranges = metadata.get("erp_ranges", {})
         if not (
             report["same_yaw"]
             and report["same_master_extrinsics"]
-            and report["vertical_nonoverlap_margin_deg"] > 5.0
+            and report["vertical_nonoverlap_margin_deg"] > 3.0
             and report["seam_safe"]
             and sync["single_shared_source_reader"]
             and sync["same_source_frame_sequence"]
             and sync["ref_rotation_sha256"] == sync["target_rotation_sha256"]
         ):
             errors.append(f"{case['id']} 同经度/同步验证失败")
+        if float(report.get("estimated_horizontal_upscale_ratio", 99.0)) > 2.0:
+            errors.append(f"{case['id']} 有效源像素放大倍率仍过高")
+        for side in ("ref", "target"):
+            ranges = erp_ranges.get(side, {}).get("full_trajectory_union", {})
+            x_px = ranges.get("erp_x_longitude_pixels", [])
+            y_px = ranges.get("erp_y_latitude_pixels", [])
+            if len(x_px) != 2 or len(y_px) != 2:
+                errors.append(f"{case['id']} {side} 缺少 ERP 经纬度范围")
+            elif not (0 <= x_px[0] <= x_px[1] <= 3840 and 0 <= y_px[0] <= y_px[1] <= 1920):
+                errors.append(f"{case['id']} {side} ERP 范围越界")
+            elif y_px[0] <= 2 or y_px[1] >= 1918:
+                errors.append(f"{case['id']} {side} 过于接近 ERP 上下极点")
         pair_hashes: list[str] = []
         for side in ("ref", "target"):
             path = MEDIA_ROOT / case["id"] / f"{side}.mp4"
@@ -617,6 +790,11 @@ def validate(plan: dict[str, Any]) -> dict[str, Any]:
                 c["kind"] == "translation_rotation" for c in plan["cases"]
             ),
         },
+        "upper_window_assignment": {
+            "target": upper_target_count,
+            "ref": len(plan["cases"]) - upper_target_count,
+        },
+        "rotation_speed_multipliers": rotation_speeds,
         "rules": plan["rules"],
         "files": files,
     }
@@ -629,15 +807,25 @@ def validate(plan: dict[str, Any]) -> dict[str, Any]:
     return result
 
 
-def video_panel(case: dict[str, Any], side: str) -> str:
-    label = "REF · 上方取景框" if side == "ref" else "TARGET · 下方取景框"
+def video_panel(case: dict[str, Any], side: str, metadata: dict[str, Any]) -> str:
     width, height = map(int, case["resolution"])
-    pitch = float(off_axis_geometry(width, height)["sides"][side]["effective_center_pitch_deg"])
+    geometry = off_axis_geometry(width, height, case)
+    role = str(geometry["sides"][side]["crop_role"])
+    role_zh = "上方" if role == "upper" else "下方"
+    label = ("REF" if side == "ref" else "TARGET") + f" · {role_zh}取景框"
+    pitch = float(geometry["sides"][side]["effective_center_pitch_deg"])
+    ranges = metadata["erp_ranges"][side]["full_trajectory_union"]
+    x_px = ranges["erp_x_longitude_pixels"]
+    lon = ranges["longitude_degrees"]
+    y_px = ranges["erp_y_latitude_pixels"]
+    lat = ranges["latitude_degrees"]
     return f"""
       <figure class="video-panel">
         <figcaption><b>{label}</b><span>{escape(case['source']['file'])}</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/{case['id']}/{side}.mp4" poster="media/cases/{case['id']}/{side}.jpg" style="aspect-ratio:{case['resolution'][0]}/{case['resolution'][1]}"></video>
-        <div class="source-line">同一源起点 {float(case['start_seconds']):.2f}s · yaw {float(case['shared_yaw_deg']):.0f}° · 有效中心 pitch {pitch:.1f}°</div>
+        <div class="source-line"><b>同一源起点 {float(case['start_seconds']):.2f}s · yaw {float(case['shared_yaw_deg']):.0f}° · 有效中心 pitch {pitch:.1f}°</b>
+        <span>全程经度（ERP 横向 x）{x_px[0]}–{x_px[1]} px · {lon[0]:.1f}°–{lon[1]:.1f}°</span>
+        <span>全程纬度（ERP 纵向 y）{y_px[0]}–{y_px[1]} px · {lat[0]:.1f}°–{lat[1]:.1f}°</span></div>
       </figure>"""
 
 
@@ -647,15 +835,22 @@ def case_card(case: dict[str, Any]) -> str:
     css_class = "pure"
     if case["kind"] == "translation_rotation":
         title = f"同经度上下双视角 · {escape(case['virtual_rotation']['name'])}"
-        detail = "两侧共享完全相同的逐帧 yaw / pitch / roll 增量"
+        detail = (
+            "两侧共享完全相同的逐帧 yaw / pitch / roll 增量 · "
+            f"旋转速度倍率 {float(case['virtual_rotation']['speed_multiplier']):.2f}×"
+        )
         css_class = "combined"
     width, height = case["resolution"]
+    metadata = json.loads(
+        (MEDIA_ROOT / case["id"] / "metadata.json").read_text(encoding="utf-8")
+    )
+    upper_side = str(case["off_axis_layout"]["upper_side"]).upper()
     return f"""
     <article class="case-card {css_class}" id="{case['id']}">
       <header><div><span class="case-id">{case['id']}</span><h3>{title}</h3></div>
-      <div class="badges"><b>10.00s</b><b>{width}×{height}</b><b>同源同帧</b><b>同 yaw {float(case['shared_yaw_deg']):.0f}°</b></div></header>
-      <p class="actions">共享同一透视母平面外参 · 上下两个偏轴裁框互不重叠 · {detail}</p>
-      <div class="video-pair" data-sync-pair>{video_panel(case, 'ref')}{video_panel(case, 'target')}</div>
+      <div class="badges"><b>10.00s</b><b>{width}×{height}</b><b>源移动 0.50×</b><b>上框={upper_side}</b><b>同 yaw {float(case['shared_yaw_deg']):.0f}°</b></div></header>
+      <p class="actions">随机纵向裁框 · 共享同一透视母平面外参 · 上下窗口互不重叠 · {detail}</p>
+      <div class="video-pair" data-sync-pair>{video_panel(case, 'ref', metadata)}{video_panel(case, 'target', metadata)}</div>
     </article>"""
 
 
@@ -668,7 +863,7 @@ def build_site(plan: dict[str, Any]) -> None:
 :root{{--ink:#17211f;--paper:#f4f1e9;--card:#fffefb;--line:#d8d5ca;--blue:#2b5f8d;--green:#1d684f}}*{{box-sizing:border-box}}body{{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}main{{max-width:1320px;margin:auto;padding:22px 24px 70px}}
 .hero,.diagram{{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:18px}}h1{{font-size:clamp(25px,3vw,39px);line-height:1.2;margin:0}}h2,h3,p{{margin-top:0}}.diagram svg{{display:block;width:100%;height:auto}}.note{{font-weight:650;margin:10px 0 0}}
 .section-title{{font-size:28px;margin:30px 0 12px}}.case-card{{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--blue);border-radius:18px;padding:18px;margin:16px 0}}.case-card.combined{{border-left-color:var(--green)}}.case-card>header{{display:flex;justify-content:space-between;gap:16px}}.case-id{{font:700 12px ui-monospace,monospace;color:#65716d}}.case-card h3{{margin:2px 0 5px;font-size:21px}}.badges{{display:flex;gap:7px;flex-wrap:wrap}}.badges b{{font-size:12px;background:#e7ece8;border-radius:999px;padding:5px 9px}}.actions{{font-weight:650}}
-.video-pair{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}.video-panel{{margin:0;background:#101312;border-radius:13px;overflow:hidden}}.video-panel figcaption{{display:flex;justify-content:space-between;color:white;padding:9px 11px}}.video-panel video{{display:block;width:100%;background:#000;object-fit:contain}}.source-line{{color:#d2d9d5;padding:8px 11px;font-size:12px}}
+.video-pair{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}.video-panel{{margin:0;background:#101312;border-radius:13px;overflow:hidden}}.video-panel figcaption{{display:flex;justify-content:space-between;color:white;padding:9px 11px}}.video-panel video{{display:block;width:100%;background:#000;object-fit:contain}}.source-line{{color:#d2d9d5;padding:8px 11px;font-size:12px}}.source-line b,.source-line span{{display:block;margin:2px 0}}
 @media(max-width:800px){{main{{padding:12px 10px 50px}}.case-card{{overflow-x:auto;padding:10px}}.video-pair{{min-width:720px}}.case-card>header{{display:block}}}}
 </style></head><body><main>
 <section class="hero"><h1>20 个 10 秒同经度上下双视角 Cross-Pair</h1></section>
@@ -679,9 +874,9 @@ def build_site(plan: dict[str, Any]) -> None:
 <line x1="80" y1="60" x2="80" y2="380" stroke="#a44e2e" stroke-width="5" stroke-dasharray="10 8"/><line x1="840" y1="60" x2="840" y2="380" stroke="#a44e2e" stroke-width="5" stroke-dasharray="10 8"/>
 <line x1="80" y1="220" x2="840" y2="220" stroke="#8a9691" stroke-width="3"/><text x="92" y="48" font-size="18">天空 / ERP 顶部</text><text x="92" y="410" font-size="18">地面 / ERP 底部</text><text x="350" y="245" font-size="17">赤道</text>
 <rect x="390" y="225" width="170" height="60" rx="8" fill="#d7e6f2" stroke="#2b5f8d" stroke-width="5"/><rect x="390" y="305" width="170" height="60" rx="8" fill="#dcece4" stroke="#1d684f" stroke-width="5"/>
-<line x1="475" y1="180" x2="475" y2="375" stroke="#17211f" stroke-width="3" stroke-dasharray="8 7"/><circle cx="475" cy="190" r="7" fill="#a44e2e"/><text x="570" y="262" font-size="20">REF · 上方偏轴裁框</text><text x="570" y="342" font-size="20">TARGET · 下方偏轴裁框</text><text x="870" y="120" font-size="18">共同母平面主点</text><text x="870" y="150" font-size="18">两个裁框都在主点下方</text>
+<line x1="475" y1="180" x2="475" y2="375" stroke="#17211f" stroke-width="3" stroke-dasharray="8 7"/><circle cx="475" cy="190" r="7" fill="#a44e2e"/><text x="570" y="262" font-size="20">上方偏轴裁框 · 角色随机</text><text x="570" y="342" font-size="20">下方偏轴裁框 · 角色随机</text><text x="870" y="120" font-size="18">共同母平面主点</text><text x="870" y="150" font-size="18">两个裁框都在主点下方</text>
 <line x1="430" y1="278" x2="430" y2="245" stroke="#1d684f" stroke-width="6" marker-end="url(#arrow)"/><line x1="430" y1="358" x2="430" y2="325" stroke="#1d684f" stroke-width="6" marker-end="url(#arrow)"/><line x1="470" y1="262" x2="515" y2="262" stroke="#1d684f" stroke-width="6" marker-end="url(#arrow)"/><line x1="470" y1="342" x2="515" y2="342" stroke="#1d684f" stroke-width="6" marker-end="url(#arrow)"/>
-</svg><p class="note">同一个 yaw、同一个源时间、同一张 ERP 帧、同一个透视母平面外参；只改变偏轴裁框位置。页面不做镜像、稳定化或路径转移。</p></section>
+</svg><p class="note">同一个 yaw、同一个源时间、同一张 ERP 帧、同一个透视母平面外参；每个 case 随机上下位置和 REF/TARGET 角色（上框偏向 TARGET），源移动统一降为 0.50×。页面不做镜像、稳定化或路径转移。</p></section>
 <h2 class="section-title">10 个原生移动相机案例</h2>{''.join(case_card(case) for case in pure)}
 <h2 class="section-title">10 个原生移动 + 同步旋转案例</h2>{''.join(case_card(case) for case in combined)}
 </main><script>
