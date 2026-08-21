@@ -1,0 +1,567 @@
+{
+  "schema_version": 1,
+  "case_count": 20,
+  "rules": {
+    "same_source_file_within_pair": true,
+    "different_time_windows_supply_real_translation": true,
+    "same_virtual_rotation_on_ref_and_target": true,
+    "duration_seconds_each": 10.0,
+    "fps": 20,
+    "max_pixels": 921600,
+    "source_timing_note": "All three sources use distinct 10s windows at original speed without looping or retiming."
+  },
+  "sources": [
+    {
+      "file": "NSC.mp4",
+      "width": 3840,
+      "height": 1920,
+      "fps": 30.0,
+      "duration_seconds": 62.066667,
+      "source_span_seconds": 10.0,
+      "output_speed_factor": 1.0,
+      "pair_count": 14
+    },
+    {
+      "file": "NSK.mp4",
+      "width": 3840,
+      "height": 1920,
+      "fps": 30.0,
+      "duration_seconds": 19.2,
+      "source_span_seconds": 10.0,
+      "output_speed_factor": 1.0,
+      "pair_count": 4
+    },
+    {
+      "file": "FTP.mp4",
+      "width": 3840,
+      "height": 1920,
+      "fps": 30.0,
+      "duration_seconds": 11.8,
+      "source_span_seconds": 10.0,
+      "output_speed_factor": 1.0,
+      "pair_count": 2
+    }
+  ],
+  "cases": [
+    {
+      "id": "translation_01",
+      "kind": "translation_only",
+      "display_name": "原生位移（未叠加虚拟旋转）",
+      "source": {
+        "dataset": "user_mobile_panorama",
+        "file": "NSC.mp4"
+      },
+      "ref_start_seconds": 0.0,
+      "target_start_seconds": 42.067,
+      "temporal_gap_seconds": 42.067,
+      "source_span_seconds": 10.0,
+      "duration_seconds": 10.0,
+      "fps": 20,
+      "resolution": [
+        1280,
+        720
+      ],
+      "fixed_view": {
+        "yaw_deg": -104.0,
+        "pitch_deg": -10.0,
+        "roll_deg": 0.0
+      },
+      "virtual_rotation": null
+    },
+    {
+      "id": "translation_02",
+      "kind": "translation_only",
+      "display_name": "原生位移（未叠加虚拟旋转）",
+      "source": {
+        "dataset": "user_mobile_panorama",
+        "file": "NSC.mp4"
+      },
+      "ref_start_seconds": 0.769,
+      "target_start_seconds": 42.836,
+      "temporal_gap_seconds": 42.067,
+      "source_span_seconds": 10.0,
+      "duration_seconds": 10.0,
+      "fps": 20,
+      "resolution": [
+        960,
+        960
+      ],
+      "fixed_view": {
+        "yaw_deg": -76.0,
+        "pitch_deg": -6.0,
+        "roll_deg": 0.0
+      },
+      "virtual_rotation": null
+    },
+    {
+      "id": "translation_03",
+      "kind": "translation_only",
+      "display_name": "原生位移（未叠加虚拟旋转）",
+      "source": {
+        "dataset": "user_mobile_panorama",
+        "file": "NSC.mp4"
+      },
+      "ref_start_seconds": 1.538,
+      "target_start_seconds": 43.605,
+      "temporal_gap_seconds": 42.067,
+      "source_span_seconds": 10.0,
+      "duration_seconds": 10.0,
+      "fps": 20,
+      "resolution": [
+        720,
+        1280
+      ],
+      "fixed_view": {
+        "yaw_deg": -46.0,
+        "pitch_deg": -2.0,
+        "roll_deg": 0.0
+      },
+      "virtual_rotation": null
+    },
+    {
+      "id": "translation_04",
+      "kind": "translation_only",
+      "display_name": "原生位移（未叠加虚拟旋转）",
+      "source": {
+        "dataset": "user_mobile_panorama",
+        "file": "NSC.mp4"
+      },
+      "ref_start_seconds": 2.308,
+      "target_start_seconds": 44.374,
+      "temporal_gap_seconds": 42.066,
+      "source_span_seconds": 10.0,
+      "duration_seconds": 10.0,
+      "fps": 20,
+      "resolution": [
+        1104,
+        832
+      ],
+      "fixed_view": {
+        "yaw_deg": -16.0,
+        "pitch_deg": 3.0,
+        "roll_deg": 0.0
+      },
+      "virtual_rotation": null
+    },
+    {
+      "id": "translation_05",
+      "kind": "translation_only",
+      "display_name": "原生位移（未叠加虚拟旋转）",
+      "source": {
+        "dataset": "user_mobile_panorama",
+        "file": "NSC.mp4"
+      },
+      "ref_start_seconds": 3.077,
+      "target_start_seconds": 45.144,
+      "temporal_gap_seconds": 42.067,
+      "source_span_seconds": 10.0,
+      "duration_seconds": 10.0,
+      "fps": 20,
+      "resolution": [
+        832,
+        1104
+      ],
+      "fixed_view": {
+        "yaw_deg": 16.0,
+        "pitch_deg": 7.0,
+        "roll_deg": 0.0
+      },
+      "virtual_rotation": null
+    },
+    {
+      "id": "translation_06",
+      "kind": "translation_only",
+      "display_name": "原生位移（未叠加虚拟旋转）",
+      "source": {
+        "dataset": "user_mobile_panorama",
+        "file": "NSC.mp4"
+      },
+      "ref_start_seconds": 3.846,
+      "target_start_seconds": 45.913,
+      "temporal_gap_seconds": 42.067,
+      "source_span_seconds": 10.0,
+      "duration_seconds": 10.0,
+      "fps": 20,
+      "resolution": [
+        1440,
+        640
+      ],
+      "fixed_view": {
+        "yaw_deg": 46.0,
+        "pitch_deg": 11.0,
+        "roll_deg": 0.0
+      },
+      "virtual_rotation": null
+    },
+    {
+      "id": "translation_07",
+      "kind": "translation_only",
+      "display_name": "原生位移（未叠加虚拟旋转）",
+      "source": {
+        "dataset": "user_mobile_panorama",
+        "file": "NSC.mp4"
+      },
+      "ref_start_seconds": 4.615,
+      "target_start_seconds": 46.682,
+      "temporal_gap_seconds": 42.067,
+      "source_span_seconds": 10.0,
+      "duration_seconds": 10.0,
+      "fps": 20,
+      "resolution": [
+        640,
+        1440
+      ],
+      "fixed_view": {
+        "yaw_deg": 76.0,
+        "pitch_deg": -11.0,
+        "roll_deg": 0.0
+      },
+      "virtual_rotation": null
+    },
+    {
+      "id": "translation_08",
+      "kind": "translation_only",
+      "display_name": "原生位移（未叠加虚拟旋转）",
+      "source": {
+        "dataset": "user_mobile_panorama",
+        "file": "NSK.mp4"
+      },
+      "ref_start_seconds": 0.0,
+      "target_start_seconds": 8.6,
+      "temporal_gap_seconds": 8.6,
+      "source_span_seconds": 10.0,
+      "duration_seconds": 10.0,
+      "fps": 20,
+      "resolution": [
+        1344,
+        672
+      ],
+      "fixed_view": {
+        "yaw_deg": 104.0,
+        "pitch_deg": 6.0,
+        "roll_deg": 0.0
+      },
+      "virtual_rotation": null
+    },
+    {
+      "id": "translation_09",
+      "kind": "translation_only",
+      "display_name": "原生位移（未叠加虚拟旋转）",
+      "source": {
+        "dataset": "user_mobile_panorama",
+        "file": "NSK.mp4"
+      },
+      "ref_start_seconds": 0.2,
+      "target_start_seconds": 8.8,
+      "temporal_gap_seconds": 8.6,
+      "source_span_seconds": 10.0,
+      "duration_seconds": 10.0,
+      "fps": 20,
+      "resolution": [
+        1072,
+        856
+      ],
+      "fixed_view": {
+        "yaw_deg": -58.0,
+        "pitch_deg": 0.0,
+        "roll_deg": 0.0
+      },
+      "virtual_rotation": null
+    },
+    {
+      "id": "translation_10",
+      "kind": "translation_only",
+      "display_name": "原生位移（未叠加虚拟旋转）",
+      "source": {
+        "dataset": "user_mobile_panorama",
+        "file": "FTP.mp4"
+      },
+      "ref_start_seconds": 0.0,
+      "target_start_seconds": 1.6,
+      "temporal_gap_seconds": 1.6,
+      "source_span_seconds": 10.0,
+      "duration_seconds": 10.0,
+      "fps": 20,
+      "resolution": [
+        856,
+        1072
+      ],
+      "fixed_view": {
+        "yaw_deg": 58.0,
+        "pitch_deg": -4.0,
+        "roll_deg": 0.0
+      },
+      "virtual_rotation": null
+    },
+    {
+      "id": "translation_rotation_01",
+      "kind": "translation_rotation",
+      "display_name": "真实位移 + 同步可控旋转",
+      "source": {
+        "dataset": "user_mobile_panorama",
+        "file": "NSC.mp4"
+      },
+      "ref_start_seconds": 5.385,
+      "target_start_seconds": 47.451,
+      "temporal_gap_seconds": 42.066,
+      "source_span_seconds": 10.0,
+      "duration_seconds": 10.0,
+      "fps": 20,
+      "resolution": [
+        1280,
+        720
+      ],
+      "fixed_view": null,
+      "virtual_rotation": {
+        "name": "快速右扫+上仰",
+        "pattern": "sweep_right",
+        "yaw_deg": 104.0,
+        "pitch_deg": 34.0,
+        "roll_deg": 0.0
+      }
+    },
+    {
+      "id": "translation_rotation_02",
+      "kind": "translation_rotation",
+      "display_name": "真实位移 + 同步可控旋转",
+      "source": {
+        "dataset": "user_mobile_panorama",
+        "file": "NSC.mp4"
+      },
+      "ref_start_seconds": 6.154,
+      "target_start_seconds": 48.221,
+      "temporal_gap_seconds": 42.067,
+      "source_span_seconds": 10.0,
+      "duration_seconds": 10.0,
+      "fps": 20,
+      "resolution": [
+        960,
+        960
+      ],
+      "fixed_view": null,
+      "virtual_rotation": {
+        "name": "快速左扫+下压",
+        "pattern": "sweep_left",
+        "yaw_deg": 112.0,
+        "pitch_deg": 30.0,
+        "roll_deg": 0.0
+      }
+    },
+    {
+      "id": "translation_rotation_03",
+      "kind": "translation_rotation",
+      "display_name": "真实位移 + 同步可控旋转",
+      "source": {
+        "dataset": "user_mobile_panorama",
+        "file": "NSC.mp4"
+      },
+      "ref_start_seconds": 6.923,
+      "target_start_seconds": 48.99,
+      "temporal_gap_seconds": 42.067,
+      "source_span_seconds": 10.0,
+      "duration_seconds": 10.0,
+      "fps": 20,
+      "resolution": [
+        720,
+        1280
+      ],
+      "fixed_view": null,
+      "virtual_rotation": {
+        "name": "变速右甩+俯仰波",
+        "pattern": "whip_right",
+        "yaw_deg": 118.0,
+        "pitch_deg": 26.0,
+        "roll_deg": 0.0
+      }
+    },
+    {
+      "id": "translation_rotation_04",
+      "kind": "translation_rotation",
+      "display_name": "真实位移 + 同步可控旋转",
+      "source": {
+        "dataset": "user_mobile_panorama",
+        "file": "NSC.mp4"
+      },
+      "ref_start_seconds": 7.692,
+      "target_start_seconds": 49.759,
+      "temporal_gap_seconds": 42.067,
+      "source_span_seconds": 10.0,
+      "duration_seconds": 10.0,
+      "fps": 20,
+      "resolution": [
+        1104,
+        832
+      ],
+      "fixed_view": null,
+      "virtual_rotation": {
+        "name": "变速左甩+反向俯仰",
+        "pattern": "whip_left",
+        "yaw_deg": 120.0,
+        "pitch_deg": 28.0,
+        "roll_deg": 0.0
+      }
+    },
+    {
+      "id": "translation_rotation_05",
+      "kind": "translation_rotation",
+      "display_name": "真实位移 + 同步可控旋转",
+      "source": {
+        "dataset": "user_mobile_panorama",
+        "file": "NSC.mp4"
+      },
+      "ref_start_seconds": 8.462,
+      "target_start_seconds": 50.528,
+      "temporal_gap_seconds": 42.066,
+      "source_span_seconds": 10.0,
+      "duration_seconds": 10.0,
+      "fps": 20,
+      "resolution": [
+        832,
+        1104
+      ],
+      "fixed_view": null,
+      "virtual_rotation": {
+        "name": "蛇形摇摄",
+        "pattern": "serpentine",
+        "yaw_deg": 88.0,
+        "pitch_deg": 38.0,
+        "roll_deg": 0.0
+      }
+    },
+    {
+      "id": "translation_rotation_06",
+      "kind": "translation_rotation",
+      "display_name": "真实位移 + 同步可控旋转",
+      "source": {
+        "dataset": "user_mobile_panorama",
+        "file": "NSC.mp4"
+      },
+      "ref_start_seconds": 9.231,
+      "target_start_seconds": 51.297,
+      "temporal_gap_seconds": 42.066,
+      "source_span_seconds": 10.0,
+      "duration_seconds": 10.0,
+      "fps": 20,
+      "resolution": [
+        1440,
+        640
+      ],
+      "fixed_view": null,
+      "virtual_rotation": {
+        "name": "对角环绕",
+        "pattern": "diagonal",
+        "yaw_deg": 102.0,
+        "pitch_deg": 48.0,
+        "roll_deg": 0.0
+      }
+    },
+    {
+      "id": "translation_rotation_07",
+      "kind": "translation_rotation",
+      "display_name": "真实位移 + 同步可控旋转",
+      "source": {
+        "dataset": "user_mobile_panorama",
+        "file": "NSC.mp4"
+      },
+      "ref_start_seconds": 10.0,
+      "target_start_seconds": 52.067,
+      "temporal_gap_seconds": 42.067,
+      "source_span_seconds": 10.0,
+      "duration_seconds": 10.0,
+      "fps": 20,
+      "resolution": [
+        640,
+        1440
+      ],
+      "fixed_view": null,
+      "virtual_rotation": {
+        "name": "柔和螺旋",
+        "pattern": "corkscrew",
+        "yaw_deg": 92.0,
+        "pitch_deg": 30.0,
+        "roll_deg": 86.0
+      }
+    },
+    {
+      "id": "translation_rotation_08",
+      "kind": "translation_rotation",
+      "display_name": "真实位移 + 同步可控旋转",
+      "source": {
+        "dataset": "user_mobile_panorama",
+        "file": "NSK.mp4"
+      },
+      "ref_start_seconds": 0.4,
+      "target_start_seconds": 9.0,
+      "temporal_gap_seconds": 8.6,
+      "source_span_seconds": 10.0,
+      "duration_seconds": 10.0,
+      "fps": 20,
+      "resolution": [
+        1344,
+        672
+      ],
+      "fixed_view": null,
+      "virtual_rotation": {
+        "name": "大幅摆动+滚转",
+        "pattern": "swing_roll",
+        "yaw_deg": 90.0,
+        "pitch_deg": 32.0,
+        "roll_deg": 110.0
+      }
+    },
+    {
+      "id": "translation_rotation_09",
+      "kind": "translation_rotation",
+      "display_name": "真实位移 + 同步可控旋转",
+      "source": {
+        "dataset": "user_mobile_panorama",
+        "file": "NSK.mp4"
+      },
+      "ref_start_seconds": 0.6,
+      "target_start_seconds": 9.2,
+      "temporal_gap_seconds": 8.6,
+      "source_span_seconds": 10.0,
+      "duration_seconds": 10.0,
+      "fps": 20,
+      "resolution": [
+        1072,
+        856
+      ],
+      "fixed_view": null,
+      "virtual_rotation": {
+        "name": "俯仰穿越+轻滚",
+        "pattern": "pitch_roll",
+        "yaw_deg": 54.0,
+        "pitch_deg": 64.0,
+        "roll_deg": 76.0
+      }
+    },
+    {
+      "id": "translation_rotation_10",
+      "kind": "translation_rotation",
+      "display_name": "真实位移 + 同步可控旋转",
+      "source": {
+        "dataset": "user_mobile_panorama",
+        "file": "FTP.mp4"
+      },
+      "ref_start_seconds": 0.2,
+      "target_start_seconds": 1.8,
+      "temporal_gap_seconds": 1.6,
+      "source_span_seconds": 10.0,
+      "duration_seconds": 10.0,
+      "fps": 20,
+      "resolution": [
+        856,
+        1072
+      ],
+      "fixed_view": null,
+      "virtual_rotation": {
+        "name": "双脉冲甩镜",
+        "pattern": "double_whip",
+        "yaw_deg": 116.0,
+        "pitch_deg": 36.0,
+        "roll_deg": 0.0
+      }
+    }
+  ]
+}

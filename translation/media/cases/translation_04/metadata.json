@@ -1,0 +1,68 @@
+{
+  "case": {
+    "id": "translation_04",
+    "kind": "translation_only",
+    "display_name": "原生位移（未叠加虚拟旋转）",
+    "source": {
+      "dataset": "user_mobile_panorama",
+      "file": "NSC.mp4"
+    },
+    "ref_start_seconds": 2.308,
+    "target_start_seconds": 44.374,
+    "temporal_gap_seconds": 42.066,
+    "source_span_seconds": 10.0,
+    "duration_seconds": 10.0,
+    "fps": 20,
+    "resolution": [
+      1104,
+      832
+    ],
+    "fixed_view": {
+      "yaw_deg": -16.0,
+      "pitch_deg": 3.0,
+      "roll_deg": 0.0
+    },
+    "virtual_rotation": null
+  },
+  "trajectory_report": {
+    "yaw_range_deg": [
+      -16.0,
+      -16.0
+    ],
+    "pitch_range_deg": [
+      3.0,
+      3.0
+    ],
+    "roll_range_deg": [
+      0.0,
+      0.0
+    ],
+    "hfov_deg": 86.0,
+    "max_abs_sampled_longitude_deg": 60.1128,
+    "seam_limit_deg": 162.0,
+    "seam_safe": true,
+    "virtual_rotation_median_deg_per_second": 0.0,
+    "virtual_rotation_p99_deg_per_second": 0.0
+  },
+  "rendered": {
+    "ref": {
+      "path": "site/translation/media/cases/translation_04/ref.mp4",
+      "bytes": 5396316,
+      "sha256": "9a85ec62a1346df6d3e5f5941d2e074d8e6c04c4cc76d19c474c715cb43a655b"
+    },
+    "target": {
+      "path": "site/translation/media/cases/translation_04/target.mp4",
+      "bytes": 5399265,
+      "sha256": "c3669becbb268dc406e739cce09466fad7522c06aec0c5d7a644a9152a2e9fd6"
+    },
+    "codec": {
+      "codec": "libx264",
+      "crf": 20,
+      "preset": "fast",
+      "maxrate": "4000k",
+      "bufsize": "8000k",
+      "pixel_format": "yuv420p",
+      "ffmpeg_threads": 2
+    }
+  }
+}

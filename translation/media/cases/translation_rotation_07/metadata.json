@@ -1,0 +1,70 @@
+{
+  "case": {
+    "id": "translation_rotation_07",
+    "kind": "translation_rotation",
+    "display_name": "真实位移 + 同步可控旋转",
+    "source": {
+      "dataset": "user_mobile_panorama",
+      "file": "NSC.mp4"
+    },
+    "ref_start_seconds": 10.0,
+    "target_start_seconds": 52.067,
+    "temporal_gap_seconds": 42.067,
+    "source_span_seconds": 10.0,
+    "duration_seconds": 10.0,
+    "fps": 20,
+    "resolution": [
+      640,
+      1440
+    ],
+    "fixed_view": null,
+    "virtual_rotation": {
+      "name": "柔和螺旋",
+      "pattern": "corkscrew",
+      "yaw_deg": 92.0,
+      "pitch_deg": 30.0,
+      "roll_deg": 86.0
+    }
+  },
+  "trajectory_report": {
+    "yaw_range_deg": [
+      -46.0,
+      46.0
+    ],
+    "pitch_range_deg": [
+      -14.9995,
+      14.9995
+    ],
+    "roll_range_deg": [
+      -43.0,
+      43.0
+    ],
+    "hfov_deg": 51.7492,
+    "max_abs_sampled_longitude_deg": 93.7003,
+    "seam_limit_deg": 162.0,
+    "seam_safe": true,
+    "virtual_rotation_median_deg_per_second": 14.3074,
+    "virtual_rotation_p99_deg_per_second": 15.8079
+  },
+  "rendered": {
+    "ref": {
+      "path": "site/translation/media/cases/translation_rotation_07/ref.mp4",
+      "bytes": 5388106,
+      "sha256": "fe9a4401e6dc3bc136aa69e78788971a58b92d1ff02d925208eff57b7ee1af03"
+    },
+    "target": {
+      "path": "site/translation/media/cases/translation_rotation_07/target.mp4",
+      "bytes": 5386399,
+      "sha256": "048265d8944a5ec266ed29459c2cc0facaa1a8d7811043e49962cc75a03c8eb6"
+    },
+    "codec": {
+      "codec": "libx264",
+      "crf": 20,
+      "preset": "fast",
+      "maxrate": "4000k",
+      "bufsize": "8000k",
+      "pixel_format": "yuv420p",
+      "ffmpeg_threads": 2
+    }
+  }
+}
