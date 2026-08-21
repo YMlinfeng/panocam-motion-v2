@@ -1,0 +1,82 @@
+{
+  "case": {
+    "id": "same_longitude_rotation_08",
+    "kind": "translation_rotation",
+    "source": {
+      "dataset": "user_mobile_panorama",
+      "file": "NSK.mp4"
+    },
+    "start_seconds": 6.133,
+    "ref_start_seconds": 6.133,
+    "target_start_seconds": 6.133,
+    "duration_seconds": 10.0,
+    "fps": 20,
+    "resolution": [
+      1344,
+      672
+    ],
+    "shared_yaw_deg": 35.0,
+    "ref_view": {
+      "yaw_deg": 35.0,
+      "pitch_deg": 0.0,
+      "roll_deg": 0.0
+    },
+    "target_view": {
+      "yaw_deg": 35.0,
+      "pitch_deg": 0.0,
+      "roll_deg": 0.0
+    },
+    "off_axis_layout": {
+      "master_principal_y_ratio": -0.15,
+      "crop_gap_ratio": 0.32,
+      "ref_crop": "upper",
+      "target_crop": "lower"
+    },
+    "virtual_rotation": {
+      "name": "摆动+滚转",
+      "pattern": "swing_roll",
+      "yaw_amplitude_deg": 20.0,
+      "pitch_amplitude_deg": 8.0,
+      "roll_amplitude_deg": 20.0
+    }
+  },
+  "trajectory_report": {
+    "master_hfov_deg": 40.0,
+    "master_focal_px": 1846.304826,
+    "master_principal_y_px": -100.8,
+    "crop_gap_px": 215.04,
+    "effective_center_pitch_deg": {
+      "ref": -13.310346,
+      "target": -35.641332
+    },
+    "vertical_nonoverlap_margin_deg": 5.461145,
+    "same_yaw": true,
+    "same_master_extrinsics": true,
+    "max_abs_sampled_longitude_deg": {
+      "ref": 66.414108,
+      "target": 67.996117
+    },
+    "seam_safe": true,
+    "same_relative_rotation_sha256": "9235c0e5bd614bfa86f2acdff0a3cfe3ba4b50e8680f0c843e101da10abb221f"
+  },
+  "synchronization": {
+    "single_shared_source_reader": true,
+    "same_source_start_seconds": 6.133,
+    "same_source_frame_sequence": true,
+    "same_yaw_deg": 35.0,
+    "ref_rotation_sha256": "9235c0e5bd614bfa86f2acdff0a3cfe3ba4b50e8680f0c843e101da10abb221f",
+    "target_rotation_sha256": "9235c0e5bd614bfa86f2acdff0a3cfe3ba4b50e8680f0c843e101da10abb221f"
+  },
+  "rendered": {
+    "ref": {
+      "path": "site/translation-same-longitude/media/cases/same_longitude_rotation_08/ref.mp4",
+      "bytes": 5399282,
+      "sha256": "1b0ae7053a4cf37a2cf8b42dfd9584ddd0adda2518e52fb4acf76c01482afebc"
+    },
+    "target": {
+      "path": "site/translation-same-longitude/media/cases/same_longitude_rotation_08/target.mp4",
+      "bytes": 5381213,
+      "sha256": "62bafc90913a5b84efc5e1937625b45c157d5d78719bc07d3800b060552f038d"
+    }
+  }
+}
