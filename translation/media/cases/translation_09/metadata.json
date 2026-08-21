@@ -7,9 +7,10 @@
       "dataset": "user_mobile_panorama",
       "file": "NSK.mp4"
     },
-    "ref_start_seconds": 0.2,
-    "target_start_seconds": 8.8,
-    "temporal_gap_seconds": 8.6,
+    "start_seconds": 3.067,
+    "ref_start_seconds": 3.067,
+    "target_start_seconds": 3.067,
+    "temporal_gap_seconds": 0.0,
     "source_span_seconds": 10.0,
     "duration_seconds": 10.0,
     "fps": 20,
@@ -17,43 +18,93 @@
       1072,
       856
     ],
-    "fixed_view": {
-      "yaw_deg": -58.0,
+    "ref_view": {
+      "yaw_deg": 30.0,
       "pitch_deg": 0.0,
       "roll_deg": 0.0
     },
+    "target_view": {
+      "yaw_deg": -90.0,
+      "pitch_deg": 0.0,
+      "roll_deg": 0.0
+    },
+    "view_separation_deg": 120.0,
     "virtual_rotation": null
   },
   "trajectory_report": {
-    "yaw_range_deg": [
-      -58.0,
-      -58.0
-    ],
-    "pitch_range_deg": [
+    "relative_yaw_range_deg": [
       0.0,
       0.0
     ],
-    "roll_range_deg": [
+    "relative_pitch_range_deg": [
       0.0,
       0.0
     ],
+    "relative_roll_range_deg": [
+      0.0,
+      0.0
+    ],
+    "absolute_view_ranges": {
+      "ref": {
+        "yaw_deg": [
+          30.0,
+          30.0
+        ],
+        "pitch_deg": [
+          0.0,
+          0.0
+        ],
+        "roll_deg": [
+          0.0,
+          0.0
+        ]
+      },
+      "target": {
+        "yaw_deg": [
+          -90.0,
+          -90.0
+        ],
+        "pitch_deg": [
+          0.0,
+          0.0
+        ],
+        "roll_deg": [
+          0.0,
+          0.0
+        ]
+      }
+    },
     "hfov_deg": 86.0,
-    "max_abs_sampled_longitude_deg": 101.0,
+    "view_separation_deg": 120.0,
+    "nonoverlap_margin_deg": 34.0,
+    "max_abs_sampled_longitude_deg": {
+      "ref": 73.0,
+      "target": 133.0
+    },
     "seam_limit_deg": 162.0,
     "seam_safe": true,
+    "same_relative_trajectory_both_sides": true,
+    "relative_trajectory_sha256": "a0ee989ed2a0a2e3626520afa4032e06144865c8c8f6357293c9f4cd2069eaf2",
     "virtual_rotation_median_deg_per_second": 0.0,
     "virtual_rotation_p99_deg_per_second": 0.0
+  },
+  "synchronization": {
+    "single_shared_source_reader": true,
+    "same_source_start_seconds": 3.067,
+    "same_source_frame_sequence": true,
+    "ref_relative_trajectory_sha256": "a0ee989ed2a0a2e3626520afa4032e06144865c8c8f6357293c9f4cd2069eaf2",
+    "target_relative_trajectory_sha256": "a0ee989ed2a0a2e3626520afa4032e06144865c8c8f6357293c9f4cd2069eaf2"
   },
   "rendered": {
     "ref": {
       "path": "site/translation/media/cases/translation_09/ref.mp4",
-      "bytes": 5403659,
-      "sha256": "de1feaba0d1cb52a9f5eb8bb58d3636568b07336aa5cdd0280db5d7669c54cb2"
+      "bytes": 5399675,
+      "sha256": "59db4eb999f9aa6667fa4398429063563f8711c0f4255e1934b85efe58691ada"
     },
     "target": {
       "path": "site/translation/media/cases/translation_09/target.mp4",
-      "bytes": 5378706,
-      "sha256": "c7243825edd592be4741812d37dc5ba95a49bbdd2fc65e2be08497d4b5765ead"
+      "bytes": 5397435,
+      "sha256": "53cdfcfa164e0481bb1dfb10ab2b065dc291e9fdeb589a61c39d7f947c31784a"
     },
     "codec": {
       "codec": "libx264",

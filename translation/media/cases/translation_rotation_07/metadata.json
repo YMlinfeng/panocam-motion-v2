@@ -7,9 +7,10 @@
       "dataset": "user_mobile_panorama",
       "file": "NSC.mp4"
     },
-    "ref_start_seconds": 10.0,
+    "start_seconds": 52.067,
+    "ref_start_seconds": 52.067,
     "target_start_seconds": 52.067,
-    "temporal_gap_seconds": 42.067,
+    "temporal_gap_seconds": 0.0,
     "source_span_seconds": 10.0,
     "duration_seconds": 10.0,
     "fps": 20,
@@ -17,45 +18,99 @@
       640,
       1440
     ],
-    "fixed_view": null,
+    "ref_view": {
+      "yaw_deg": 58.0,
+      "pitch_deg": 0.0,
+      "roll_deg": 0.0
+    },
+    "target_view": {
+      "yaw_deg": -52.0,
+      "pitch_deg": 0.0,
+      "roll_deg": 0.0
+    },
+    "view_separation_deg": 110.0,
     "virtual_rotation": {
       "name": "柔和螺旋",
       "pattern": "corkscrew",
-      "yaw_deg": 92.0,
+      "yaw_deg": 68.0,
       "pitch_deg": 30.0,
       "roll_deg": 86.0
     }
   },
   "trajectory_report": {
-    "yaw_range_deg": [
-      -46.0,
-      46.0
+    "relative_yaw_range_deg": [
+      -34.0,
+      34.0
     ],
-    "pitch_range_deg": [
+    "relative_pitch_range_deg": [
       -14.9995,
       14.9995
     ],
-    "roll_range_deg": [
+    "relative_roll_range_deg": [
       -43.0,
       43.0
     ],
+    "absolute_view_ranges": {
+      "ref": {
+        "yaw_deg": [
+          24.0,
+          92.0
+        ],
+        "pitch_deg": [
+          -14.9995,
+          14.9995
+        ],
+        "roll_deg": [
+          -43.0,
+          43.0
+        ]
+      },
+      "target": {
+        "yaw_deg": [
+          -86.0,
+          -18.0
+        ],
+        "pitch_deg": [
+          -14.9995,
+          14.9995
+        ],
+        "roll_deg": [
+          -43.0,
+          43.0
+        ]
+      }
+    },
     "hfov_deg": 51.7492,
-    "max_abs_sampled_longitude_deg": 93.7003,
+    "view_separation_deg": 110.0,
+    "nonoverlap_margin_deg": 58.2508,
+    "max_abs_sampled_longitude_deg": {
+      "ref": 139.7003,
+      "target": 133.7003
+    },
     "seam_limit_deg": 162.0,
     "seam_safe": true,
-    "virtual_rotation_median_deg_per_second": 14.3074,
-    "virtual_rotation_p99_deg_per_second": 15.8079
+    "same_relative_trajectory_both_sides": true,
+    "relative_trajectory_sha256": "4c049ff0fcbc487666ea53bc5b153be50fc412aa61b1a066217ffaf697e1c154",
+    "virtual_rotation_median_deg_per_second": 12.8808,
+    "virtual_rotation_p99_deg_per_second": 14.5294
+  },
+  "synchronization": {
+    "single_shared_source_reader": true,
+    "same_source_start_seconds": 52.067,
+    "same_source_frame_sequence": true,
+    "ref_relative_trajectory_sha256": "4c049ff0fcbc487666ea53bc5b153be50fc412aa61b1a066217ffaf697e1c154",
+    "target_relative_trajectory_sha256": "4c049ff0fcbc487666ea53bc5b153be50fc412aa61b1a066217ffaf697e1c154"
   },
   "rendered": {
     "ref": {
       "path": "site/translation/media/cases/translation_rotation_07/ref.mp4",
-      "bytes": 5388106,
-      "sha256": "fe9a4401e6dc3bc136aa69e78788971a58b92d1ff02d925208eff57b7ee1af03"
+      "bytes": 5396852,
+      "sha256": "4405185fee54e66e12e62f92deab37437cd255d92b32fd71d4c55b1b2c980607"
     },
     "target": {
       "path": "site/translation/media/cases/translation_rotation_07/target.mp4",
-      "bytes": 5386399,
-      "sha256": "048265d8944a5ec266ed29459c2cc0facaa1a8d7811043e49962cc75a03c8eb6"
+      "bytes": 5382385,
+      "sha256": "ccdd79e7bc9b358e3ffbabf171cf83d3ab10cbf845a992c143a5196c6ba3e3cb"
     },
     "codec": {
       "codec": "libx264",
