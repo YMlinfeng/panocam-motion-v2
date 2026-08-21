@@ -2,9 +2,10 @@
 """生成“真实相机位移”Cross-Pair 的独立 20-case 演示页。
 
 本脚本与现有 100-case 旋转项目互不覆盖，输出全部放在 ``site/translation/``。
-它解决的是一个与旧管线不同的问题：真实位移不能由单帧 ERP 通过旋转矩阵生成，
-所以 ref/target 必须读取同一条移动相机视频中的两个不同时间窗口。两个窗口的
-起点尽量分开，使相机中心形成真实空间基线；两侧再共享同一条虚拟旋转轨迹。
+它解决的是一个与旧管线不同的问题：原始全景相机本身已经沿真实路径移动，因此
+ref/target 必须读取同一条视频、同一个 10 秒窗口、同一批源帧，只在每一帧的 ERP
+上选择两个互不重叠的透视取景框。这样两侧共享完全相同的真实相机运动；复杂版再
+在两个固定取景中心上叠加完全相同的逐帧虚拟旋转增量。
 
 输出分为两类：
 
@@ -19,6 +20,7 @@ from __future__ import annotations
 
 import argparse
 import concurrent.futures
+import hashlib
 from html import escape
 import json
 import math
@@ -137,17 +139,12 @@ class RetimeClipReader:
         self.capture.release()
 
 
-def source_pair_windows(
+def evenly_spaced_source_windows(
     duration_seconds: float,
     source_span_seconds: float,
     count: int,
-    edge_band_seconds: float,
-) -> list[tuple[float, float]]:
-    """在视频开头和末尾各取一组窗口，保证每对窗口尽量相隔较远。
-
-    只在一个很窄的 ``edge_band_seconds`` 范围内改变起点：这样不同 case 不会
-    完全复用相同切片，同时 ref/target 仍分别位于整条移动路径的两端。
-    """
+) -> list[float]:
+    """在整条源视频上均匀选择 case 起点；pair 内两侧使用同一个起点。"""
 
     latest = duration_seconds - source_span_seconds
     if latest < -0.03:
@@ -155,31 +152,27 @@ def source_pair_windows(
             f"源视频 {duration_seconds:.3f}s 短于要求窗口 {source_span_seconds:.3f}s"
         )
     latest = max(0.0, latest)
-    band = min(float(edge_band_seconds), latest / 2.0)
-    early = np.linspace(0.0, band, count)
-    late = np.linspace(max(0.0, latest - band), latest, count)
-    return [(round(float(a), 3), round(float(b), 3)) for a, b in zip(early, late)]
+    return [round(float(value), 3) for value in np.linspace(0.0, latest, count)]
 
 
 def trajectory_spec(index: int) -> dict[str, Any]:
     """返回第 index 个“位移+旋转”轨迹参数。
 
-    每条轨迹都至少两个旋转轴同时变化；幅度和速度不同，但 yaw 控制在安全范围，
-    避免普通透视视角越过 ERP 左右接缝。两侧逐帧调用同一轨迹，因此虚拟旋转严格
-    同步，pair 的额外差异只来自原始移动相机的真实时间/空间基线。
+    每条轨迹都至少两个旋转轴同时变化；幅度和速度不同，但 yaw 控制在安全范围。
+    返回值描述的是相对两个固定取景中心的公共增量，而不是绝对 ERP 朝向。
     """
 
     specs = [
-        {"name": "快速右扫+上仰", "pattern": "sweep_right", "yaw_deg": 104.0, "pitch_deg": 34.0, "roll_deg": 0.0},
-        {"name": "快速左扫+下压", "pattern": "sweep_left", "yaw_deg": 112.0, "pitch_deg": 30.0, "roll_deg": 0.0},
-        {"name": "变速右甩+俯仰波", "pattern": "whip_right", "yaw_deg": 118.0, "pitch_deg": 26.0, "roll_deg": 0.0},
-        {"name": "变速左甩+反向俯仰", "pattern": "whip_left", "yaw_deg": 120.0, "pitch_deg": 28.0, "roll_deg": 0.0},
-        {"name": "蛇形摇摄", "pattern": "serpentine", "yaw_deg": 88.0, "pitch_deg": 38.0, "roll_deg": 0.0},
-        {"name": "对角环绕", "pattern": "diagonal", "yaw_deg": 102.0, "pitch_deg": 48.0, "roll_deg": 0.0},
-        {"name": "柔和螺旋", "pattern": "corkscrew", "yaw_deg": 92.0, "pitch_deg": 30.0, "roll_deg": 86.0},
-        {"name": "大幅摆动+滚转", "pattern": "swing_roll", "yaw_deg": 90.0, "pitch_deg": 32.0, "roll_deg": 110.0},
+        {"name": "快速右扫+上仰", "pattern": "sweep_right", "yaw_deg": 64.0, "pitch_deg": 34.0, "roll_deg": 0.0},
+        {"name": "快速左扫+下压", "pattern": "sweep_left", "yaw_deg": 68.0, "pitch_deg": 30.0, "roll_deg": 0.0},
+        {"name": "变速右甩+俯仰波", "pattern": "whip_right", "yaw_deg": 70.0, "pitch_deg": 26.0, "roll_deg": 0.0},
+        {"name": "变速左甩+反向俯仰", "pattern": "whip_left", "yaw_deg": 72.0, "pitch_deg": 28.0, "roll_deg": 0.0},
+        {"name": "蛇形摇摄", "pattern": "serpentine", "yaw_deg": 66.0, "pitch_deg": 38.0, "roll_deg": 0.0},
+        {"name": "对角环绕", "pattern": "diagonal", "yaw_deg": 70.0, "pitch_deg": 48.0, "roll_deg": 0.0},
+        {"name": "柔和螺旋", "pattern": "corkscrew", "yaw_deg": 68.0, "pitch_deg": 30.0, "roll_deg": 86.0},
+        {"name": "大幅摆动+滚转", "pattern": "swing_roll", "yaw_deg": 66.0, "pitch_deg": 32.0, "roll_deg": 110.0},
         {"name": "俯仰穿越+轻滚", "pattern": "pitch_roll", "yaw_deg": 54.0, "pitch_deg": 64.0, "roll_deg": 76.0},
-        {"name": "双脉冲甩镜", "pattern": "double_whip", "yaw_deg": 116.0, "pitch_deg": 36.0, "roll_deg": 0.0},
+        {"name": "双脉冲甩镜", "pattern": "double_whip", "yaw_deg": 70.0, "pitch_deg": 36.0, "roll_deg": 0.0},
     ]
     return dict(specs[index])
 
@@ -189,9 +182,9 @@ def build_plan(source_dir: Path) -> dict[str, Any]:
 
     source_dir = source_dir.expanduser().resolve()
     source_rules = {
-        "NSC.mp4": {"pair_count": 14, "source_span_seconds": 10.0, "edge_band_seconds": 10.0},
-        "NSK.mp4": {"pair_count": 4, "source_span_seconds": 10.0, "edge_band_seconds": 0.6},
-        "FTP.mp4": {"pair_count": 2, "source_span_seconds": 10.0, "edge_band_seconds": 0.2},
+        "NSC.mp4": {"pair_count": 14, "source_span_seconds": 10.0},
+        "NSK.mp4": {"pair_count": 4, "source_span_seconds": 10.0},
+        "FTP.mp4": {"pair_count": 2, "source_span_seconds": 10.0},
     }
     pools: dict[str, list[dict[str, Any]]] = {}
     source_summary: list[dict[str, Any]] = []
@@ -205,20 +198,20 @@ def build_plan(source_dir: Path) -> dict[str, Any]:
         if (int(meta["width"]), int(meta["height"])) != (3840, 1920):
             raise ValueError(f"{filename} 不是预期的 3840×1920 ERP：{meta}")
         duration = float(meta["duration_seconds"])
-        windows = source_pair_windows(
+        windows = evenly_spaced_source_windows(
             duration,
             float(rule["source_span_seconds"]),
             int(rule["pair_count"]),
-            float(rule["edge_band_seconds"]),
         )
         pools[filename] = [
             {
-                "ref_start_seconds": ref_start,
-                "target_start_seconds": target_start,
-                "temporal_gap_seconds": round(abs(target_start - ref_start), 3),
+                "start_seconds": start,
+                "ref_start_seconds": start,
+                "target_start_seconds": start,
+                "temporal_gap_seconds": 0.0,
                 "source_span_seconds": float(rule["source_span_seconds"]),
             }
-            for ref_start, target_start in windows
+            for start in windows
         ]
         source_summary.append(
             {
@@ -239,8 +232,33 @@ def build_plan(source_dir: Path) -> dict[str, Any]:
     pure_sources = ["NSC.mp4"] * 7 + ["NSK.mp4"] * 2 + ["FTP.mp4"]
     mixed_sources = ["NSC.mp4"] * 7 + ["NSK.mp4"] * 2 + ["FTP.mp4"]
     used: dict[str, int] = {name: 0 for name in pools}
-    pure_yaws = [-104.0, -76.0, -46.0, -16.0, 16.0, 46.0, 76.0, 104.0, -58.0, 58.0]
+    # 两个固定取景中心相隔 120°，大于所有输出的水平 FOV，保证 ERP 取景框不重叠。
+    pure_view_pairs = [
+        (-105.0, 15.0),
+        (-90.0, 30.0),
+        (-75.0, 45.0),
+        (-60.0, 60.0),
+        (-45.0, 75.0),
+        (-30.0, 90.0),
+        (-15.0, 105.0),
+        (15.0, -105.0),
+        (30.0, -90.0),
+        (45.0, -75.0),
+    ]
     pure_pitches = [-10.0, -6.0, -2.0, 3.0, 7.0, 11.0, -11.0, 6.0, 0.0, -4.0]
+    # 复杂版为公共旋转增量预留 ±36° yaw 空间；基础中心仍保持 110° 不重叠。
+    mixed_view_pairs = [
+        (-55.0, 55.0),
+        (-52.0, 58.0),
+        (-58.0, 52.0),
+        (-50.0, 60.0),
+        (-60.0, 50.0),
+        (55.0, -55.0),
+        (58.0, -52.0),
+        (52.0, -58.0),
+        (60.0, -50.0),
+        (50.0, -60.0),
+    ]
 
     cases: list[dict[str, Any]] = []
     for index, filename in enumerate(pure_sources):
@@ -257,11 +275,17 @@ def build_plan(source_dir: Path) -> dict[str, Any]:
                 "duration_seconds": DURATION_SECONDS,
                 "fps": FPS,
                 "resolution": [width, height],
-                "fixed_view": {
-                    "yaw_deg": pure_yaws[index],
+                "ref_view": {
+                    "yaw_deg": pure_view_pairs[index][0],
                     "pitch_deg": pure_pitches[index],
                     "roll_deg": 0.0,
                 },
+                "target_view": {
+                    "yaw_deg": pure_view_pairs[index][1],
+                    "pitch_deg": pure_pitches[index],
+                    "roll_deg": 0.0,
+                },
+                "view_separation_deg": 120.0,
                 "virtual_rotation": None,
             }
         )
@@ -280,7 +304,17 @@ def build_plan(source_dir: Path) -> dict[str, Any]:
                 "duration_seconds": DURATION_SECONDS,
                 "fps": FPS,
                 "resolution": [width, height],
-                "fixed_view": None,
+                "ref_view": {
+                    "yaw_deg": mixed_view_pairs[index][0],
+                    "pitch_deg": 0.0,
+                    "roll_deg": 0.0,
+                },
+                "target_view": {
+                    "yaw_deg": mixed_view_pairs[index][1],
+                    "pitch_deg": 0.0,
+                    "roll_deg": 0.0,
+                },
+                "view_separation_deg": 110.0,
                 "virtual_rotation": trajectory_spec(index),
             }
         )
@@ -290,12 +324,15 @@ def build_plan(source_dir: Path) -> dict[str, Any]:
         "case_count": len(cases),
         "rules": {
             "same_source_file_within_pair": True,
-            "different_time_windows_supply_real_translation": True,
+            "same_source_window_within_pair": True,
+            "same_source_frame_index_within_pair": True,
+            "non_overlapping_erp_viewports": True,
+            "moving_source_camera_supplies_real_translation": True,
             "same_virtual_rotation_on_ref_and_target": True,
             "duration_seconds_each": DURATION_SECONDS,
             "fps": FPS,
             "max_pixels": MAX_PIXELS,
-            "source_timing_note": "All three sources use distinct 10s windows at original speed without looping or retiming.",
+            "source_timing_note": "Within every pair, ref and target use the exact same 10s source window and frame sequence at original speed.",
         },
         "sources": source_summary,
         "cases": cases,
@@ -318,7 +355,11 @@ def whip(values: np.ndarray, sharpness: float = 6.5) -> np.ndarray:
 
 
 def trajectory_arrays(case: dict[str, Any], config: dict[str, Any]) -> dict[str, Any]:
-    """构造 300 帧相机方向，并生成接缝安全报告。"""
+    """构造两侧共享的相对旋转增量，并验证双取景框始终安全。
+
+    返回的是 ``delta_yaw/pitch/roll``。渲染时分别加到 ref/target 的固定取景中心，
+    因而两侧绝对朝向不同，但从各自首帧出发的逐帧旋转轨迹完全相同。
+    """
 
     frame_count = int(round(DURATION_SECONDS * FPS))
     p = np.linspace(0.0, 1.0, frame_count, dtype=np.float32)
@@ -326,10 +367,9 @@ def trajectory_arrays(case: dict[str, Any], config: dict[str, Any]) -> dict[str,
     hfov = float(base_hfov_for_resolution(width, height, config["trajectory"]))
 
     if case["kind"] == "translation_only":
-        view = case["fixed_view"]
-        yaw = np.full(frame_count, float(view["yaw_deg"]), np.float32)
-        pitch = np.full(frame_count, float(view["pitch_deg"]), np.float32)
-        roll = np.full(frame_count, float(view["roll_deg"]), np.float32)
+        delta_yaw = np.zeros(frame_count, np.float32)
+        delta_pitch = np.zeros(frame_count, np.float32)
+        delta_roll = np.zeros(frame_count, np.float32)
     else:
         spec = case["virtual_rotation"]
         yaw_amp = float(spec["yaw_deg"])
@@ -337,86 +377,119 @@ def trajectory_arrays(case: dict[str, Any], config: dict[str, Any]) -> dict[str,
         roll_amp = float(spec["roll_deg"])
         pattern = spec["pattern"]
         if pattern == "sweep_right":
-            yaw = yaw_amp * (p - 0.5)
-            pitch = -pitch_amp * 0.5 + pitch_amp * smoothstep(p)
-            roll = np.zeros_like(p)
+            delta_yaw = yaw_amp * (p - 0.5)
+            delta_pitch = -pitch_amp * 0.5 + pitch_amp * smoothstep(p)
+            delta_roll = np.zeros_like(p)
         elif pattern == "sweep_left":
-            yaw = yaw_amp * (0.5 - p)
-            pitch = pitch_amp * 0.5 - pitch_amp * smoothstep(p)
-            roll = np.zeros_like(p)
+            delta_yaw = yaw_amp * (0.5 - p)
+            delta_pitch = pitch_amp * 0.5 - pitch_amp * smoothstep(p)
+            delta_roll = np.zeros_like(p)
         elif pattern == "whip_right":
-            yaw = yaw_amp * (whip(p, 7.8) - 0.5)
-            pitch = pitch_amp * np.sin(np.pi * p)
-            roll = np.zeros_like(p)
+            delta_yaw = yaw_amp * (whip(p, 7.8) - 0.5)
+            delta_pitch = pitch_amp * np.sin(np.pi * p)
+            delta_roll = np.zeros_like(p)
         elif pattern == "whip_left":
-            yaw = yaw_amp * (0.5 - whip(p, 8.5))
-            pitch = -pitch_amp * np.sin(np.pi * p)
-            roll = np.zeros_like(p)
+            delta_yaw = yaw_amp * (0.5 - whip(p, 8.5))
+            delta_pitch = -pitch_amp * np.sin(np.pi * p)
+            delta_roll = np.zeros_like(p)
         elif pattern == "serpentine":
-            yaw = yaw_amp * 0.5 * np.sin(2.0 * np.pi * p)
-            pitch = pitch_amp * 0.5 * np.sin(4.0 * np.pi * p + 0.4)
-            roll = np.zeros_like(p)
+            delta_yaw = yaw_amp * 0.5 * np.sin(2.0 * np.pi * p)
+            delta_pitch = pitch_amp * 0.5 * np.sin(4.0 * np.pi * p + 0.4)
+            delta_roll = np.zeros_like(p)
         elif pattern == "diagonal":
-            yaw = yaw_amp * (p - 0.5)
-            pitch = pitch_amp * (0.5 - p) + 7.0 * np.sin(2.0 * np.pi * p)
-            roll = np.zeros_like(p)
+            delta_yaw = yaw_amp * (p - 0.5)
+            delta_pitch = pitch_amp * (0.5 - p) + 7.0 * np.sin(2.0 * np.pi * p)
+            delta_roll = np.zeros_like(p)
         elif pattern == "corkscrew":
-            yaw = yaw_amp * (p - 0.5)
-            pitch = pitch_amp * 0.5 * np.sin(2.0 * np.pi * p)
-            roll = roll_amp * (p - 0.5)
+            delta_yaw = yaw_amp * (p - 0.5)
+            delta_pitch = pitch_amp * 0.5 * np.sin(2.0 * np.pi * p)
+            delta_roll = roll_amp * (p - 0.5)
         elif pattern == "swing_roll":
-            yaw = yaw_amp * 0.5 * np.sin(2.0 * np.pi * p)
-            pitch = pitch_amp * 0.5 * np.sin(3.0 * np.pi * p)
-            roll = roll_amp * (p - 0.5)
+            delta_yaw = yaw_amp * 0.5 * np.sin(2.0 * np.pi * p)
+            delta_pitch = pitch_amp * 0.5 * np.sin(3.0 * np.pi * p)
+            delta_roll = roll_amp * (p - 0.5)
         elif pattern == "pitch_roll":
-            yaw = yaw_amp * 0.5 * np.sin(2.0 * np.pi * p)
-            pitch = pitch_amp * (p - 0.5)
-            roll = roll_amp * 0.5 * np.sin(2.0 * np.pi * p + 0.7)
+            delta_yaw = yaw_amp * 0.5 * np.sin(2.0 * np.pi * p)
+            delta_pitch = pitch_amp * (p - 0.5)
+            delta_roll = roll_amp * 0.5 * np.sin(2.0 * np.pi * p + 0.7)
         elif pattern == "double_whip":
             first = whip(np.clip(p * 2.0, 0.0, 1.0), 8.0)
             second = whip(np.clip((p - 0.5) * 2.0, 0.0, 1.0), 8.0)
-            yaw = yaw_amp * 0.5 * (first - second)
-            pitch = pitch_amp * 0.5 * np.sin(2.0 * np.pi * p)
-            roll = np.zeros_like(p)
+            delta_yaw = yaw_amp * 0.5 * (first - second)
+            delta_pitch = pitch_amp * 0.5 * np.sin(2.0 * np.pi * p)
+            delta_roll = np.zeros_like(p)
         else:
             raise ValueError(f"未知轨迹：{pattern}")
-        yaw = yaw.astype(np.float32)
-        pitch = pitch.astype(np.float32)
-        roll = roll.astype(np.float32)
+        delta_yaw = delta_yaw.astype(np.float32)
+        delta_pitch = delta_pitch.astype(np.float32)
+        delta_roll = delta_roll.astype(np.float32)
 
     longitude_limit = 180.0 - float(config["trajectory"]["seam_margin_deg"])
-    max_abs_longitude = 0.0
-    for frame_index in list(range(0, frame_count, 4)) + [frame_count - 1]:
-        longitudes = sampled_view_longitudes(
-            width,
-            height,
-            hfov,
-            float(yaw[frame_index]),
-            float(pitch[frame_index]),
-            float(roll[frame_index]),
-        )
-        max_abs_longitude = max(max_abs_longitude, float(np.max(np.abs(longitudes))))
-    if max_abs_longitude > longitude_limit:
+    max_abs_by_side: dict[str, float] = {}
+    absolute_ranges: dict[str, dict[str, list[float]]] = {}
+    for side in ("ref", "target"):
+        base = case[f"{side}_view"]
+        absolute_yaw = float(base["yaw_deg"]) + delta_yaw
+        absolute_pitch = float(base["pitch_deg"]) + delta_pitch
+        absolute_roll = float(base["roll_deg"]) + delta_roll
+        max_abs = 0.0
+        for frame_index in list(range(0, frame_count, 4)) + [frame_count - 1]:
+            longitudes = sampled_view_longitudes(
+                width,
+                height,
+                hfov,
+                float(absolute_yaw[frame_index]),
+                float(absolute_pitch[frame_index]),
+                float(absolute_roll[frame_index]),
+            )
+            max_abs = max(max_abs, float(np.max(np.abs(longitudes))))
+        if max_abs > longitude_limit:
+            raise RuntimeError(
+                f"{case['id']} {side} 轨迹触及 ERP 接缝：{max_abs:.2f}>{longitude_limit:.2f}"
+            )
+        max_abs_by_side[side] = max_abs
+        absolute_ranges[side] = {
+            "yaw_deg": [round(float(absolute_yaw.min()), 4), round(float(absolute_yaw.max()), 4)],
+            "pitch_deg": [round(float(absolute_pitch.min()), 4), round(float(absolute_pitch.max()), 4)],
+            "roll_deg": [round(float(absolute_roll.min()), 4), round(float(absolute_roll.max()), 4)],
+        }
+
+    separation = float(case["view_separation_deg"])
+    nonoverlap_margin = separation - hfov
+    if nonoverlap_margin <= 8.0:
         raise RuntimeError(
-            f"{case['id']} 轨迹触及 ERP 接缝：{max_abs_longitude:.2f}>{longitude_limit:.2f}"
+            f"{case['id']} 双取景框间隔不足：separation={separation:.2f}, hfov={hfov:.2f}"
         )
 
     angular_speed = np.linalg.norm(
-        np.stack([np.diff(yaw), np.diff(pitch), np.diff(roll)], axis=1), axis=1
+        np.stack([np.diff(delta_yaw), np.diff(delta_pitch), np.diff(delta_roll)], axis=1),
+        axis=1,
     ) * FPS
+    trajectory_bytes = np.stack([delta_yaw, delta_pitch, delta_roll], axis=1).astype(
+        "<f4", copy=False
+    ).tobytes()
+    trajectory_sha256 = hashlib.sha256(trajectory_bytes).hexdigest()
     return {
-        "yaw_deg": yaw,
-        "pitch_deg": pitch,
-        "roll_deg": roll,
+        "delta_yaw_deg": delta_yaw,
+        "delta_pitch_deg": delta_pitch,
+        "delta_roll_deg": delta_roll,
         "hfov_deg": hfov,
+        "relative_trajectory_sha256": trajectory_sha256,
         "report": {
-            "yaw_range_deg": [round(float(yaw.min()), 4), round(float(yaw.max()), 4)],
-            "pitch_range_deg": [round(float(pitch.min()), 4), round(float(pitch.max()), 4)],
-            "roll_range_deg": [round(float(roll.min()), 4), round(float(roll.max()), 4)],
+            "relative_yaw_range_deg": [round(float(delta_yaw.min()), 4), round(float(delta_yaw.max()), 4)],
+            "relative_pitch_range_deg": [round(float(delta_pitch.min()), 4), round(float(delta_pitch.max()), 4)],
+            "relative_roll_range_deg": [round(float(delta_roll.min()), 4), round(float(delta_roll.max()), 4)],
+            "absolute_view_ranges": absolute_ranges,
             "hfov_deg": round(hfov, 4),
-            "max_abs_sampled_longitude_deg": round(max_abs_longitude, 4),
+            "view_separation_deg": round(separation, 4),
+            "nonoverlap_margin_deg": round(nonoverlap_margin, 4),
+            "max_abs_sampled_longitude_deg": {
+                side: round(value, 4) for side, value in max_abs_by_side.items()
+            },
             "seam_limit_deg": round(longitude_limit, 4),
             "seam_safe": True,
+            "same_relative_trajectory_both_sides": True,
+            "relative_trajectory_sha256": trajectory_sha256,
             "virtual_rotation_median_deg_per_second": round(
                 float(np.median(angular_speed)), 4
             ),
@@ -462,50 +535,49 @@ def render_case(
     width, height = map(int, case["resolution"])
     frame_count = int(round(DURATION_SECONDS * FPS))
     trajectory = trajectory_arrays(case, config)
-    readers = {
-        "ref": RetimeClipReader(
-            source_path,
-            float(case["ref_start_seconds"]),
-            float(case["source_span_seconds"]),
-            DURATION_SECONDS,
-            FPS,
-        ),
-        "target": RetimeClipReader(
-            source_path,
-            float(case["target_start_seconds"]),
-            float(case["source_span_seconds"]),
-            DURATION_SECONDS,
-            FPS,
-        ),
-    }
+    # 只创建一个 reader。每个输出时刻只解码一次源帧，然后让 ref/target 从这一张
+    # 完全相同的 ERP 帧上分别采样；这从实现层面杜绝两侧读取到不同时间轨迹。
+    reader = RetimeClipReader(
+        source_path,
+        float(case["start_seconds"]),
+        float(case["source_span_seconds"]),
+        DURATION_SECONDS,
+        FPS,
+    )
     writers = {
         "ref": RawFFmpegWriter(ref_path, width, height, FPS, config),
         "target": RawFFmpegWriter(target_path, width, height, FPS, config),
     }
 
     rays = rectilinear_rays(width, height, float(trajectory["hfov_deg"]))
-    fixed_maps: tuple[np.ndarray, np.ndarray] | None = None
+    fixed_maps: dict[str, tuple[np.ndarray, np.ndarray]] = {}
     try:
         for frame_index in range(frame_count):
-            yaw = float(trajectory["yaw_deg"][frame_index])
-            pitch = float(trajectory["pitch_deg"][frame_index])
-            roll = float(trajectory["roll_deg"][frame_index])
-            if case["kind"] == "translation_only" and fixed_maps is not None:
-                maps = fixed_maps
-            else:
-                maps = rectilinear_maps(
-                    rays,
-                    (width, height),
-                    (readers["ref"].width, readers["ref"].height),
-                    yaw,
-                    pitch,
-                    roll,
-                )
-                if case["kind"] == "translation_only":
-                    fixed_maps = maps
-
+            source_frame = reader.frame_for_output(frame_index)
             for side in ("ref", "target"):
-                source_frame = readers[side].frame_for_output(frame_index)
+                if case["kind"] == "translation_only" and side in fixed_maps:
+                    maps = fixed_maps[side]
+                else:
+                    base = case[f"{side}_view"]
+                    yaw = float(base["yaw_deg"]) + float(
+                        trajectory["delta_yaw_deg"][frame_index]
+                    )
+                    pitch = float(base["pitch_deg"]) + float(
+                        trajectory["delta_pitch_deg"][frame_index]
+                    )
+                    roll = float(base["roll_deg"]) + float(
+                        trajectory["delta_roll_deg"][frame_index]
+                    )
+                    maps = rectilinear_maps(
+                        rays,
+                        (width, height),
+                        (reader.width, reader.height),
+                        yaw,
+                        pitch,
+                        roll,
+                    )
+                    if case["kind"] == "translation_only":
+                        fixed_maps[side] = maps
                 output_frame = cv2.remap(
                     source_frame,
                     maps[0],
@@ -526,14 +598,20 @@ def render_case(
         target_path.unlink(missing_ok=True)
         raise
     finally:
-        for reader in readers.values():
-            reader.close()
+        reader.close()
 
     make_poster(ref_path, case_dir / "ref.jpg")
     make_poster(target_path, case_dir / "target.jpg")
     metadata = {
         "case": case,
         "trajectory_report": trajectory["report"],
+        "synchronization": {
+            "single_shared_source_reader": True,
+            "same_source_start_seconds": float(case["start_seconds"]),
+            "same_source_frame_sequence": True,
+            "ref_relative_trajectory_sha256": trajectory["relative_trajectory_sha256"],
+            "target_relative_trajectory_sha256": trajectory["relative_trajectory_sha256"],
+        },
         "rendered": {
             "ref": {
                 "path": str(ref_path.relative_to(PROJECT_ROOT)),
@@ -608,13 +686,23 @@ def command_validate(plan: dict[str, Any], source_dir: Path) -> dict[str, Any]:
         latest = float(source_meta.get("duration_seconds", 0.0)) - float(
             case["source_span_seconds"]
         )
-        gap = float(case["temporal_gap_seconds"])
-        if latest > 0 and gap < latest * 0.65:
-            errors.append(f"{case['id']} 时间基线不够远：{gap:.3f}/{latest:.3f}s")
+        start = float(case["start_seconds"])
+        if start < 0 or start > latest + 0.03:
+            errors.append(f"{case['id']} 源窗口越界：{start:.3f}/{latest:.3f}s")
+        if not (
+            abs(float(case["ref_start_seconds"]) - start) < 1e-6
+            and abs(float(case["target_start_seconds"]) - start) < 1e-6
+            and abs(float(case["temporal_gap_seconds"])) < 1e-6
+        ):
+            errors.append(f"{case['id']} ref/target 没有使用同一个源时间窗口")
 
         trajectory = trajectory_arrays(case, config)
         if not trajectory["report"]["seam_safe"]:
             errors.append(f"{case['id']} 轨迹可能跨接缝")
+        if float(trajectory["report"]["nonoverlap_margin_deg"]) <= 8.0:
+            errors.append(f"{case['id']} 双取景框可能重叠")
+        if not trajectory["report"]["same_relative_trajectory_both_sides"]:
+            errors.append(f"{case['id']} 两侧相对旋转轨迹不一致")
         if case["kind"] == "translation_only":
             if trajectory["report"]["virtual_rotation_p99_deg_per_second"] > 0.001:
                 errors.append(f"{case['id']} 意外含有虚拟旋转")
@@ -655,6 +743,18 @@ def command_validate(plan: dict[str, Any], source_dir: Path) -> dict[str, Any]:
             )
         if len(pair_hashes) == 2 and pair_hashes[0] == pair_hashes[1]:
             errors.append(f"{case['id']} ref/target 内容完全相同")
+        metadata_path = MEDIA_ROOT / case["id"] / "metadata.json"
+        if metadata_path.exists():
+            metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+            sync = metadata.get("synchronization", {})
+            if not (
+                sync.get("single_shared_source_reader")
+                and sync.get("same_source_frame_sequence")
+                and sync.get("ref_relative_trajectory_sha256")
+                == sync.get("target_relative_trajectory_sha256")
+                == trajectory["relative_trajectory_sha256"]
+            ):
+                errors.append(f"{case['id']} 同帧/同轨迹元数据校验失败")
 
     validation = {
         "schema_version": 1,
@@ -682,30 +782,33 @@ def command_validate(plan: dict[str, Any], source_dir: Path) -> dict[str, Any]:
 
 
 def video_panel(case: dict[str, Any], side: str) -> str:
-    start = float(case[f"{side}_start_seconds"])
+    start = float(case["start_seconds"])
     label = "REF · 参考轨迹" if side == "ref" else "TARGET · 目标轨迹"
+    view = case[f"{side}_view"]
     return f"""
       <figure class="video-panel">
         <figcaption><b>{label}</b><span>{escape(case['source']['file'])}</span></figcaption>
         <video controls playsinline preload="metadata" src="media/cases/{case['id']}/{side}.mp4" poster="media/cases/{case['id']}/{side}.jpg" style="aspect-ratio:{case['resolution'][0]}/{case['resolution'][1]}"></video>
-        <div class="source-line">源起点 {start:.2f}s · 覆盖 {float(case['source_span_seconds']):.1f}s</div>
+        <div class="source-line">同一源起点 {start:.2f}s · yaw {float(view['yaw_deg']):.0f}° · 覆盖 {float(case['source_span_seconds']):.1f}s</div>
       </figure>"""
 
 
 def case_card(case: dict[str, Any]) -> str:
     width, height = case["resolution"]
+    ref_yaw = float(case["ref_view"]["yaw_deg"])
+    target_yaw = float(case["target_view"]["yaw_deg"])
     if case["kind"] == "translation_only":
-        motion = "原生位移 · 无额外虚拟旋转"
+        motion = "同帧双视角原生位移"
         detail = (
-            f"固定观察方向 yaw {float(case['fixed_view']['yaw_deg']):.0f}° / "
-            f"pitch {float(case['fixed_view']['pitch_deg']):.0f}°"
+            f"REF yaw {ref_yaw:.0f}° ｜ TARGET yaw {target_yaw:.0f}° ｜ "
+            "不叠加额外虚拟旋转"
         )
         css_class = "translation-only"
     else:
         rotation = case["virtual_rotation"]
         motion = f"真实位移 + {escape(rotation['name'])}"
         detail = (
-            f"yaw {float(rotation['yaw_deg']):.0f}° · pitch {float(rotation['pitch_deg']):.0f}°"
+            f"基础中心 {ref_yaw:.0f}° / {target_yaw:.0f}° ｜ 公共增量 yaw {float(rotation['yaw_deg']):.0f}° · pitch {float(rotation['pitch_deg']):.0f}°"
             + (f" · roll {float(rotation['roll_deg']):.0f}°" if float(rotation["roll_deg"]) else "")
         )
         css_class = "translation-rotation"
@@ -713,7 +816,7 @@ def case_card(case: dict[str, Any]) -> str:
     <article id="{case['id']}" class="case-card {css_class}" data-kind="{case['kind']}">
       <header>
         <div><span class="case-id">{case['id']}</span><h3>{motion}</h3></div>
-        <div class="badges"><b>10.00s</b><b>{width}×{height}</b><b>时间基线 {float(case['temporal_gap_seconds']):.2f}s</b></div>
+        <div class="badges"><b>10.00s</b><b>{width}×{height}</b><b>同源同帧</b><b>视角间隔 {float(case['view_separation_deg']):.0f}°</b></div>
       </header>
       <p class="actions">{detail}</p>
       <div class="video-pair" data-sync-pair>
@@ -751,7 +854,7 @@ def build_site(plan: dict[str, Any]) -> None:
   </style>
 </head>
 <body><main>
-  <section class="hero"><h1>20 个 10 秒真实位移 Cross-Pair：10 个原生位移，10 个真实位移 + 可控旋转</h1></section>
+  <section class="hero"><h1>20 个 10 秒同源同帧双视角 Cross-Pair：10 个原生位移，10 个位移 + 同步旋转</h1></section>
   <div class="filters"><button class="active" data-filter="all">全部 20</button><button data-filter="translation_only">原生位移 10</button><button data-filter="translation_rotation">位移 + 旋转 10</button></div>
   <section class="group" data-group="translation_only"><h2 class="group-title">原生位移</h2>{''.join(case_card(case) for case in pure)}</section>
   <section class="group" data-group="translation_rotation"><h2 class="group-title">真实位移 + 可控旋转</h2>{''.join(case_card(case) for case in mixed)}</section>
