@@ -16,6 +16,7 @@ Panocam Motion V2 是一个从零重写的全景视频虚拟运镜项目。当�
 - 公开 GitHub 仓库：<https://github.com/YMlinfeng/panocam-motion-v2>
 - 100-case 高清网页：<https://ymlinfeng.github.io/panocam-motion-v2/>
 - 20-case 真实位移实验：<https://ymlinfeng.github.io/panocam-motion-v2/translation/>
+- 20-case 同经度上下双视角实验：<https://ymlinfeng.github.io/panocam-motion-v2/translation-same-longitude/>
 
 网页发布分支为 `gh-pages`，主分支 `main` 保存完整代码、两份文档、生产清单、验证台账和同一份网页资源。
 
@@ -30,6 +31,10 @@ ref/target 都读取同一源视频、同一个 10 秒窗口和同一批源帧�
 local/.venv/bin/python scripts/translation_pairs.py all \
   --source-dir /Users/bytedance/Downloads/数据集 --workers 2
 ```
+
+`scripts/translation_same_longitude_demo.py` 是进一步独立的纯二维实验：每个 pair
+共享同一源帧、同一 yaw 和同一个透视母平面，只在母平面主点同侧截取上下两个
+不重叠偏轴窗口；其中 10 组保留原生移动，另 10 组叠加完全相同的旋转增量。
 
 ## 一键开始
 
